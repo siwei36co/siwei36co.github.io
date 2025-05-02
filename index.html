@@ -17,7 +17,7 @@
       text-align: center;
     }
     section {
-      max-width: 800px;
+      max-width: 900px;
       margin: 2rem auto;
       background: white;
       padding: 2rem;
@@ -33,6 +33,41 @@
       background: #eee;
       font-size: 0.9rem;
     }
+    .carousel {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+    .slides {
+      display: flex;
+      width: 300%;
+      animation: slide 12s infinite;
+    }
+    .slides img {
+      width: 100%;
+      flex-shrink: 0;
+    }
+    @keyframes slide {
+      0% { transform: translateX(0); }
+      33% { transform: translateX(-100%); }
+      66% { transform: translateX(-200%); }
+      100% { transform: translateX(0); }
+    }
+    .gallery {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .gallery img {
+      max-width: 180px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    }
+    .contact-info {
+      line-height: 1.6;
+    }
   </style>
 </head>
 <body>
@@ -40,17 +75,36 @@
     <h1>欢迎来到广西农产品门户</h1>
     <p>致力于推广绿色生态、优质特色的广西农业产品</p>
   </header>  <section>
-    <h2>我们的特色产品</h2>
-    <ul>
-      <li>百香果、芒果、火龙果</li>
-      <li>桂林米粉原料</li>
-      <li>生态大米、甘蔗、茶叶</li>
-    </ul>
+    <h2>推荐产品轮播</h2>
+    <div class="carousel">
+      <div class="slides">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Passiflora_edulis4.jpg" alt="百香果">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/9/94/Mango_fruit.jpg" alt="芒果">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Hylocereus_undatus_2.jpg" alt="火龙果">
+      </div>
+    </div>
   </section>  <section>
-    <h2>合作联系</h2>
-    <p>如果您对我们的产品感兴趣，欢迎通过以下方式联系：</p>
-    <p>邮箱：gxagri@example.com<br>
-    微信号：gx_nongchanpin</p>
+    <h2>我们的特色产品</h2>
+    <p>我们精选来自广西各地的特色农产品，确保品质与生态：</p>
+    <div class="gallery">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Passiflora_edulis4.jpg/320px-Passiflora_edulis4.jpg" alt="百香果" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Mango_fruit.jpg/320px-Mango_fruit.jpg" alt="芒果" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Hylocereus_undatus_2.jpg/320px-Hylocereus_undatus_2.jpg" alt="火龙果" />
+    </div>
+  </section>  <section>
+    <h2>联系我们</h2>
+    <p>如果您对我们的产品感兴趣或希望合作，欢迎通过以下方式联系：</p>
+    <div class="contact-info">
+      邮箱：gxagri@example.com<br>
+      微信：gx_nongchanpin<br>
+      微信二维码：<br>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/QR_code_example.svg/240px-QR_code_example.svg.png" alt="微信二维码" class="product" />
+    </div>
+  </section>  <section>
+    <h2>关于我们</h2>
+    <p>
+      广西农产品门户网站旨在帮助本地农业从业者提升品牌影响力，拓展销售渠道。我们通过互联网展示广西各地的优质特产，为消费者提供安心可信的采购来源。
+    </p>
   </section>  <footer>
     版权所有 © 广西农产业推广平台 | GitHub Pages & nc.me 提供支持
   </footer>
