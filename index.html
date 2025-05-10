@@ -70,9 +70,9 @@
             justify-content: space-between;
             width: 100%;
             margin-bottom: 15px;
-            flex-wrap: wrap; /* 允许换行 */
-            gap: 10px; /* 添加间距 */
-            max-width: 500px; /* Align with board max width */
+            flex-wrap: wrap; 
+            gap: 10px; 
+            max-width: 500px; /* 与棋盘最大宽度对齐 */
         }
 
         .player-info {
@@ -82,8 +82,8 @@
             background-color: rgba(255, 255, 255, 0.7);
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            flex-grow: 1; /* 允许伸缩 */
-            min-width: 150px; /* 最小宽度 */
+            flex-grow: 1; 
+            min-width: 150px; 
         }
 
         .player-avatar {
@@ -97,12 +97,12 @@
             justify-content: center;
             color: white;
             font-weight: bold;
-            flex-shrink: 0; /* 防止头像缩小 */
+            flex-shrink: 0; 
         }
 
         .player-name {
             font-weight: bold;
-            white-space: nowrap; /* 防止名字换行 */
+            white-space: nowrap; 
             overflow: hidden;
             text-overflow: ellipsis;
         }
@@ -113,49 +113,48 @@
 
         .board-container {
             position: relative;
-            width: 100%;
-            /* 使用 padding-bottom 技巧保持宽高比 1:1 */
-            padding-bottom: 100%;
-            max-width: 500px; /* 限制最大宽度 */
-            height: 0; /* 高度设为0，由padding-bottom控制 */
-            margin-left: auto; /* 水平居中 */
-            margin-right: auto; /* 水平居中 */
+            width: 100%; /* 宽度占满父容器，但受max-width限制 */
+            max-width: 500px; /* 棋盘区域的最大宽度 */
+            margin-left: auto; 
+            margin-right: auto; 
             margin-bottom: 20px;
-            overflow: hidden; /* 隐藏超出的部分 */
-            border-radius: 5px; /* Match #game-board radius */
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Moved shadow here */
+            /* --- 保持宽高比为1:1的关键 --- */
+            height: 0; /* 高度设置为0 */
+            padding-bottom: 100%; /* padding-bottom相对于自身宽度计算，实现正方形 */
+            /* --- 保持宽高比结束 --- */
+            overflow: hidden; 
+            border-radius: 5px; 
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
+            box-sizing: border-box; /* 明确盒模型 */
         }
 
         #game-board {
-            /* 绝对定位以填充 board-container */
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            /* background-color: var(--board-color); Covered by canvas */
-            /* border-radius: 5px; Moved to parent */
-            /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); Moved to parent */
-            overflow: hidden; /* 确保canvas不超出 */
+            width: 100%; /* 填充 .board-container */
+            height: 100%; /* 填充 .board-container */
+            overflow: hidden; 
+            box-sizing: border-box; /* 明确盒模型 */
         }
 
-        canvas { /* Applies to all three canvases */
+        canvas { 
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            display: block; /* 移除canvas底部空隙 */
+            width: 100%; /* CSS宽度填充 #game-board */
+            height: 100%; /* CSS高度填充 #game-board */
+            display: block; 
         }
 
         .controls {
             display: flex;
             justify-content: center;
             gap: 15px;
-            margin-top: 15px; /* Reduced from 20px if game-status is present */
+            margin-top: 15px; 
             width: 100%;
-            max-width: 500px; /* Align with board max width */
-            flex-wrap: wrap; /* 允许按钮换行 */
+            max-width: 500px; /* 与棋盘最大宽度对齐 */
+            flex-wrap: wrap; 
         }
 
         button {
@@ -168,8 +167,8 @@
             font-size: 1rem;
             transition: all 0.3s ease;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            flex-grow: 1; /* 允许按钮伸缩 */
-            max-width: 200px; /* 限制最大宽度 */
+            flex-grow: 1; 
+            max-width: 200px; 
         }
 
         button:hover {
@@ -194,17 +193,17 @@
             font-size: 1.2rem;
             font-weight: bold;
             color: var(--secondary-color);
-            height: 30px; /* 固定高度防止跳动 */
-            line-height: 30px; /* 垂直居中文本 */
+            height: 30px; 
+            line-height: 30px; 
             text-align: center;
             width: 100%;
-            max-width: 500px; /* Align with board max width */
+            max-width: 500px; /* 与棋盘最大宽度对齐 */
         }
 
         .settings {
             margin-top: 20px;
             width: 100%;
-            max-width: 500px; /* Align with board max width */
+            max-width: 500px; /* 与棋盘最大宽度对齐 */
             background-color: rgba(255, 255, 255, 0.7);
             padding: 15px;
             border-radius: 10px;
@@ -224,8 +223,8 @@
             justify-content: center;
             gap: 10px;
             flex-wrap: wrap;
-            max-width: 400px; /* Limit width of options container */
-            margin: 0 auto; /* Center options container */
+            max-width: 400px; 
+            margin: 0 auto; 
         }
 
         .difficulty-option {
@@ -331,7 +330,7 @@
             line-height: 1.6;
         }
 
-        .close-btn { /* Style for modal button */
+        .close-btn { 
             display: inline-block;
             padding: 12px 25px;
             background-color: var(--primary-color);
@@ -365,11 +364,11 @@
             .info-panel {
                 justify-content: center;
             }
-            /* Adjust board container for medium screens if it needs to be smaller than 500px */
             .board-container {
-                /* If 100vw - 40px is less than 500px, it will use this. Otherwise, max-width: 500px applies. */
-                max-width: min(500px, calc(100vw - 40px));
-                padding-bottom: min(500px, calc(100vw - 40px)); /* Maintain aspect ratio */
+                max-width: min(500px, calc(100vw - 40px)); /* 确保在父容器内，且不超过500px */
+                padding-bottom: min(500px, calc(100vw - 40px)); /* 保持正方形 */
+                 /* 如果 calc(100vw - 40px) 小于 500px, width 将是 calc(...) 的值 */
+                width: min(500px, calc(100vw - 40px)); /* 显式设置宽度以匹配padding-bottom的值 */
             }
         }
 
@@ -379,14 +378,14 @@
             }
             .player-info {
                 padding: 8px 10px;
-                min-width: 120px; /* Adjust min-width for smaller screens */
+                min-width: 120px; 
             }
             .player-avatar {
                 width: 25px;
                 height: 25px;
                 margin-right: 8px;
             }
-            button { /* Control buttons */
+            button { 
                 padding: 8px 15px;
                 font-size: 0.9rem;
             }
@@ -401,24 +400,16 @@
                 width: 100px;
                 height: 100px;
             }
-            /* Ensure board container uses full available width minus margins */
             .board-container {
-                 /* max-width is already min(500px, calc(100vw - 40px)) from above query,
-                    this ensures it uses the calc value if it's smaller */
-                width: calc(100vw - 40px); /* container padding is 20px on each side */
-                padding-bottom: calc(100vw - 40px);
-                max-width: none; /* Override previous max-width if 100vw-40px is the rule */
-            }
-             /* Re-apply max-width if needed, this logic can be tricky with multiple max-width rules */
-            .board-container {
-                max-width: min(500px, calc(100vw - 40px)); /* Simplification */
-                width: min(500px, calc(100vw - 40px)); /* Set width directly */
-                padding-bottom: min(500px, calc(100vw - 40px));
+                /* 在小屏幕上，让棋盘宽度等于视口宽度减去总的水平内边距 (20px * 2) */
+                width: calc(100vw - 40px); 
+                padding-bottom: calc(100vw - 40px); /* 高度也等于此值以保持正方形 */
+                max-width: none; /* 覆盖掉之前可能存在的max-width: 500px */
             }
         }
-         @media (max-width: 350px) { /* Very small screens */
+         @media (max-width: 350px) { 
             .player-info {
-                flex-direction: column; /* Stack avatar and name */
+                flex-direction: column; 
                 align-items: center;
                 text-align: center;
             }
@@ -427,14 +418,13 @@
                 margin-bottom: 5px;
             }
             .controls {
-                flex-direction: column; /* Stack buttons */
+                flex-direction: column; 
             }
             .controls button {
                 width: 100%;
-                max-width: none; /* Allow full width */
+                max-width: none; 
             }
          }
-
     </style>
 </head>
 <body>
@@ -493,7 +483,8 @@
         <div class="modal-content">
             <h2 id="winner-title">游戏结束</h2>
             <p id="winner-message">恭喜！你赢了！</p>
-            <button class="close-btn" id="close-modal-btn">再来一局</button> </div>
+            <button class="close-btn" id="close-modal-btn">再来一局</button> 
+        </div>
     </div>
 
     <script>
@@ -512,34 +503,30 @@
         // 游戏类
         class GomokuGame {
             constructor() {
-                // 棋盘尺寸
                 this.boardSize = 15;
                 this.board = Array(this.boardSize).fill(null).map(() => Array(this.boardSize).fill(EMPTY));
                 this.currentPlayer = PLAYER;
                 this.gameOver = false;
                 this.winner = null;
-                this.moves = [];  // 记录每一步 {x, y, player}
-                this.difficulty = DIFFICULTY.MEDIUM;  // 默认中等难度
+                this.moves = [];  
+                this.difficulty = DIFFICULTY.MEDIUM;  
 
-                // 获取画布元素
                 this.boardCanvas = document.getElementById('board-canvas');
                 this.piecesCanvas = document.getElementById('pieces-canvas');
                 this.hoverCanvas = document.getElementById('hover-canvas');
 
-                // 获取画布上下文
                 this.boardCtx = this.boardCanvas.getContext('2d');
                 this.piecesCtx = this.piecesCanvas.getContext('2d');
                 this.hoverCtx = this.hoverCanvas.getContext('2d');
 
-                // 棋盘布局尺寸计算
                 this.gridSize = 0;
-                this.padding = 0; // Padding around the grid for coordinates
+                this.padding = 0; 
                 this.pieceRadius = 0;
-                this.boardWidthHeight = 0; // Actual width/height of the grid area (excluding padding)
+                this.boardWidthHeight = 0; 
 
-                this.resizeTimeout = null; // For debouncing resize
+                this.resizeTimeout = null; 
 
-                // 绑定this
+                // 绑定this到事件处理器和回调函数
                 this.handleMouseMove = this.handleMouseMove.bind(this);
                 this.handleMouseLeave = this.handleMouseLeave.bind(this);
                 this.handleClick = this.handleClick.bind(this);
@@ -547,23 +534,22 @@
                 this.handleRestart = this.handleRestart.bind(this);
                 this.handleCloseModal = this.handleCloseModal.bind(this);
                 this.handleDifficultyChange = this.handleDifficultyChange.bind(this);
-                this.handleResize = this.handleResize.bind(this);
+                this.handleResize = this.handleResize.bind(this); // 确保 resize处理器绑定this
 
-                // 初始化
-                this.setupEventListeners(); // Setup listeners first
-                this.resizeAndRedrawBoard(); // Initial draw
+                this.setupEventListeners(); 
+                this.resizeAndRedrawBoard(); 
                 this.updateStatus();
             }
 
-            // 调整画布尺寸并重新计算和绘制所有内容
             resizeAndRedrawBoard() {
                 const gameBoardDiv = document.getElementById('game-board');
-                if (!gameBoardDiv) return;
+                if (!gameBoardDiv) {
+                    console.error("game-board div not found for resizing.");
+                    return;
+                }
+                
+                const canvasPhysicalSize = gameBoardDiv.offsetWidth; 
 
-                // 使用 offsetWidth/Height 获取渲染后的尺寸, game-board div is square due to parent's padding trick
-                const canvasPhysicalSize = gameBoardDiv.offsetWidth; // Should be square
-
-                // 设置画布的物理像素尺寸
                 this.boardCanvas.width = canvasPhysicalSize;
                 this.boardCanvas.height = canvasPhysicalSize;
                 this.piecesCanvas.width = canvasPhysicalSize;
@@ -571,13 +557,10 @@
                 this.hoverCanvas.width = canvasPhysicalSize;
                 this.hoverCanvas.height = canvasPhysicalSize;
                 
-                // 计算棋盘格子大小和边距
-                // Padding is a percentage of the total canvas dimension
-                this.padding = canvasPhysicalSize * 0.08; // Adjusted padding slightly
-                // The actual grid area is the canvas size minus padding on both sides
+                this.padding = canvasPhysicalSize * 0.08; 
                 this.boardWidthHeight = canvasPhysicalSize - 2 * this.padding;
                 
-                if (this.boardWidthHeight <= 0) this.boardWidthHeight = 1; // Prevent division by zero or negative
+                if (this.boardWidthHeight <= 0) this.boardWidthHeight = 1; 
 
                 this.gridSize = this.boardWidthHeight / (this.boardSize - 1);
                 this.pieceRadius = this.gridSize * 0.45;
@@ -585,41 +568,29 @@
                 if (this.gridSize <= 0) this.gridSize = 1;
                 if (this.pieceRadius <= 0) this.pieceRadius = 0.5;
                 
-                this.drawBoard(); // Redraws background, grid, stars, coordinates
-                this.drawPieces(); // Redraws all pieces
+                this.drawBoard(); 
+                this.drawPieces(); 
             }
 
-            // 绘制棋盘背景和线条
             drawBoard() {
                 const ctx = this.boardCtx;
-                const canvasSize = this.boardCanvas.width; // Assuming square canvas
+                const canvasSize = this.boardCanvas.width; 
 
                 ctx.clearRect(0, 0, canvasSize, canvasSize);
                 this.drawWoodTexture(ctx, canvasSize, canvasSize);
 
                 ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--board-line');
-                ctx.lineWidth = 1; // For crisp lines
+                ctx.lineWidth = 1; 
 
-                // Grid lines start after padding and end before padding on the other side
                 const gridStart = this.padding;
                 const gridEnd = this.padding + this.boardWidthHeight;
 
                 for (let i = 0; i < this.boardSize; i++) {
                     const currentPosOnGrid = i * this.gridSize;
-                    // Position on canvas, add 0.5 for sharp lines when lineWidth is 1
                     const linePos = Math.round(gridStart + currentPosOnGrid) + 0.5;
 
-                    // Horizontal line
-                    ctx.beginPath();
-                    ctx.moveTo(gridStart, linePos);
-                    ctx.lineTo(gridEnd, linePos);
-                    ctx.stroke();
-
-                    // Vertical line
-                    ctx.beginPath();
-                    ctx.moveTo(linePos, gridStart);
-                    ctx.lineTo(linePos, gridEnd);
-                    ctx.stroke();
+                    ctx.beginPath(); ctx.moveTo(gridStart, linePos); ctx.lineTo(gridEnd, linePos); ctx.stroke();
+                    ctx.beginPath(); ctx.moveTo(linePos, gridStart); ctx.lineTo(linePos, gridEnd); ctx.stroke();
                 }
                 this.drawStarPoints(ctx);
                 this.drawCoordinates(ctx);
@@ -627,702 +598,277 @@
 
             drawWoodTexture(ctx, width, height) {
                 const gradient = ctx.createLinearGradient(0, 0, width, height);
-                gradient.addColorStop(0, '#e8d0aa');
-                gradient.addColorStop(0.5, '#d3b88b');
-                gradient.addColorStop(1, '#e8d0aa');
-                ctx.fillStyle = gradient;
-                ctx.fillRect(0, 0, width, height);
-
-                ctx.save();
-                ctx.lineWidth = 0.5;
-                ctx.strokeStyle = 'rgba(139, 107, 66, 0.15)';
+                gradient.addColorStop(0, '#e8d0aa'); gradient.addColorStop(0.5, '#d3b88b'); gradient.addColorStop(1, '#e8d0aa');
+                ctx.fillStyle = gradient; ctx.fillRect(0, 0, width, height);
+                ctx.save(); ctx.lineWidth = 0.5; ctx.strokeStyle = 'rgba(139, 107, 66, 0.15)';
                 for (let i = 0; i < 50; i++) {
                     ctx.beginPath();
-                    const x1 = Math.random() * width;
-                    const y1 = Math.random() * height;
-                    const angle = Math.random() * Math.PI * 2;
-                    const length = Math.random() * 100 + 50;
-                    const x2 = x1 + Math.cos(angle) * length;
-                    const y2 = y1 + Math.sin(angle) * length;
-                    ctx.moveTo(x1, y1);
-                    ctx.lineTo(x2, y2);
-                    ctx.stroke();
-                }
-                ctx.restore();
+                    const x1 = Math.random()*width, y1 = Math.random()*height, angle = Math.random()*Math.PI*2, length = Math.random()*100+50;
+                    const x2 = x1+Math.cos(angle)*length, y2 = y1+Math.sin(angle)*length;
+                    ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+                } ctx.restore();
             }
 
             drawStarPoints(ctx) {
-                const starPointsData = [
-                    [3, 3], [3, 11], [7, 7], [11, 3], [11, 11]
-                ];
-                if (this.boardSize >= 15) {
-                    starPointsData.push([3, 7], [7, 3], [7, 11], [11, 7]);
-                }
-
+                const starPointsData = [[3,3],[3,11],[7,7],[11,3],[11,11]];
+                if (this.boardSize >= 15) starPointsData.push([3,7],[7,3],[7,11],[11,7]);
                 ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--board-line');
                 const pointRadius = Math.max(1, this.gridSize * 0.1);
-
                 for (const [xIndex, yIndex] of starPointsData) {
                     ctx.beginPath();
-                    ctx.arc(
-                        this.padding + xIndex * this.gridSize,
-                        this.padding + yIndex * this.gridSize,
-                        pointRadius, 0, Math.PI * 2
-                    );
+                    ctx.arc(this.padding+xIndex*this.gridSize, this.padding+yIndex*this.gridSize, pointRadius, 0, Math.PI*2);
                     ctx.fill();
                 }
             }
 
             drawCoordinates(ctx) {
                 ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--board-line');
-                // Ensure font size is reasonable and scales with grid size, but has a minimum
-                const fontSize = Math.max(8, Math.min(14, this.gridSize * 0.35)); // Capped max font size
-                ctx.font = `bold ${fontSize}px Arial`;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-
-                const gridStart = this.padding;
-                const gridEnd = this.padding + this.boardWidthHeight;
-                const canvasSize = this.boardCanvas.width; // Assuming square canvas
-
+                const fontSize = Math.max(8, Math.min(14, this.gridSize * 0.35)); 
+                ctx.font = `bold ${fontSize}px Arial`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                const gridStart = this.padding; const gridEnd = this.padding + this.boardWidthHeight;
                 const letters = 'ABCDEFGHJKLMNOPQRSTUVWXYZ'.substring(0, this.boardSize);
-                // Draw letter coordinates (A-O)
                 for (let i = 0; i < this.boardSize; i++) {
                     const xPosOnCanvas = gridStart + i * this.gridSize;
-                    // Top coordinates: Vertically centered in the top padding area
-                    ctx.fillText(letters[i], xPosOnCanvas, this.padding / 2);
-                    // Bottom coordinates: Vertically centered in the bottom padding area
-                    ctx.fillText(letters[i], xPosOnCanvas, gridEnd + this.padding / 2);
+                    ctx.fillText(letters[i], xPosOnCanvas, this.padding/2);
+                    ctx.fillText(letters[i], xPosOnCanvas, gridEnd + this.padding/2);
                 }
-
-                // Draw number coordinates (1-15)
                 for (let i = 0; i < this.boardSize; i++) {
                     const yPosOnCanvas = gridStart + i * this.gridSize;
-                    // Left coordinates: Horizontally centered in the left padding area
-                    ctx.fillText((this.boardSize - i).toString(), this.padding / 2, yPosOnCanvas);
-                    // Right coordinates: Horizontally centered in the right padding area
-                    ctx.fillText((this.boardSize - i).toString(), gridEnd + this.padding / 2, yPosOnCanvas);
+                    ctx.fillText((this.boardSize-i).toString(), this.padding/2, yPosOnCanvas);
+                    ctx.fillText((this.boardSize-i).toString(), gridEnd + this.padding/2, yPosOnCanvas);
                 }
             }
 
             drawPieces() {
                 const ctx = this.piecesCtx;
                 ctx.clearRect(0, 0, this.piecesCanvas.width, this.piecesCanvas.height);
-
                 for (let y = 0; y < this.boardSize; y++) {
                     for (let x = 0; x < this.boardSize; x++) {
-                        if (this.board[y][x] !== EMPTY) {
-                            this.drawPiece(ctx, x, y, this.board[y][x]);
-                        }
+                        if (this.board[y][x] !== EMPTY) this.drawPiece(ctx, x, y, this.board[y][x]);
                     }
                 }
                 if (this.moves.length > 0) {
-                    const lastMove = this.moves[this.moves.length - 1];
+                    const lastMove = this.moves[this.moves.length-1];
                     this.markLastMove(ctx, lastMove.x, lastMove.y);
                 }
             }
 
             drawPiece(ctx, x, y, pieceType) {
-                const centerX = this.padding + x * this.gridSize;
-                const centerY = this.padding + y * this.gridSize;
-
-                ctx.beginPath();
-                ctx.arc(centerX + this.pieceRadius * 0.1, centerY + this.pieceRadius * 0.1, this.pieceRadius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-                ctx.fill();
-
-                ctx.beginPath();
-                ctx.arc(centerX, centerY, this.pieceRadius, 0, Math.PI * 2);
-                const gradient = ctx.createRadialGradient(
-                    centerX - this.pieceRadius * 0.4, centerY - this.pieceRadius * 0.4, this.pieceRadius * 0.1,
-                    centerX, centerY, this.pieceRadius
-                );
+                const centerX = this.padding + x*this.gridSize; const centerY = this.padding + y*this.gridSize;
+                ctx.beginPath(); ctx.arc(centerX+this.pieceRadius*0.1, centerY+this.pieceRadius*0.1, this.pieceRadius, 0, Math.PI*2);
+                ctx.fillStyle = 'rgba(0,0,0,0.2)'; ctx.fill();
+                ctx.beginPath(); ctx.arc(centerX, centerY, this.pieceRadius, 0, Math.PI*2);
+                const gradient = ctx.createRadialGradient(centerX-this.pieceRadius*0.4, centerY-this.pieceRadius*0.4, this.pieceRadius*0.1, centerX, centerY, this.pieceRadius);
                 if (pieceType === PLAYER) {
-                    gradient.addColorStop(0, '#666'); gradient.addColorStop(0.8, '#111'); gradient.addColorStop(1, '#000');
-                    ctx.fillStyle = gradient; ctx.strokeStyle = '#050505';
+                    gradient.addColorStop(0,'#666'); gradient.addColorStop(0.8,'#111'); gradient.addColorStop(1,'#000');
+                    ctx.fillStyle=gradient; ctx.strokeStyle='#050505';
                 } else {
-                    gradient.addColorStop(0, '#fff'); gradient.addColorStop(0.8, '#eee'); gradient.addColorStop(1, '#ccc');
-                    ctx.fillStyle = gradient; ctx.strokeStyle = '#bbb';
+                    gradient.addColorStop(0,'#fff'); gradient.addColorStop(0.8,'#eee'); gradient.addColorStop(1,'#ccc');
+                    ctx.fillStyle=gradient; ctx.strokeStyle='#bbb';
                 }
-                ctx.fill();
-                ctx.lineWidth = 0.5;
-                ctx.stroke();
+                ctx.fill(); ctx.lineWidth=0.5; ctx.stroke();
             }
 
             markLastMove(ctx, x, y) {
-                const centerX = this.padding + x * this.gridSize;
-                const centerY = this.padding + y * this.gridSize;
-                const markRadius = this.pieceRadius * 0.3;
-                ctx.beginPath();
-                ctx.rect(centerX - markRadius, centerY - markRadius, markRadius * 2, markRadius * 2);
-                ctx.fillStyle = this.board[y][x] === PLAYER ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.8)';
+                const centerX = this.padding + x*this.gridSize; const centerY = this.padding + y*this.gridSize;
+                const markRadius = this.pieceRadius*0.3;
+                ctx.beginPath(); ctx.rect(centerX-markRadius, centerY-markRadius, markRadius*2, markRadius*2);
+                ctx.fillStyle = this.board[y][x] === PLAYER ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)';
                 ctx.fill();
             }
 
-            drawHoverPiece(x, y) {
+            drawHoverPiece(x,y) {
                 const ctx = this.hoverCtx;
-                ctx.clearRect(0, 0, this.hoverCanvas.width, this.hoverCanvas.height);
-                if (this.isValidMove(x, y) && !this.gameOver && this.currentPlayer === PLAYER) {
-                    const centerX = this.padding + x * this.gridSize;
-                    const centerY = this.padding + y * this.gridSize;
-                    ctx.beginPath();
-                    ctx.arc(centerX, centerY, this.pieceRadius, 0, Math.PI * 2);
-                    ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
-                    ctx.fill();
+                ctx.clearRect(0,0,this.hoverCanvas.width, this.hoverCanvas.height);
+                if (this.isValidMove(x,y) && !this.gameOver && this.currentPlayer === PLAYER) {
+                    const centerX = this.padding + x*this.gridSize; const centerY = this.padding + y*this.gridSize;
+                    ctx.beginPath(); ctx.arc(centerX, centerY, this.pieceRadius, 0, Math.PI*2);
+                    ctx.fillStyle = 'rgba(0,0,0,0.4)'; ctx.fill();
                 }
             }
 
             getBoardCoordinates(clientX, clientY) {
                 const rect = this.hoverCanvas.getBoundingClientRect();
-                const xOnCanvas = clientX - rect.left;
-                const yOnCanvas = clientY - rect.top;
-
-                // Calculate board logical coordinates (0 to boardSize-1)
-                // Subtract padding, then divide by gridSize
+                const xOnCanvas = clientX - rect.left; const yOnCanvas = clientY - rect.top;
                 const boardX = Math.round((xOnCanvas - this.padding) / this.gridSize);
                 const boardY = Math.round((yOnCanvas - this.padding) / this.gridSize);
-
-                // Check if the click is close enough to the intersection
                 const targetCanvasX = this.padding + boardX * this.gridSize;
                 const targetCanvasY = this.padding + boardY * this.gridSize;
-                const tolerance = this.gridSize * 0.5; // Increased tolerance slightly
-
+                const tolerance = this.gridSize * 0.5; 
                 if (Math.abs(xOnCanvas - targetCanvasX) < tolerance && Math.abs(yOnCanvas - targetCanvasY) < tolerance) {
                      if (boardX >= 0 && boardX < this.boardSize && boardY >= 0 && boardY < this.boardSize) {
                         return { x: boardX, y: boardY };
                     }
-                }
-                return null;
+                } return null;
             }
 
-            makeMove(x, y, player) {
-                if (!this.isValidMove(x, y) || this.gameOver) return false;
-                this.board[y][x] = player;
-                this.moves.push({ x, y, player });
-                this.drawPieces();
-                this.hoverCtx.clearRect(0, 0, this.hoverCanvas.width, this.hoverCanvas.height);
-
-                if (this.checkWin(x, y, player)) {
-                    this.gameOver = true; this.winner = player;
-                    this.updateStatus(); this.showGameOverModal(); return true;
+            makeMove(x,y,player) {
+                if (!this.isValidMove(x,y) || this.gameOver) return false;
+                this.board[y][x] = player; this.moves.push({x,y,player});
+                this.drawPieces(); this.hoverCtx.clearRect(0,0,this.hoverCanvas.width, this.hoverCanvas.height);
+                if (this.checkWin(x,y,player)) {
+                    this.gameOver=true; this.winner=player; this.updateStatus(); this.showGameOverModal(); return true;
                 }
                 if (this.isBoardFull()) {
-                    this.gameOver = true; this.winner = null;
-                    this.updateStatus(); this.showGameOverModal(); return true;
+                    this.gameOver=true; this.winner=null; this.updateStatus(); this.showGameOverModal(); return true;
                 }
-                this.currentPlayer = (player === PLAYER) ? COMPUTER : PLAYER;
-                this.updateStatus();
-                return true;
+                this.currentPlayer = (player === PLAYER) ? COMPUTER : PLAYER; this.updateStatus(); return true;
             }
 
-            isValidMove(x, y) {
-                return x >= 0 && x < this.boardSize && y >= 0 && y < this.boardSize &&
-                       Number.isInteger(x) && Number.isInteger(y) &&
-                       this.board[y][x] === EMPTY;
+            isValidMove(x,y) {
+                return x>=0 && x<this.boardSize && y>=0 && y<this.boardSize && Number.isInteger(x) && Number.isInteger(y) && this.board[y][x] === EMPTY;
             }
 
-            checkWin(x, y, player) {
+            checkWin(x,y,player) {
                 const directions = [{dx:1,dy:0},{dx:0,dy:1},{dx:1,dy:1},{dx:1,dy:-1}];
-                for (const {dx, dy} of directions) {
-                    let count = 1;
-                    for (let i = 1; i < 5; i++) {
-                        const cx = x + i*dx, cy = y + i*dy;
-                        if (cx<0||cx>=this.boardSize||cy<0||cy>=this.boardSize||this.board[cy][cx]!==player) break;
-                        count++;
-                    }
-                    for (let i = 1; i < 5; i++) {
-                        const cx = x - i*dx, cy = y - i*dy;
-                        if (cx<0||cx>=this.boardSize||cy<0||cy>=this.boardSize||this.board[cy][cx]!==player) break;
-                        count++;
-                    }
-                    if (count >= 5) return true;
-                }
-                return false;
+                for(const {dx,dy} of directions){
+                    let count=1;
+                    for(let i=1;i<5;i++){ const cx=x+i*dx,cy=y+i*dy; if(cx<0||cx>=this.boardSize||cy<0||cy>=this.boardSize||this.board[cy][cx]!==player)break; count++; }
+                    for(let i=1;i<5;i++){ const cx=x-i*dx,cy=y-i*dy; if(cx<0||cx>=this.boardSize||cy<0||cy>=this.boardSize||this.board[cy][cx]!==player)break; count++; }
+                    if(count>=5)return true;
+                } return false;
             }
 
-            isBoardFull() { return this.moves.length === this.boardSize * this.boardSize; }
+            isBoardFull() { return this.moves.length === this.boardSize*this.boardSize; }
 
             undo() {
-                if (this.gameOver || this.currentPlayer === COMPUTER || this.moves.length < 2) {
-                    // console.log("无法悔棋"); // Optionally show a message to user
-                    return false;
-                }
-                for (let i = 0; i < 2; i++) { // Undo computer's and player's move
-                    const lastMove = this.moves.pop();
-                    if (lastMove) this.board[lastMove.y][lastMove.x] = EMPTY;
-                }
-                this.currentPlayer = PLAYER;
-                this.gameOver = false; this.winner = null;
-                this.drawPieces(); this.updateStatus(); this.hideGameOverModal();
-                return true;
+                if(this.gameOver||this.currentPlayer===COMPUTER||this.moves.length<2) return false;
+                for(let i=0;i<2;i++){ const lastMove=this.moves.pop(); if(lastMove)this.board[lastMove.y][lastMove.x]=EMPTY; }
+                this.currentPlayer=PLAYER; this.gameOver=false; this.winner=null;
+                this.drawPieces(); this.updateStatus(); this.hideGameOverModal(); return true;
             }
 
             computerMove() {
-                if (this.gameOver || this.currentPlayer !== COMPUTER) return;
-                let baseDelay = 500;
-                if (this.difficulty === DIFFICULTY.EASY) baseDelay = 300;
-                else if (this.difficulty === DIFFICULTY.HARD) baseDelay = 700;
-                this.updateStatus(); // Show "Computer is thinking..."
-
-                // AI calculation is now synchronous before setTimeout
-                let move;
-                const startTime = performance.now();
+                if(this.gameOver||this.currentPlayer!==COMPUTER)return;
+                let baseDelay=500; if(this.difficulty===DIFFICULTY.EASY)baseDelay=300; else if(this.difficulty===DIFFICULTY.HARD)baseDelay=700;
+                this.updateStatus();
+                let move; const startTime=performance.now();
                 try {
-                    switch (this.difficulty) {
-                        case DIFFICULTY.EASY: move = this.getEasyAIMove(); break;
-                        case DIFFICULTY.HARD: move = this.getHardAIMove(); break;
-                        case DIFFICULTY.MEDIUM: default: move = this.getMediumAIMove(); break;
+                    switch(this.difficulty){
+                        case DIFFICULTY.EASY:move=this.getEasyAIMove();break;
+                        case DIFFICULTY.HARD:move=this.getHardAIMove();break;
+                        case DIFFICULTY.MEDIUM:default:move=this.getMediumAIMove();break;
                     }
-                } catch (error) {
-                    console.error("AI calculation error:", error);
-                    move = this.findRandomEmptySpot();
-                }
-                const calculationTime = performance.now() - startTime;
-                // console.log(`AI (${this.difficulty}) calculation time: ${calculationTime.toFixed(2)} ms`);
-
-                const actualDelay = Math.max(50, baseDelay - calculationTime); // Ensure a minimum delay for UX
-
-                setTimeout(() => {
-                    if (this.gameOver) return; // Game might have ended during delay
-                    if (move && this.isValidMove(move.x, move.y)) {
-                        this.makeMove(move.x, move.y, COMPUTER);
-                    } else {
-                        // console.warn("AI generated invalid/null move or spot taken, finding fallback.", move);
-                        const fallbackMove = this.findRandomEmptySpot();
-                        if (fallbackMove) this.makeMove(fallbackMove.x, fallbackMove.y, COMPUTER);
-                        else { // No moves left, should be a draw
-                            this.gameOver = true; this.winner = null;
-                            this.updateStatus(); this.showGameOverModal();
-                        }
+                } catch(error){ console.error("AI calculation error:",error); move=this.findRandomEmptySpot(); }
+                const calculationTime = performance.now()-startTime;
+                const actualDelay = Math.max(50, baseDelay - calculationTime);
+                setTimeout(()=>{
+                    if(this.gameOver)return;
+                    if(move && this.isValidMove(move.x,move.y)) this.makeMove(move.x,move.y,COMPUTER);
+                    else { const fallbackMove=this.findRandomEmptySpot(); if(fallbackMove)this.makeMove(fallbackMove.x,fallbackMove.y,COMPUTER);
+                        else { this.gameOver=true;this.winner=null;this.updateStatus();this.showGameOverModal(); }
                     }
                 }, actualDelay);
             }
             
-            findRandomEmptySpot() {
-                const emptySpots = this.getAllEmptySpots();
-                return emptySpots.length > 0 ? emptySpots[Math.floor(Math.random() * emptySpots.length)] : null;
-            }
+            findRandomEmptySpot() { const emptySpots=this.getAllEmptySpots(); return emptySpots.length>0?emptySpots[Math.floor(Math.random()*emptySpots.length)]:null; }
 
             getEasyAIMove() {
-                const availableMoves = []; const priorityMoves = [];
+                const availableMoves = [];
+                const priorityMoves = [];
                 for (let y = 0; y < this.boardSize; y++) {
                     for (let x = 0; x < this.boardSize; x++) {
                         if (this.isValidMove(x, y)) {
                             let isPriority = false;
+                            // 检查相邻位置是否有棋子
                             for (let dy = -1; dy <= 1; dy++) {
                                 for (let dx = -1; dx <= 1; dx++) {
-                                    if (dx === 0 && dy === 0) continue;
-                                    const nx = x + dx, ny = y + dy;
+                                    if (dx === 0 && dy === 0) continue; // 跳过自身
+                                    const nx = x + dx;
+                                    const ny = y + dy;
                                     if (nx >= 0 && nx < this.boardSize && ny >= 0 && ny < this.boardSize && this.board[ny][nx] !== EMPTY) {
-                                        isPriority = true; break;
+                                        isPriority = true;
+                                        break; // 找到相邻棋子，中断内层循环 (dx)
                                     }
-                                } if (isPriority) break;
+                                }
+                                if (isPriority) {
+                                    break; // 已经确定是优先位置，中断外层循环 (dy)
+                                }
                             }
-                            if (isPriority || this.moves.length === 0) priorityMoves.push({ x, y });
-                            else availableMoves.push({ x, y });
+                            // 根据是否优先，将位置添加到对应列表
+                            if (isPriority || this.moves.length === 0) { // 第一步总是优先考虑
+                                priorityMoves.push({ x, y });
+                            } else {
+                                availableMoves.push({ x, y });
+                            }
                         }
                     }
                 }
+                // 如果有优先位置，则从中随机选择；否则从所有可落子位置中随机选择
                 const movesToChoose = priorityMoves.length > 0 ? priorityMoves : availableMoves;
-                return movesToChoose.length > 0 ? movesToChoose[Math.floor(Math.random() * movesToChoose.length)] : this.findRandomEmptySpot();
+                return movesToChoose.length > 0 ? movesToChoose[Math.floor(Math.random() * movesToChoose.length)] : this.findRandomEmptySpot(); // 备用：如果列表为空，则完全随机
             }
 
             getMediumAIMove() {
-                const win = this.findWinningMove(COMPUTER); if (win) return win;
-                const block = this.findWinningMove(PLAYER); if (block) return block;
-                const offenseFour = this.findPotentialFour(COMPUTER); if (offenseFour) return offenseFour;
-                const defenseFour = this.findPotentialFour(PLAYER);
-                if (defenseFour && this.isCriticalThreat(defenseFour.x, defenseFour.y, PLAYER)) return defenseFour;
-                const offenseThree = this.findPotentialThree(COMPUTER); if (offenseThree) return offenseThree;
-                const defenseThree = this.findPotentialThree(PLAYER); if (defenseThree) return defenseThree;
-                if (defenseFour) return defenseFour; // Non-critical four
-                return this.findBestMove(2); // Minimax depth 2
+                const win=this.findWinningMove(COMPUTER);if(win)return win; const block=this.findWinningMove(PLAYER);if(block)return block;
+                const offenseFour=this.findPotentialFour(COMPUTER);if(offenseFour)return offenseFour; const defenseFour=this.findPotentialFour(PLAYER);
+                if(defenseFour&&this.isCriticalThreat(defenseFour.x,defenseFour.y,PLAYER))return defenseFour;
+                const offenseThree=this.findPotentialThree(COMPUTER);if(offenseThree)return offenseThree; const defenseThree=this.findPotentialThree(PLAYER);if(defenseThree)return defenseThree;
+                if(defenseFour)return defenseFour; return this.findBestMove(2);
             }
 
             getHardAIMove() {
-                const win = this.findWinningMove(COMPUTER); if (win) return win;
-                const block = this.findWinningMove(PLAYER); if (block) return block;
-                const offenseFour = this.findPotentialFour(COMPUTER); if (offenseFour) return offenseFour;
-                const defenseFourCrit = this.findPotentialFour(PLAYER);
-                if (defenseFourCrit && this.isCriticalThreat(defenseFourCrit.x, defenseFourCrit.y, PLAYER)) return defenseFourCrit;
-                const offenseThree = this.findPotentialThree(COMPUTER); if (offenseThree) return offenseThree;
-                const defenseThreeCrit = this.findPotentialThree(PLAYER);
-                if (defenseThreeCrit && this.isPotentialFourPoint(defenseThreeCrit.x, defenseThreeCrit.y, PLAYER)) return defenseThreeCrit;
-                if (defenseFourCrit) return defenseFourCrit; // Non-critical four
-                if (defenseThreeCrit) return defenseThreeCrit; // Non-critical three
-                return this.findBestMove(3); // Minimax depth 3 or 4
+                const win=this.findWinningMove(COMPUTER);if(win)return win; const block=this.findWinningMove(PLAYER);if(block)return block;
+                const offenseFour=this.findPotentialFour(COMPUTER);if(offenseFour)return offenseFour; const defenseFourCrit=this.findPotentialFour(PLAYER);
+                if(defenseFourCrit&&this.isCriticalThreat(defenseFourCrit.x,defenseFourCrit.y,PLAYER))return defenseFourCrit;
+                const offenseThree=this.findPotentialThree(COMPUTER);if(offenseThree)return offenseThree; const defenseThreeCrit=this.findPotentialThree(PLAYER);
+                if(defenseThreeCrit&&this.isPotentialFourPoint(defenseThreeCrit.x,defenseThreeCrit.y,PLAYER))return defenseThreeCrit;
+                if(defenseFourCrit)return defenseFourCrit; if(defenseThreeCrit)return defenseThreeCrit; return this.findBestMove(3);
             }
 
-            isCriticalThreat(x, y, player) {
-                this.board[y][x] = player;
-                const scoreInfo = this.evaluatePointDetailed(x, y, player);
-                this.board[y][x] = EMPTY;
-                return scoreInfo.liveFour > 0 || scoreInfo.doubleThree > 0;
-            }
-            isPotentialFourPoint(x, y, player) {
-                this.board[y][x] = player;
-                const scoreInfo = this.evaluatePointDetailed(x, y, player);
-                this.board[y][x] = EMPTY;
-                return scoreInfo.liveFour > 0 || scoreInfo.deadFour > 0;
-            }
+            isCriticalThreat(x,y,player){this.board[y][x]=player; const scoreInfo=this.evaluatePointDetailed(x,y,player); this.board[y][x]=EMPTY; return scoreInfo.liveFour>0||scoreInfo.doubleThree>0;}
+            isPotentialFourPoint(x,y,player){this.board[y][x]=player; const scoreInfo=this.evaluatePointDetailed(x,y,player); this.board[y][x]=EMPTY; return scoreInfo.liveFour>0||scoreInfo.deadFour>0;}
 
-            findWinningMove(player) {
-                const emptySpots = this.getAllEmptySpots();
-                for (const {x, y} of emptySpots) {
-                    this.board[y][x] = player;
-                    const wins = this.checkWin(x, y, player);
-                    this.board[y][x] = EMPTY;
-                    if (wins) return { x, y };
-                } return null;
-            }
-            findPotentialFour(player) {
-                const emptySpots = this.getAllEmptySpots(); const potentialFours = [];
-                for (const {x, y} of emptySpots) {
-                    this.board[y][x] = player;
-                    const scoreInfo = this.evaluatePointDetailed(x, y, player);
-                    this.board[y][x] = EMPTY;
-                    if (scoreInfo.liveFour > 0 || scoreInfo.deadFour > 0) {
-                        potentialFours.push({ x, y, score: scoreInfo.liveFour * 10 + scoreInfo.deadFour });
-                    }
-                }
-                potentialFours.sort((a, b) => b.score - a.score);
-                return potentialFours.length > 0 ? potentialFours[0] : null;
-            }
-            findPotentialThree(player) {
-                const emptySpots = this.getAllEmptySpots(); const potentialThrees = [];
-                for (const {x, y} of emptySpots) {
-                    const opponent = player === PLAYER ? COMPUTER : PLAYER;
-                    this.board[y][x] = opponent;
-                    const opponentWinsIfPlacedHere = this.checkWin(x,y,opponent);
-                    this.board[y][x] = EMPTY;
-                    if(opponentWinsIfPlacedHere) continue; // Don't make a three if it lets opponent win there
+            findWinningMove(player){const emptySpots=this.getAllEmptySpots();for(const{x,y}of emptySpots){this.board[y][x]=player;const wins=this.checkWin(x,y,player);this.board[y][x]=EMPTY;if(wins)return{x,y};}return null;}
+            findPotentialFour(player){const emptySpots=this.getAllEmptySpots();const potentialFours=[];for(const{x,y}of emptySpots){this.board[y][x]=player;const scoreInfo=this.evaluatePointDetailed(x,y,player);this.board[y][x]=EMPTY;if(scoreInfo.liveFour>0||scoreInfo.deadFour>0)potentialFours.push({x,y,score:scoreInfo.liveFour*10+scoreInfo.deadFour});}potentialFours.sort((a,b)=>b.score-a.score);return potentialFours.length>0?potentialFours[0]:null;}
+            findPotentialThree(player){const emptySpots=this.getAllEmptySpots();const potentialThrees=[];for(const{x,y}of emptySpots){const opponent=player===PLAYER?COMPUTER:PLAYER;this.board[y][x]=opponent;const opponentWinsIfPlacedHere=this.checkWin(x,y,opponent);this.board[y][x]=EMPTY;if(opponentWinsIfPlacedHere)continue;this.board[y][x]=player;const scoreInfo=this.evaluatePointDetailed(x,y,player);this.board[y][x]=EMPTY;if(scoreInfo.liveThree>0&&scoreInfo.deadFour===0&&scoreInfo.liveFour===0){this.board[y][x]=player;const opponentCanWinNext=this.findWinningMove(opponent);this.board[y][x]=EMPTY;let isSafeThree=true;if(opponentCanWinNext){if(!(opponentCanWinNext.x===x&&opponentCanWinNext.y===y)){/*isSafeThree=false;*/}}if(isSafeThree)potentialThrees.push({x,y,score:scoreInfo.liveThree});}}potentialThrees.sort((a,b)=>b.score-a.score);return potentialThrees.length>0?potentialThrees[0]:null;}
 
-                    this.board[y][x] = player;
-                    const scoreInfo = this.evaluatePointDetailed(x, y, player);
-                    this.board[y][x] = EMPTY;
+            evaluatePointDetailed(x,y,player){const scoreInfo={liveFour:0,deadFour:0,liveThree:0,doubleThree:0};/* 实际的模式匹配逻辑应在此处 */ return scoreInfo;}
 
-                    if (scoreInfo.liveThree > 0 && scoreInfo.deadFour === 0 && scoreInfo.liveFour === 0) {
-                         // Further check: does this move create an immediate win/strong threat for opponent?
-                        this.board[y][x] = player; // Temporarily place piece
-                        const opponentCanWinNext = this.findWinningMove(opponent);
-                        // const opponentCanFourNext = this.findPotentialFour(opponent); // Less critical for this check
-                        this.board[y][x] = EMPTY; // Revert
-
-                        let isSafeThree = true;
-                        if(opponentCanWinNext){ 
-                           if(!(opponentCanWinNext.x === x && opponentCanWinNext.y === y)){ // If win is elsewhere
-                               // isSafeThree = false; // This can be too restrictive, needs careful tuning
-                           }
-                        }
-                        if(isSafeThree) potentialThrees.push({ x, y, score: scoreInfo.liveThree });
-                    }
-                }
-                potentialThrees.sort((a, b) => b.score - a.score);
-                return potentialThrees.length > 0 ? potentialThrees[0] : null;
-            }
-
-            evaluatePointDetailed(x, y, player) { 
-                // This is a simplified stub. A full implementation requires extensive pattern matching.
-                // The original checkPattern logic was complex and might need a full review for correctness.
-                const scoreInfo = { liveFour: 0, deadFour: 0, liveThree: 0, doubleThree: 0 };
-                // Placeholder: Simulate some pattern detection for testing AI branches
-                // This needs to be replaced with actual pattern detection logic.
-                // Example: if (x % 5 === 0 && y % 5 === 0) scoreInfo.liveThree++; 
-                // if (x % 7 === 0) scoreInfo.liveFour++;
-                return scoreInfo;
-            }
-
-            findBestMove(depth) {
-                let bestScore = -Infinity; let bestMove = null;
-                const possibleMoves = this.getPrioritizedMoves();
-                let alpha = -Infinity, beta = Infinity;
-
-                for (const move of possibleMoves) {
-                    this.board[move.y][move.x] = COMPUTER;
-                    const score = this.minimax(depth - 1, false, alpha, beta);
-                    this.board[move.y][move.x] = EMPTY;
-                    if (score > bestScore) {
-                        bestScore = score; bestMove = move;
-                    } else if (score === bestScore && Math.random() < 0.1) { 
-                        bestMove = move;
-                    }
-                    alpha = Math.max(alpha, score);
-                    // No alpha-beta prune at root for the first set of moves, as beta is Infinity
-                }
-                if (!bestMove && possibleMoves.length > 0) return possibleMoves[0]; 
-                return bestMove || this.findRandomEmptySpot(); 
-            }
+            findBestMove(depth){let bestScore=-Infinity;let bestMove=null;const possibleMoves=this.getPrioritizedMoves();let alpha=-Infinity,beta=Infinity;for(const move of possibleMoves){this.board[move.y][move.x]=COMPUTER;const score=this.minimax(depth-1,false,alpha,beta);this.board[move.y][move.x]=EMPTY;if(score>bestScore){bestScore=score;bestMove=move;}else if(score===bestScore&&Math.random()<0.1){bestMove=move;}alpha=Math.max(alpha,score);}if(!bestMove&&possibleMoves.length>0)return possibleMoves[0];return bestMove||this.findRandomEmptySpot();}
             
-            getPrioritizedMoves() {
-                const moves = []; const addedCoords = new Set(); const radius = 2;
-                if (this.moves.length === 0) { 
-                    const cx = Math.floor(this.boardSize/2), cy = Math.floor(this.boardSize/2);
-                    if(this.isValidMove(cx,cy)) return [{x:cx, y:cy}];
-                    for(let r=1; r<=radius; ++r) for(let dy=-r; dy<=r; ++dy) for(let dx=-r; dx<=r; ++dx){
-                        if(Math.abs(dx)!==r && Math.abs(dy)!==r && (dx!==0 || dy!==0) ) continue; // Iterate over perimeter
-                        if(this.isValidMove(cx+dx, cy+dy)) moves.push({x:cx+dx, y:cy+dy});
-                        if(moves.length > 8) break; // Limit initial candidates
-                    }
-                    if(moves.length > 0) return moves;
-                }
+            getPrioritizedMoves(){const moves=[],addedCoords=new Set(),radius=2;if(this.moves.length===0){const cx=Math.floor(this.boardSize/2),cy=Math.floor(this.boardSize/2);if(this.isValidMove(cx,cy))return[{x:cx,y:cy}];for(let r=1;r<=radius;++r)for(let dy=-r;dy<=r;++dy)for(let dx=-r;dx<=r;++dx){if(Math.abs(dx)!==r&&Math.abs(dy)!==r&&(dx!==0||dy!==0))continue;if(this.isValidMove(cx+dx,cy+dy))moves.push({x:cx+dx,y:cy+dy});if(moves.length>8)break;}if(moves.length>0)return moves;}for(let y=0;y<this.boardSize;y++)for(let x=0;x<this.boardSize;x++)if(this.board[y][x]!==EMPTY)for(let dy=-radius;dy<=radius;dy++)for(let dx=-radius;dx<=radius;dx++){if(dx===0&&dy===0)continue;const nx=x+dx,ny=y+dy,coordKey=`${nx},${ny}`;if(this.isValidMove(nx,ny)&&!addedCoords.has(coordKey)){moves.push({x:nx,y:ny});addedCoords.add(coordKey);}}if(moves.length===0)return this.getAllEmptySpots();moves.sort((a,b)=>this.evaluatePositionHeuristically(b.x,b.y)-this.evaluatePositionHeuristically(a.x,a.y));return moves.slice(0,Math.min(moves.length,25));}
 
-                for (let y = 0; y < this.boardSize; y++) {
-                    for (let x = 0; x < this.boardSize; x++) {
-                        if (this.board[y][x] !== EMPTY) { 
-                            for (let dy = -radius; dy <= radius; dy++) {
-                                for (let dx = -radius; dx <= radius; dx++) {
-                                    if (dx === 0 && dy === 0) continue;
-                                    const nx = x + dx, ny = y + dy; const coordKey = `${nx},${ny}`;
-                                    if (this.isValidMove(nx, ny) && !addedCoords.has(coordKey)) {
-                                        moves.push({ x: nx, y: ny }); addedCoords.add(coordKey);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                if (moves.length === 0) return this.getAllEmptySpots();
-                moves.sort((a, b) => this.evaluatePositionHeuristically(b.x, b.y) - this.evaluatePositionHeuristically(a.x, a.y));
-                return moves.slice(0, Math.min(moves.length, 25)); 
-            }
+            getAllEmptySpots(){const spots=[];for(let y=0;y<this.boardSize;y++)for(let x=0;x<this.boardSize;x++)if(this.board[y][x]===EMPTY)spots.push({x,y});return spots;}
 
-            getAllEmptySpots() {
-                const spots = [];
-                for (let y = 0; y < this.boardSize; y++) for (let x = 0; x < this.boardSize; x++) if (this.board[y][x] === EMPTY) spots.push({ x, y });
-                return spots;
-            }
+            evaluatePositionHeuristically(x,y){let score=0;this.board[y][x]=COMPUTER;score+=this.evaluatePointScore(x,y,COMPUTER)*1.2;this.board[y][x]=EMPTY;this.board[y][x]=PLAYER;score+=this.evaluatePointScore(x,y,PLAYER);this.board[y][x]=EMPTY;const cx=Math.floor(this.boardSize/2),cy=Math.floor(this.boardSize/2);score-=(Math.abs(x-cx)+Math.abs(y-cy))*0.1;return score;}
 
-            evaluatePositionHeuristically(x, y) { 
-                let score = 0;
-                // Offensive score
-                this.board[y][x] = COMPUTER; 
-                score += this.evaluatePointScore(x, y, COMPUTER) * 1.2; // Slightly higher weight for computer's own moves
-                this.board[y][x] = EMPTY; 
-                
-                // Defensive score
-                this.board[y][x] = PLAYER; 
-                score += this.evaluatePointScore(x, y, PLAYER); 
-                this.board[y][x] = EMPTY; 
-                
-                const cx = Math.floor(this.boardSize/2), cy = Math.floor(this.boardSize/2);
-                score -= (Math.abs(x-cx) + Math.abs(y-cy)) * 0.1; // Prefer center slightly (Manhattan distance)
-                return score;
-            }
+            minimax(depth,isMaximizing,alpha,beta){const terminalScore=this.checkTerminalStateScore(depth);if(terminalScore!==null)return terminalScore;if(depth===0)return this.evaluateBoard();const possibleMoves=this.getPrioritizedMoves();if(possibleMoves.length===0)return this.evaluateBoard();if(isMaximizing){let maxScore=-Infinity;for(const move of possibleMoves){this.board[move.y][move.x]=COMPUTER;const score=this.minimax(depth-1,false,alpha,beta);this.board[move.y][move.x]=EMPTY;maxScore=Math.max(maxScore,score);alpha=Math.max(alpha,score);if(beta<=alpha)break;}return maxScore===-Infinity?this.evaluateBoard():maxScore;}else{let minScore=Infinity;for(const move of possibleMoves){this.board[move.y][move.x]=PLAYER;const score=this.minimax(depth-1,true,alpha,beta);this.board[move.y][move.x]=EMPTY;minScore=Math.min(minScore,score);beta=Math.min(beta,score);if(beta<=alpha)break;}return minScore===Infinity?this.evaluateBoard():minScore;}}
 
-            minimax(depth, isMaximizing, alpha, beta) {
-                const terminalScore = this.checkTerminalStateScore(depth);
-                if (terminalScore !== null) return terminalScore;
-                if (depth === 0) return this.evaluateBoard();
+            checkTerminalStateScore(depth){for(let y=0;y<this.boardSize;++y)for(let x=0;x<this.boardSize;++x)if(this.board[y][x]!==EMPTY&&this.checkWin(x,y,this.board[y][x]))return(this.board[y][x]===COMPUTER?100000:-100000)*(depth+1);let isFull=true;for(let r=0;r<this.boardSize;++r){for(let c=0;c<this.boardSize;++c)if(this.board[r][c]===EMPTY){isFull=false;break;}if(!isFull)break;}if(isFull)return 0;return null;}
 
-                const possibleMoves = this.getPrioritizedMoves();
-                if (possibleMoves.length === 0) return this.evaluateBoard(); 
+            evaluateBoard(){let score=0;for(let y=0;y<this.boardSize;y++)for(let x=0;x<this.boardSize;x++){if(this.board[y][x]===COMPUTER)score+=this.evaluatePointScore(x,y,COMPUTER);else if(this.board[y][x]===PLAYER)score-=this.evaluatePointScore(x,y,PLAYER)*1.1;}return score;}
 
-                if (isMaximizing) { // Computer's turn (Maximizer)
-                    let maxScore = -Infinity;
-                    for (const move of possibleMoves) {
-                        this.board[move.y][move.x] = COMPUTER;
-                        const score = this.minimax(depth - 1, false, alpha, beta);
-                        this.board[move.y][move.x] = EMPTY;
-                        maxScore = Math.max(maxScore, score);
-                        alpha = Math.max(alpha, score);
-                        if (beta <= alpha) break; // Beta cut-off
-                    } return maxScore === -Infinity ? this.evaluateBoard() : maxScore; // if all moves lead to loss, return current board eval
-                } else { // Player's turn (Minimizer)
-                    let minScore = Infinity;
-                    for (const move of possibleMoves) {
-                        this.board[move.y][move.x] = PLAYER;
-                        const score = this.minimax(depth - 1, true, alpha, beta);
-                        this.board[move.y][move.x] = EMPTY;
-                        minScore = Math.min(minScore, score);
-                        beta = Math.min(beta, score);
-                        if (beta <= alpha) break; // Alpha cut-off
-                    } return minScore === Infinity ? this.evaluateBoard() : minScore; // if all moves lead to win, return current board eval
-                }
-            }
+            evaluatePointScore(x,y,player){let Pscore=1;const directions=[{dx:1,dy:0},{dx:0,dy:1},{dx:1,dy:1},{dx:1,dy:-1}];for(const{dx,dy}of directions){let count=0,openEnds=0;let currentX=x+dx,currentY=y+dy;for(let k=0;k<4;++k){if(!this.isPosValid(currentX,currentY)){openEnds--;break;} if(this.board[currentY][currentX]===player)count++; else if(this.board[currentY][currentX]===EMPTY){openEnds++;break;} else break; currentX+=dx;currentY+=dy;}currentX=x-dx;currentY=y-dy;for(let k=0;k<4;++k){if(!this.isPosValid(currentX,currentY)){openEnds--;break;} if(this.board[currentY][currentX]===player)count++; else if(this.board[currentY][currentX]===EMPTY){openEnds++;break;} else break; currentX-=dx;currentY-=dy;}const totalPlayerPiecesInLine=count+1;if(totalPlayerPiecesInLine>=5)return 100000;if(totalPlayerPiecesInLine===4){if(openEnds===2)Pscore+=10000;else if(openEnds===1)Pscore+=800;}else if(totalPlayerPiecesInLine===3){if(openEnds===2)Pscore+=500;else if(openEnds===1)Pscore+=50;}else if(totalPlayerPiecesInLine===2){if(openEnds===2)Pscore+=50;else if(openEnds===1)Pscore+=5;}else if(totalPlayerPiecesInLine===1&&openEnds===2){Pscore+=1;}}return Pscore;}
+            isPosValid(x,y){return x>=0&&x<this.boardSize&&y>=0&&y<this.boardSize;}
 
-            checkTerminalStateScore(depth) {
-                // Check for win/loss
-                for (let y = 0; y < this.boardSize; ++y) {
-                    for (let x = 0; x < this.boardSize; ++x) {
-                        if (this.board[y][x] !== EMPTY && this.checkWin(x, y, this.board[y][x])) {
-                            // Victory score is higher if achieved sooner (higher depth remaining)
-                            return (this.board[y][x] === COMPUTER ? 100000 : -100000) * (depth + 1);
-                        }
-                    }
-                }
+            restart(){this.board=Array(this.boardSize).fill(null).map(()=>Array(this.boardSize).fill(EMPTY));this.currentPlayer=PLAYER;this.gameOver=false;this.winner=null;this.moves=[];this.drawPieces();this.hoverCtx.clearRect(0,0,this.hoverCanvas.width,this.hoverCanvas.height);this.updateStatus();this.hideGameOverModal();}
 
-                // Check for draw (board full)
-                let isFull = true;
-                for (let r = 0; r < this.boardSize; ++r) {
-                    for (let c = 0; c < this.boardSize; ++c) {
-                        if (this.board[r][c] === EMPTY) {
-                            isFull = false;
-                            break; // Break from inner loop (c loop)
-                        }
-                    }
-                    if (!isFull) {
-                        break; // Break from outer loop (r loop)
-                    }
-                }
-                if (isFull) {
-                    return 0; // Draw
-                }
+            updateStatus(){const statusEl=document.getElementById('game-status');if(!statusEl)return;if(this.gameOver){if(this.winner===PLAYER){statusEl.textContent='恭喜！玩家获胜！🎉';statusEl.style.color='green';}else if(this.winner===COMPUTER){statusEl.textContent='遗憾，电脑获胜！🤖';statusEl.style.color='red';}else{statusEl.textContent='平局！🤝';statusEl.style.color='orange';}}else{statusEl.style.color='var(--secondary-color)';statusEl.textContent=this.currentPlayer===PLAYER?'轮到玩家落子 (黑子)':'电脑正在思考... (白子)';}}
 
-                return null; // Not a terminal state
-            }
+            showGameOverModal(){const modal=document.getElementById('game-over-modal'),titleEl=document.getElementById('winner-title'),msgEl=document.getElementById('winner-message');if(!modal||!titleEl||!msgEl)return;if(this.winner===PLAYER){titleEl.textContent='🎉 恭喜！ 🎉';msgEl.textContent='你赢得了这场对局！要再来一盘吗？';}else if(this.winner===COMPUTER){titleEl.textContent='🤖 游戏结束 🤖';msgEl.textContent='电脑赢了。再接再厉，下一局或许就能战胜它！';}else{titleEl.textContent='🤝 平局 🤝';msgEl.textContent='势均力敌，这局是平局！要再来一盘吗？';}modal.classList.add('show');}
+            hideGameOverModal(){const modal=document.getElementById('game-over-modal');if(modal)modal.classList.remove('show');}
 
-            evaluateBoard() { 
-                let score = 0;
-                for (let y = 0; y < this.boardSize; y++) {
-                    for (let x = 0; x < this.boardSize; x++) {
-                        if (this.board[y][x] === COMPUTER) score += this.evaluatePointScore(x, y, COMPUTER);
-                        else if (this.board[y][x] === PLAYER) score -= this.evaluatePointScore(x, y, PLAYER) * 1.1; 
-                    }
-                } return score;
-            }
+            setDifficulty(difficulty){const lcDiff=difficulty.toLowerCase();if(Object.values(DIFFICULTY).includes(lcDiff))this.difficulty=lcDiff;}
 
-            evaluatePointScore(x, y, player) { 
-                let Pscore = 1; 
-                const directions = [{dx:1,dy:0},{dx:0,dy:1},{dx:1,dy:1},{dx:1,dy:-1}];
-                for (const {dx, dy} of directions) {
-                    let count = 0; let openEnds = 0; let blockedEnds = 0;
-                    
-                    // Check one side (positive direction from x,y)
-                    let currentX = x + dx; let currentY = y + dy;
-                    let line = [{type: player, x:x, y:y}]; // Start with the current piece
-
-                    for(let k=0; k<4; ++k) { // Look up to 4 more pieces in this direction
-                        if(!this.isPosValid(currentX, currentY)) { blockedEnds++; break;}
-                        if(this.board[currentY][currentX] === player) { line.push({type:player, x:currentX, y:currentY}); count++;}
-                        else if(this.board[currentY][currentX] === EMPTY) { openEnds++; line.push({type:EMPTY, x:currentX, y:currentY}); break;}
-                        else { blockedEnds++; line.push({type:COMPUTER, x:currentX, y:currentY}); break;} // Opponent piece
-                        currentX += dx; currentY += dy;
-                    }
-                     // Check other side (negative direction from x,y)
-                    currentX = x - dx; currentY = y - dy;
-                     for(let k=0; k<4; ++k) {
-                        if(!this.isPosValid(currentX, currentY)) { blockedEnds++; break;}
-                        if(this.board[currentY][currentX] === player) { line.unshift({type:player, x:currentX, y:currentY}); count++;} // Add to beginning
-                        else if(this.board[currentY][currentX] === EMPTY) { openEnds++; line.unshift({type:EMPTY, x:currentX, y:currentY}); break;}
-                        else { blockedEnds++; line.unshift({type:COMPUTER, x:currentX, y:currentY}); break;}
-                        currentX -= dx; currentY -= dy;
-                    }
-
-                    // Simplified scoring based on count and openEnds (count is number of additional same-color pieces)
-                    const totalPlayerPiecesInLine = count + 1; // Including the piece at (x,y)
-
-                    if(totalPlayerPiecesInLine >= 5) return 100000; // Five in a row
-                    if(totalPlayerPiecesInLine === 4) {
-                        if(openEnds === 2) Pscore += 10000; // Live Four
-                        else if(openEnds === 1) Pscore += 800; // Dead Four
-                    } else if (totalPlayerPiecesInLine === 3) {
-                        if(openEnds === 2) Pscore += 500; // Live Three
-                        else if(openEnds === 1) Pscore += 50; // Dead Three
-                    } else if (totalPlayerPiecesInLine === 2) {
-                        if(openEnds === 2) Pscore += 50; // Live Two
-                        else if(openEnds === 1) Pscore += 5; // Dead Two
-                    } else if (totalPlayerPiecesInLine === 1 && openEnds ===2){
-                        Pscore += 1; // Single piece with two open ends
-                    }
-                }
-                return Pscore;
-            }
-            isPosValid(x,y){ return x>=0 && x<this.boardSize && y>=0 && y<this.boardSize; }
-
-
-            restart() {
-                this.board = Array(this.boardSize).fill(null).map(() => Array(this.boardSize).fill(EMPTY));
-                this.currentPlayer = PLAYER; this.gameOver = false; this.winner = null; this.moves = [];
-                this.drawPieces();
-                this.hoverCtx.clearRect(0, 0, this.hoverCanvas.width, this.hoverCanvas.height);
-                this.updateStatus(); this.hideGameOverModal();
-            }
-
-            updateStatus() {
-                const statusEl = document.getElementById('game-status'); if (!statusEl) return;
-                if (this.gameOver) {
-                    if (this.winner === PLAYER) { statusEl.textContent = '恭喜！玩家获胜！🎉'; statusEl.style.color = 'green'; }
-                    else if (this.winner === COMPUTER) { statusEl.textContent = '遗憾，电脑获胜！🤖'; statusEl.style.color = 'red'; }
-                    else { statusEl.textContent = '平局！🤝'; statusEl.style.color = 'orange'; }
-                } else {
-                    statusEl.style.color = 'var(--secondary-color)';
-                    statusEl.textContent = this.currentPlayer === PLAYER ? '轮到玩家落子 (黑子)' : '电脑正在思考... (白子)';
-                }
-            }
-
-            showGameOverModal() {
-                const modal = document.getElementById('game-over-modal');
-                const titleEl = document.getElementById('winner-title');
-                const msgEl = document.getElementById('winner-message');
-                if (!modal || !titleEl || !msgEl) return;
-                if (this.winner === PLAYER) { titleEl.textContent = '🎉 恭喜！ 🎉'; msgEl.textContent = '你赢得了这场对局！要再来一盘吗？'; }
-                else if (this.winner === COMPUTER) { titleEl.textContent = '🤖 游戏结束 🤖'; msgEl.textContent = '电脑赢了。再接再厉，下一局或许就能战胜它！'; }
-                else { titleEl.textContent = '🤝 平局 🤝'; msgEl.textContent = '势均力敌，这局是平局！要再来一盘吗？'; }
-                modal.classList.add('show');
-            }
-            hideGameOverModal() {
-                const modal = document.getElementById('game-over-modal');
-                if (modal) modal.classList.remove('show');
-            }
-
-            setDifficulty(difficulty) {
-                const lcDiff = difficulty.toLowerCase();
-                if (Object.values(DIFFICULTY).includes(lcDiff)) {
-                    this.difficulty = lcDiff;
-                    // console.log(`难度已设置为: ${this.difficulty}`);
-                    // this.restart(); // Optional: restart game on difficulty change
-                }
-            }
-
-            handleMouseMove(e) {
-                if (this.currentPlayer === PLAYER && !this.gameOver) {
-                    const coords = this.getBoardCoordinates(e.clientX, e.clientY);
-                    if (coords) this.drawHoverPiece(coords.x, coords.y);
-                    else this.hoverCtx.clearRect(0, 0, this.hoverCanvas.width, this.hoverCanvas.height);
-                } else {
-                    this.hoverCtx.clearRect(0, 0, this.hoverCanvas.width, this.hoverCanvas.height);
-                }
-            }
-            handleMouseLeave() { this.hoverCtx.clearRect(0, 0, this.hoverCanvas.width, this.hoverCanvas.height); }
-            handleClick(e) {
-                if (this.currentPlayer === PLAYER && !this.gameOver) {
-                    const coords = this.getBoardCoordinates(e.clientX, e.clientY);
-                    if (coords && this.makeMove(coords.x, coords.y, PLAYER)) {
-                        if (!this.gameOver) this.computerMove();
-                    }
-                }
-            }
-            handleUndo() { this.undo(); }
-            handleRestart() { this.restart(); }
-            handleCloseModal() { this.hideGameOverModal(); this.restart(); }
-            handleDifficultyChange(e) {
-                const target = e.target.closest('.difficulty-option'); // Use closest for clicks inside text
-                if (target && !target.classList.contains('active')) {
-                    document.querySelectorAll('.difficulty-option.active').forEach(opt => opt.classList.remove('active'));
-                    target.classList.add('active');
-                    this.setDifficulty(target.dataset.difficulty);
-                }
-            }
+            handleMouseMove(e){if(this.currentPlayer===PLAYER&&!this.gameOver){const coords=this.getBoardCoordinates(e.clientX,e.clientY);if(coords)this.drawHoverPiece(coords.x,coords.y);else this.hoverCtx.clearRect(0,0,this.hoverCanvas.width,this.hoverCanvas.height);}else{this.hoverCtx.clearRect(0,0,this.hoverCanvas.width,this.hoverCanvas.height);}}
+            handleMouseLeave(){this.hoverCtx.clearRect(0,0,this.hoverCanvas.width,this.hoverCanvas.height);}
+            handleClick(e){if(this.currentPlayer===PLAYER&&!this.gameOver){const coords=this.getBoardCoordinates(e.clientX,e.clientY);if(coords&&this.makeMove(coords.x,coords.y,PLAYER))if(!this.gameOver)this.computerMove();}}
+            handleUndo(){this.undo();}
+            handleRestart(){this.restart();}
+            handleCloseModal(){this.hideGameOverModal();this.restart();}
+            handleDifficultyChange(e){const target=e.target.closest('.difficulty-option');if(target&&!target.classList.contains('active')){document.querySelectorAll('.difficulty-option.active').forEach(opt=>opt.classList.remove('active'));target.classList.add('active');this.setDifficulty(target.dataset.difficulty);}}
+            
             handleResize() {
                 clearTimeout(this.resizeTimeout);
                 this.resizeTimeout = setTimeout(() => {
-                    // console.log("Window resized, redrawing board...");
                     this.resizeAndRedrawBoard();
-                }, 250);
+                }, 250); // 250ms的延迟以避免过于频繁的重绘
             }
 
-            setupEventListeners() {
-                this.hoverCanvas.addEventListener('mousemove', this.handleMouseMove);
-                this.hoverCanvas.addEventListener('mouseleave', this.handleMouseLeave);
-                this.hoverCanvas.addEventListener('click', this.handleClick);
-                document.getElementById('undo-btn')?.addEventListener('click', this.handleUndo);
-                document.getElementById('restart-btn')?.addEventListener('click', this.handleRestart);
-                document.getElementById('close-modal-btn')?.addEventListener('click', this.handleCloseModal); // Updated ID
-                document.querySelector('.difficulty-options')?.addEventListener('click', this.handleDifficultyChange);
-                window.addEventListener('resize', this.handleResize);
-            }
+            setupEventListeners(){this.hoverCanvas.addEventListener('mousemove',this.handleMouseMove);this.hoverCanvas.addEventListener('mouseleave',this.handleMouseLeave);this.hoverCanvas.addEventListener('click',this.handleClick);document.getElementById('undo-btn')?.addEventListener('click',this.handleUndo);document.getElementById('restart-btn')?.addEventListener('click',this.handleRestart);document.getElementById('close-modal-btn')?.addEventListener('click',this.handleCloseModal);document.querySelector('.difficulty-options')?.addEventListener('click',this.handleDifficultyChange);window.addEventListener('resize',this.handleResize);}
 
-            destroy() { /* Cleanup if needed, e.g., for SPA */
+            destroy() { 
                 this.hoverCanvas.removeEventListener('mousemove', this.handleMouseMove);
                 this.hoverCanvas.removeEventListener('mouseleave', this.handleMouseLeave);
                 this.hoverCanvas.removeEventListener('click', this.handleClick);
@@ -1332,16 +878,11 @@
                 document.querySelector('.difficulty-options')?.removeEventListener('click', this.handleDifficultyChange);
                 window.removeEventListener('resize', this.handleResize);
                 clearTimeout(this.resizeTimeout);
-                 // console.log("Gomoku game listeners removed.");
             }
         }
 
-        // DOM加载完成后初始化游戏
         document.addEventListener('DOMContentLoaded', () => {
-            // It's good practice to ensure the specific container for canvas dimensions
-            // has been rendered and has its final size before the first draw.
-            // requestAnimationFrame can help wait for the next paint.
-            requestAnimationFrame(() => {
+            requestAnimationFrame(() => { // 确保在下一帧绘制，此时布局更稳定
                  window.gomokuGame = new GomokuGame();
             });
         });
