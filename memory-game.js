@@ -1,102 +1,52 @@
-// 立即执行的函数表达式，确保脚本在页面加载后立即执行
+// memory-game.js
+
 (function() {
-    // 设置一个全局变量，用于跟踪游戏是否已经初始化
-    window.memoryGameInitialized = false;
-    
-    // 游戏初始化函数
-    function initMemoryGame() {
-        if (window.memoryGameInitialized) {
-            console.log('Memory game already initialized, skipping');
-            return;
-        }
-        
-        console.log('Initializing memory game (global init)');
-        
-        // 确保游戏板存在
-        const gameBoard = document.querySelector('.game-board');
-        if (!gameBoard) {
-            console.error('Game board not found, cannot initialize game');
-            return;
-        }
-        
-        // 确保游戏板可见
-        gameBoard.style.display = 'grid';
-        
-        // 初始化游戏
-        window.memoryGame = new MemoryGame();
-        window.memoryGameInitialized = true;
-        
-        console.log('Memory game initialized globally');
+    // Helper function to log messages consistently
+    function log(message) {
+        console.log('[MemoryGame]', message);
     }
-    
-    // 在文档加载完成时初始化游戏
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('Memory game script loaded, initializing game...');
-        
-        // 设置一个延迟，确保DOM完全加载
-        setTimeout(initMemoryGame, 500);
-        
-        // 为"立即开始"按钮添加点击事件，重新初始化游戏
-        const playNowBtn = document.querySelector('.game-card[data-category="puzzle"] .play-btn');
-        if (playNowBtn) {
-            playNowBtn.addEventListener('click', function() {
-                console.log('Play Now button clicked');
-                
-                // 延迟初始化游戏，确保页面已滚动到游戏区域
-                setTimeout(function() {
-                    if (window.memoryGame) {
-                        window.memoryGame.initGame();
-                    } else {
-                        initMemoryGame();
-                    }
-                }, 300);
-            });
-        }
-    });
-    
-    // 确保即使在窗口加载后也能初始化游戏
-    window.addEventListener('load', function() {
-        console.log('Window fully loaded');
-        
-        // 如果DOMContentLoaded没有成功初始化游戏，再次尝试
-        if (!window.memoryGameInitialized) {
-            setTimeout(initMemoryGame, 500);
-        }
-    });
-    
-    // Memory Game logic
+
     class MemoryGame {
-        constructor(totalCards = 16) {
-            console.log('Constructing memory game with', totalCards, 'cards');
-            
-            this.cardsContainer = document.querySelector('.game-board');
-            this.movesElement = document.querySelector('.moves');
-            this.timerElement = document.querySelector('.timer');
-            this.resetButton = document.querySelector('#reset-game');
-            
-            console.log('DOM elements found:', {
-                cardsContainer: !!this.cardsContainer,
-                movesElement: !!this.movesElement,
-                timerElement: !!this.timerElement,
-                resetButton: !!this.resetButton
-            });
-            
-            // 如果找不到必要的DOM元素，添加后备元素
-            if (!this.cardsContainer) {
-                console.warn('Game board not found, attempting to create one');
-                const gamePreview = document.querySelector('.game-preview');
-                if (gamePreview) {
-                    const existingGame = document.querySelector('#memory-game');
-                    if (existingGame) {
-                        this.cardsContainer = document.createElement('div');
-                        this.cardsContainer.className = 'game-board';
-                        existingGame.appendChild(this.cardsContainer);
-                        console.log('Created game board element');
+        constructor(gameContainerElement) {
+            log('Constructing MemoryGame instance.');
+
+            if (!gameContainerElement) {
+                log('Error: Game container element not provided to constructor.');
+                // If the game container isn't found, we can't proceed.
+                // Display an error message directly in the intended game area if possible.
+                const featuredGameArea = document.getElementById('featured');
+                if (featuredGameArea) {
+                    const gameBoardArea = featuredGameArea.querySelector('.game-board');
+                    if (gameBoardArea) {
+                        gameBoardArea.innerHTML = '<p style="color: red; text-align: center;">Error: Memory Game container not found. Cannot initialize.</p>';
                     }
                 }
+                return;
+            }
+
+            this.gameContainer = gameContainerElement;
+            // Selectors are now more specific to the featured game area.
+            this.cardsContainer = this.gameContainer.querySelector('.game-board');
+            this.movesElement = document.querySelector('#featured .moves');
+            this.timerElement = document.querySelector('#featured .timer');
+            this.resetButton = document.querySelector('#featured #reset-game');
+
+            if (!this.cardsContainer) {
+                log('Error: .game-board not found within the provided game container.');
+                 // Display an error message in the featured game's card container if the board specifically is missing.
+                if(this.gameContainer) {
+                    this.gameContainer.innerHTML = '<p style="color: red; text-align: center;">Error: Game board element missing. Cannot initialize cards.</p>';
+                }
+                return;
             }
             
-            this.totalCards = totalCards;
+            if (!this.movesElement || !this.timerElement || !this.resetButton) {
+                log('Warning: One or more control elements (moves, timer, reset) not found. Game might not be fully interactive.');
+                // Game can still proceed with card logic, but controls will be non-functional.
+            }
+
+
+            this.totalCards = 16; // Standard 4x4 grid
             this.cards = [];
             this.flippedCards = [];
             this.matchedPairs = 0;
@@ -104,8 +54,8 @@
             this.timer = 0;
             this.timerInterval = null;
             this.gameStarted = false;
-            this.gameActive = true;
-            
+            this.gameActive = true; // Game is active by default
+
             // Card symbols using Font Awesome icons
             this.cardSymbols = [
                 'fa-heart', 'fa-star', 'fa-bolt', 'fa-globe',
@@ -114,33 +64,20 @@
                 'fa-gift', 'fa-apple-whole', 'fa-camera', 'fa-house'
             ];
             
-            // 初始化游戏
-            this.initGame();
-            this.setupEventListeners();
-            
-            // 让第一个游戏卡片的"立即开始"按钮正确跳转到这个游戏
-            this.setupPlayNowLink();
+            log('MemoryGame constructed. Call initGame() to start/reset.');
+            this.setupEventListeners(); // Setup reset button and language change listeners
         }
-        
-        // 设置"立即开始"按钮正确跳转到精选游戏区域
-        setupPlayNowLink() {
-            const playNowBtn = document.querySelector('.game-card[data-category="puzzle"] .play-btn');
-            console.log('Found play now button:', !!playNowBtn);
-            
-            if (playNowBtn) {
-                playNowBtn.addEventListener('click', (e) => {
-                    console.log('Play Now button clicked, initializing game...');
-                    // 确保游戏初始化
-                    setTimeout(() => {
-                        this.initGame();
-                    }, 100);
-                });
-            }
-        }
-        
+
         initGame() {
-            console.log('Initializing memory game');
-            this.cardsContainer.innerHTML = '';
+            log('Initializing game state and preparing to render cards.');
+            if (!this.cardsContainer) {
+                log('Cannot initGame: cardsContainer is missing.');
+                return;
+            }
+            this.cardsContainer.innerHTML = ''; // Clear previous cards and any fallback content
+            this.cardsContainer.classList.add('js-active'); // Signal JS has taken over, hides CSS spinner
+
+            // Reset game state variables
             this.cards = [];
             this.flippedCards = [];
             this.matchedPairs = 0;
@@ -148,388 +85,369 @@
             this.timer = 0;
             this.gameStarted = false;
             this.gameActive = true;
-            
-            this.updateMovesText();
-            this.updateTimerText();
-            this.clearTimer();
-            
-            this.createCards();
-            this.renderCards();
-            
-            // 初始时显示欢迎动画
-            this.showWelcomeAnimation();
-            
-            console.log('Memory game initialized with', this.cards.length, 'cards');
-        }
-        
-        // 欢迎动画 - 快速展示所有卡片然后翻回
-        showWelcomeAnimation() {
-            setTimeout(() => {
-                // 首先翻转所有卡片
-                const cardElements = document.querySelectorAll('.memory-card');
-                console.log('Welcome animation: found', cardElements.length, 'cards to animate');
-                
-                cardElements.forEach(card => {
-                    card.classList.add('flip');
-                });
-                
-                // 然后在短暂延迟后翻回
-                setTimeout(() => {
-                    cardElements.forEach(card => {
-                        card.classList.remove('flip');
-                    });
-                }, 1000);
-            }, 500);
-        }
-        
-        setupEventListeners() {
-            this.resetButton.addEventListener('click', () => this.initGame());
-            
-            // 监听语言变化事件
-            document.addEventListener('languageChanged', (e) => {
-                console.log('Language change detected in memory-game.js:', e.detail.language);
-                this.updateGameText(e.detail.language);
-            });
 
-            // 初始化时也更新一次文本
-            const currentLang = localStorage.getItem('language') || 
-                              (navigator.language || navigator.userLanguage).split('-')[0];
-            this.updateGameText(['zh', 'en'].includes(currentLang) ? currentLang : 'en');
+            // Update UI elements for stats
+            if (this.movesElement) this.updateMovesText();
+            if (this.timerElement) this.updateTimerText();
+            this.clearTimer(); // Stop any existing timer
+
+            this.createCards(); // Prepare card data
+            this.renderCards(); // Render cards to the DOM
+
+            // Optional: Implement a welcome animation (e.g., quick flip of all cards)
+            // this.showWelcomeAnimation(); 
+            log(`Game initialized. Board should now have ${this.cards.length} cards.`);
         }
-        
-        // 更新游戏内的所有文本元素以响应语言变化
-        updateGameText(lang) {
-            console.log('Updating game text to language:', lang);
-            
-            // 更新移动次数文本
-            this.updateMovesText();
-            
-            // 更新计时器文本
-            this.updateTimerText();
-            
-            // 更新重置按钮文本
-            if (this.resetButton) {
-                try {
-                    const translationSource = this.getTranslationSource(lang);
-                    
-                    if (translationSource && translationSource[lang]) {
-                        this.resetButton.textContent = translationSource[lang].resetGame;
-                        console.log('Reset button text updated to:', translationSource[lang].resetGame);
-                    }
-                } catch (e) {
-                    console.error('Error updating reset button text:', e);
-                }
-            }
-        }
-        
-        // 获取当前语言的翻译源
-        getTranslationSource(lang) {
-            // 首先尝试使用主翻译
-            if (typeof translations !== 'undefined' && translations && translations[lang]) {
-                return translations;
-            }
-            // 然后尝试使用备用翻译
-            if (typeof fallbackTranslations !== 'undefined' && fallbackTranslations && fallbackTranslations[lang]) {
-                return fallbackTranslations;
-            }
-            
-            return null;
-        }
-        
+
         createCards() {
-            // Select half as many symbols as cards needed (each symbol appears twice)
-            const selectedSymbols = this.cardSymbols.slice(0, this.totalCards / 2);
-            
-            // Create pairs of cards with the same symbol
-            const cardPairs = [...selectedSymbols, ...selectedSymbols];
-            
-            // Shuffle the cards
-            const shuffledCards = this.shuffleArray(cardPairs);
-            
-            // Create card objects
+            log('Creating card data.');
+            // Ensure we have enough symbols for the number of cards
+            const symbolsNeeded = this.totalCards / 2;
+            if (this.cardSymbols.length < symbolsNeeded) {
+                log(`Error: Not enough unique symbols (${this.cardSymbols.length}) for ${symbolsNeeded} pairs.`);
+                // Potentially use fallback symbols or repeat symbols if necessary
+                // For now, this will result in fewer unique cards if totalCards is too high.
+            }
+            const selectedSymbols = this.cardSymbols.slice(0, symbolsNeeded);
+            const cardPairs = [...selectedSymbols, ...selectedSymbols]; // Create pairs
+            const shuffledCards = this.shuffleArray(cardPairs); // Shuffle them
+
+            // Create card objects with IDs and initial states
             this.cards = shuffledCards.map((symbol, index) => ({
                 id: index,
                 symbol: symbol,
                 isFlipped: false,
                 isMatched: false
             }));
+            log(`${this.cards.length} card objects created.`);
         }
-        
-        // Fisher-Yates shuffle algorithm
+
         shuffleArray(array) {
             const shuffled = [...array];
             for (let i = shuffled.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // ES6 swap
             }
             return shuffled;
         }
-        
+
         renderCards() {
-            console.log('Rendering cards to the game board');
+            log('Rendering cards to the game board.');
             if (!this.cardsContainer) {
-                console.error('Cards container not found!');
+                log('Cannot renderCards: cardsContainer is missing!');
                 return;
             }
-            
-            this.cardsContainer.innerHTML = '';
-            
-            // 先创建一个容器元素
-            const fragment = document.createDocumentFragment();
-            
+            this.cardsContainer.innerHTML = ''; // Ensure it's empty before rendering new cards
+
+            if (this.cards.length === 0) {
+                log('Warning: No cards to render. Game board will be empty.');
+                this.cardsContainer.textContent = 'Error: No cards were generated to display.';
+                return;
+            }
+
+            const fragment = document.createDocumentFragment(); // Efficient way to append multiple elements
+
             this.cards.forEach(card => {
                 const cardElement = document.createElement('div');
                 cardElement.classList.add('memory-card');
                 cardElement.setAttribute('data-id', card.id);
                 
-                // 添加基本样式以确保可见性
-                cardElement.style.width = '100%';
-                cardElement.style.height = '100%';
-                cardElement.style.minHeight = '60px';
-                
+                // Card faces
                 const frontFace = document.createElement('div');
                 frontFace.classList.add('front-face');
                 frontFace.innerHTML = `<i class="fas ${card.symbol}"></i>`;
                 
                 const backFace = document.createElement('div');
                 backFace.classList.add('back-face');
-                backFace.innerHTML = `<i class="fas fa-question"></i>`;
+                backFace.innerHTML = `<i class="fas fa-question"></i>`; // Question mark for back
                 
                 cardElement.appendChild(frontFace);
                 cardElement.appendChild(backFace);
                 
-                // Add click event listener
+                // Add click event listener to flip the card
                 cardElement.addEventListener('click', () => this.flipCard(card));
-                
                 fragment.appendChild(cardElement);
             });
-            
-            // 一次性添加所有卡片
+
             this.cardsContainer.appendChild(fragment);
-            console.log('Rendered', this.cards.length, 'cards to the game board');
-        }
-        
-        flipCard(card) {
-            // Prevent flipping if game is inactive or card is already flipped/matched
-            if (!this.gameActive || card.isFlipped || card.isMatched) return;
+            log(`Rendered ${this.cards.length} card elements to the game board.`);
             
-            // Start timer on first card flip
+            if (this.cardsContainer.children.length > 0) {
+                log(`Game board now contains ${this.cardsContainer.children.length} card elements.`);
+            } else if (this.cards.length > 0) {
+                log('CRITICAL: Cards were generated but not appended to cardsContainer!');
+            } else {
+                log('Game board is empty after renderCards (no cards were generated).');
+            }
+        }
+
+        flipCard(card) {
+            if (!this.gameActive || card.isFlipped || card.isMatched || this.flippedCards.length >= 2) {
+                // Prevent flipping more than 2 cards, or already flipped/matched cards, or if game is paused
+                return;
+            }
+
             if (!this.gameStarted) {
                 this.startTimer();
                 this.gameStarted = true;
             }
-            
-            // Update card state
+
             card.isFlipped = true;
-            
-            // Add to flipped cards array
             this.flippedCards.push(card);
-            
-            // Update the UI to show the flipped card
-            this.updateCardUI(card);
-            
-            // Check if we have flipped 2 cards
+            this.updateCardUI(card); // Reflect flip in the DOM
+
             if (this.flippedCards.length === 2) {
-                // Increment moves counter
                 this.moves++;
-                this.updateMovesText();
-                
-                // Check for a match
+                if(this.movesElement) this.updateMovesText();
+                this.gameActive = false; // Pause game while checking match
                 this.checkForMatch();
             }
         }
-        
+
         updateCardUI(card) {
-            const cardElement = document.querySelector(`.memory-card[data-id="${card.id}"]`);
-            
-            if (card.isFlipped || card.isMatched) {
-                cardElement.classList.add('flip');
-            } else {
-                cardElement.classList.remove('flip');
-            }
-            
-            // 添加匹配状态的类
-            if (card.isMatched) {
-                cardElement.classList.add('matched');
-            } else {
-                cardElement.classList.remove('matched');
+            const cardElement = this.cardsContainer.querySelector(`.memory-card[data-id="${card.id}"]`);
+            if (cardElement) {
+                if (card.isFlipped || card.isMatched) {
+                    cardElement.classList.add('flip');
+                } else {
+                    cardElement.classList.remove('flip');
+                }
+                if (card.isMatched) {
+                    cardElement.classList.add('matched');
+                } else {
+                    cardElement.classList.remove('matched');
+                }
             }
         }
-        
+
         checkForMatch() {
             const [card1, card2] = this.flippedCards;
-            
-            // If symbols match
             if (card1.symbol === card2.symbol) {
                 this.handleMatch(card1, card2);
             } else {
                 this.handleMismatch(card1, card2);
             }
         }
-        
+
         handleMatch(card1, card2) {
-            // Update card state
+            log(`Match found: ${card1.symbol}`);
             card1.isMatched = true;
             card2.isMatched = true;
-            
-            // 添加匹配效果
-            this.updateCardUI(card1);
-            this.updateCardUI(card2);
-            
-            // 播放匹配成功的视觉效果
-            this.playMatchedAnimation(card1, card2);
-            
-            // Increment matched pairs counter
             this.matchedPairs++;
             
-            // Check if game is won
+            // No need to call updateCardUI here as .matched class handles visuals via CSS mostly
+            // The .flip class is already added.
+
+            this.flippedCards = []; // Clear for next turn
+            this.gameActive = true; // Resume game
+
             if (this.matchedPairs === this.totalCards / 2) {
                 this.handleGameWin();
             }
-            
-            // Reset flipped cards array for the next pair
-            this.flippedCards = [];
         }
-        
-        // 匹配成功的视觉效果
-        playMatchedAnimation(card1, card2) {
-            const card1Element = document.querySelector(`.memory-card[data-id="${card1.id}"]`);
-            const card2Element = document.querySelector(`.memory-card[data-id="${card2.id}"]`);
-            
-            // 添加短暂的缩放效果
-            [card1Element, card2Element].forEach(elem => {
-                elem.style.transform = 'rotateY(180deg) scale(1.1)';
-                setTimeout(() => {
-                    elem.style.transform = 'rotateY(180deg)';
-                }, 300);
-            });
-        }
-        
+
         handleMismatch(card1, card2) {
-            // Temporarily disable further flips
-            this.gameActive = false;
-            
-            // Wait a bit, then flip cards back
+            log('Mismatch.');
+            // Cards remain flipped for a short duration, then flip back
             setTimeout(() => {
                 card1.isFlipped = false;
                 card2.isFlipped = false;
-                
-                // Update UI
                 this.updateCardUI(card1);
                 this.updateCardUI(card2);
-                
-                // Reset flipped cards array for the next pair
                 this.flippedCards = [];
-                
-                // Re-enable game
-                this.gameActive = true;
-            }, 1000);
+                this.gameActive = true; // Resume game
+            }, 1000); // 1 second delay before flipping back
         }
-        
+
         handleGameWin() {
+            log('Game won!');
             this.clearTimer();
-            this.gameActive = false;
-            
+            this.gameActive = false; // Stop game interaction
+
             setTimeout(() => {
-                // 获取当前语言环境
-                const currentLang = localStorage.getItem('language') || 
-                                  (navigator.language || navigator.userLanguage).split('-')[0];
-                
-                // 根据语言环境生成祝贺消息
+                const currentLang = localStorage.getItem('language') || (navigator.language || navigator.userLanguage).split('-')[0];
                 const lang = ['zh', 'en'].includes(currentLang) ? currentLang : 'en';
-                
-                // 获取翻译源
                 const translationSource = this.getTranslationSource(lang);
+                let congratsMessage = (translationSource && translationSource[lang] && translationSource[lang].congratulations)
+                    ? translationSource[lang].congratulations
+                    : (lang === 'zh' ? '恭喜！您用了 {moves} 步和 {seconds} 秒完成了游戏。' : 'Congratulations! You completed the game in {moves} moves and {seconds} seconds.');
                 
-                // 生成祝贺消息
-                let congratsMessage = '';
-                if (translationSource && translationSource[lang] && translationSource[lang].congratulations) {
-                    congratsMessage = translationSource[lang].congratulations;
-                } else {
-                    // 使用硬编码的默认消息
-                    congratsMessage = lang === 'zh' 
-                        ? '恭喜！您用了 {moves} 步和 {seconds} 秒完成了游戏。' 
-                        : 'Congratulations! You completed the game in {moves} moves and {seconds} seconds.';
-                }
-                
-                // 替换占位符
                 congratsMessage = congratsMessage.replace('{moves}', this.moves).replace('{seconds}', this.timer);
-                
                 alert(congratsMessage);
-                
-                // 短暂延迟后重新开始游戏
-                setTimeout(() => {
-                    this.initGame();
-                }, 1000);
-            }, 500);
+                // Optionally, re-initialize the game automatically or prompt user
+                // this.initGame(); 
+            }, 500); // Short delay before showing win message
         }
         
-        updateMovesText() {
-            // 获取当前语言环境
-            const currentLang = localStorage.getItem('language') || 
-                              (navigator.language || navigator.userLanguage).split('-')[0];
-            
-            // 根据语言环境生成移动次数文本
-            const lang = ['zh', 'en'].includes(currentLang) ? currentLang : 'en';
-            
-            // 获取翻译源
-            const translationSource = this.getTranslationSource(lang);
-            
-            // 获取移动次数文本
-            let movesText = 'moves';
-            if (translationSource && translationSource[lang] && translationSource[lang].moves) {
-                movesText = translationSource[lang].moves;
+        getTranslationSource(lang) {
+            if (typeof translations !== 'undefined' && translations && translations[lang]) {
+                return translations;
             }
-            
-            this.movesElement.textContent = `${this.moves} ${movesText}`;
+            if (typeof fallbackTranslations !== 'undefined' && fallbackTranslations && fallbackTranslations[lang]) {
+                return fallbackTranslations;
+            }
+            return null; // No translations found
         }
-        
+
+        updateMovesText() {
+            if (!this.movesElement) return;
+            const currentLang = localStorage.getItem('language') || (navigator.language || navigator.userLanguage).split('-')[0];
+            const lang = ['zh', 'en'].includes(currentLang) ? currentLang : 'en';
+            const translationSource = this.getTranslationSource(lang);
+            const movesStr = (translationSource && translationSource[lang] && translationSource[lang].moves) ? translationSource[lang].moves : (lang === 'zh' ? '步数' : 'moves');
+            this.movesElement.textContent = `${this.moves} ${movesStr}`;
+        }
+
         startTimer() {
+            if (!this.timerElement) return;
             this.clearTimer();
+            this.gameStarted = true;
             this.timerInterval = setInterval(() => {
                 this.timer++;
                 this.updateTimerText();
             }, 1000);
         }
-        
+
         updateTimerText() {
-            // 获取当前语言环境
-            const currentLang = localStorage.getItem('language') || 
-                              (navigator.language || navigator.userLanguage).split('-')[0];
-            
-            // 根据语言环境生成计时器文本
+            if (!this.timerElement) return;
+            const currentLang = localStorage.getItem('language') || (navigator.language || navigator.userLanguage).split('-')[0];
             const lang = ['zh', 'en'].includes(currentLang) ? currentLang : 'en';
-            
-            // 获取翻译源
             const translationSource = this.getTranslationSource(lang);
             
-            // 获取计时器文本
-            let timeText = 'Time:';
-            let secondsText = 's';
+            const timeStr = (translationSource && translationSource[lang] && translationSource[lang].time) ? translationSource[lang].time : (lang === 'zh' ? '时间：' : 'Time:');
+            const secondsStr = (translationSource && translationSource[lang] && translationSource[lang].seconds) ? translationSource[lang].seconds : (lang === 'zh' ? '秒' : 's');
             
-            if (translationSource && translationSource[lang]) {
-                if (translationSource[lang].time) {
-                    timeText = translationSource[lang].time;
-                }
-                
-                if (translationSource[lang].seconds) {
-                    secondsText = translationSource[lang].seconds;
-                } else if (lang === 'zh') {
-                    secondsText = '秒';
-                }
-            }
-            
-            this.timerElement.textContent = `${timeText} ${this.timer}${secondsText}`;
+            this.timerElement.textContent = `${timeStr} ${this.timer}${secondsStr}`;
         }
-        
+
         clearTimer() {
             if (this.timerInterval) {
                 clearInterval(this.timerInterval);
                 this.timerInterval = null;
             }
         }
+
+        setupEventListeners() {
+            if (this.resetButton) {
+                this.resetButton.addEventListener('click', () => {
+                    log('Reset button clicked.');
+                    this.initGame(); // Re-initialize the current game instance
+                });
+            } else {
+                log('Warning: Reset button not found during event listener setup.');
+            }
+
+            // Listen for language changes to update game text
+            document.addEventListener('languageChanged', (e) => {
+                log(`Language change detected: ${e.detail.language}. Updating game text.`);
+                this.updateGameText(e.detail.language);
+            });
+            // Initial text update based on current language
+            const currentLang = localStorage.getItem('language') || (navigator.language || navigator.userLanguage).split('-')[0];
+            this.updateGameText(['zh', 'en'].includes(currentLang) ? currentLang : 'en');
+        }
+
+        updateGameText(lang) {
+            log(`Updating game text elements for language: ${lang}`);
+            if (this.movesElement) this.updateMovesText(); // Will use the new lang
+            if (this.timerElement) this.updateTimerText(); // Will use the new lang
+            if (this.resetButton) {
+                const translationSource = this.getTranslationSource(lang);
+                const resetText = (translationSource && translationSource[lang] && translationSource[lang].resetGame) ? translationSource[lang].resetGame : (lang === 'zh' ? '重置游戏' : 'Reset Game');
+                this.resetButton.textContent = resetText;
+            }
+        }
+
+        // Optional welcome animation (can be called after renderCards in initGame)
+        // showWelcomeAnimation() {
+        //     log('Starting welcome animation.');
+        //     if (!this.cardsContainer) return;
+        //     const cardElements = this.cardsContainer.querySelectorAll('.memory-card');
+        //     if (cardElements.length === 0) return;
+
+        //     cardElements.forEach((card, index) => {
+        //         setTimeout(() => card.classList.add('flip'), index * 50); // Staggered flip
+        //     });
+
+        //     setTimeout(() => {
+        //         cardElements.forEach(card => card.classList.remove('flip'));
+        //         log('Welcome animation finished.');
+        //     }, cardElements.length * 50 + 1000); // Wait for all to flip then flip back
+        // }
+
+    } // End of MemoryGame class
+
+    // Global instance for the featured memory game
+    window.featuredMemoryGame = null;
+
+    // This function ensures the game is ready and displayed in the featured section.
+    function ensureFeaturedMemoryGameIsReady() {
+        log('Ensuring featured memory game is ready...');
+        // This is the specific container for the memory game within the #featured section
+        const featuredGameElement = document.getElementById('memory-game'); 
+
+        if (!featuredGameElement) {
+            log('Error: Featured game element (#memory-game) not found in DOM.');
+            // Attempt to display an error message in a broader fallback area if #memory-game itself is missing.
+            const featuredSection = document.getElementById('featured');
+            if (featuredSection) {
+                const container = featuredSection.querySelector('.featured-game-container') || featuredSection;
+                container.innerHTML = '<p style="color: red; text-align: center; padding: 20px;">Error: Core game structure (#memory-game) is missing. Cannot load game.</p>';
+            }
+            return;
+        }
+        
+        // Ensure the game container and its board are visible (CSS might hide them initially)
+        featuredGameElement.style.display = 'block'; // Or 'flex', 'grid' as per its layout needs
+        const gameBoard = featuredGameElement.querySelector('.game-board');
+        if (gameBoard) {
+            gameBoard.style.display = 'grid'; // Make sure the board itself is set to display grid
+        } else {
+            log('Error: .game-board element not found within #memory-game. Cannot initialize.');
+            featuredGameElement.innerHTML = '<p style="color: red; text-align: center;">Error: Game board missing. Cannot load cards.</p>';
+            return;
+        }
+
+        if (!window.featuredMemoryGame) {
+            log('No existing featuredMemoryGame instance. Creating new one.');
+            // Pass the #memory-game element to the constructor
+            window.featuredMemoryGame = new MemoryGame(featuredGameElement);
+        }
+
+        // Now, initialize or re-initialize the game.
+        if (window.featuredMemoryGame && typeof window.featuredMemoryGame.initGame === 'function') {
+            log('Calling initGame() on featuredMemoryGame instance.');
+            window.featuredMemoryGame.initGame();
+        } else {
+            log('Error: featuredMemoryGame instance is not valid or initGame is not available.');
+            if(gameBoard) gameBoard.textContent = 'Failed to initialize game logic.';
+        }
     }
-    
-    // 暴露MemoryGame类到全局，便于调试
-    window.MemoryGame = MemoryGame;
-})(); 
+
+    // Event listener for when the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        log('DOMContentLoaded event fired. Initializing featured game setup.');
+
+        // Prepare the game in the featured section as soon as the DOM is ready.
+        // It might be initially off-screen or hidden by CSS, but the JS object will be set up.
+        ensureFeaturedMemoryGameIsReady();
+
+        // Find the "PLAY NOW" button for the Memory Match game in the "All Games" list.
+        const playNowBtnAllGames = document.querySelector('.game-card[data-category="puzzle"] .play-btn');
+        if (playNowBtnAllGames) {
+            playNowBtnAllGames.addEventListener('click', function(e) {
+                log('Play Now button (from All Games list for Memory Match) clicked.');
+                // The href="#featured" attribute on the button handles scrolling to the section.
+                // After the scroll (give a tiny delay for the browser to process scroll),
+                // ensure the game in the featured section is initialized and visible.
+                setTimeout(ensureFeaturedMemoryGameIsReady, 50); // 50ms delay for scroll to settle
+            });
+        } else {
+            log('Warning: "Play Now" button for Memory Match in "All Games" list not found.');
+        }
+    });
+
+    // Expose the main initialization function to the window scope if needed for debugging or external calls.
+    window.ensureFeaturedMemoryGameIsReady = ensureFeaturedMemoryGameIsReady;
+
+})();
