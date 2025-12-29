@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameVerse - Tic Tac Toe</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="game-page.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        (function() {
+            var currentLang = localStorage.getItem('language') ||
+                             (navigator.language || navigator.userLanguage).split('-')[0];
+            if (!['zh', 'en'].includes(currentLang)) currentLang = 'en';
+            document.documentElement.lang = currentLang;
+        })();
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1><a href="index.html" aria-label="GameVerse Home">Game<span>Verse</span></a></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" data-key="home">Home</a></li>
+                <li><a href="index.html#games" data-key="games">Games</a></li>
+            </ul>
+            <div class="nav-controls">
+                <div class="language-switch">
+                    <label for="language-selector" class="sr-only" data-key="languageSelector">Select language</label>
+                    <select id="language-selector" aria-label="Select language">
+                        <option value="zh" data-key="chineseOption">中文</option>
+                        <option value="en" data-key="englishOption">English</option>
+                    </select>
+                </div>
+                <button type="button" class="theme-toggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="game-page-main">
+        <div class="game-shell">
+            <h1 data-key="ticTacToeTitle">Tic Tac Toe</h1>
+            <p class="game-subtitle" data-key="ticTacToeSubtitle">Quick rounds, simple rules, instant rematch.</p>
+
+            <div class="game-toolbar">
+                <div class="game-controls">
+                    <label for="ttt-mode" data-key="mode">Mode</label>
+                    <select id="ttt-mode">
+                        <option value="two" data-key="twoPlayers">Two Players</option>
+                        <option value="cpu" data-key="vsComputer">Vs Computer</option>
+                    </select>
+                    <button type="button" class="btn" id="ttt-new" data-key="newGame">New Game</button>
+                </div>
+                <div id="ttt-status" class="game-status" aria-live="polite"></div>
+            </div>
+
+            <div class="game-grid two-col">
+                <div class="game-panel">
+                    <div id="ttt-board" class="ttt-board" role="grid" aria-label="Tic Tac Toe board"></div>
+                </div>
+                <div class="game-panel">
+                    <div class="howto-title" data-key="howToPlay">How to Play:</div>
+                    <ul class="howto">
+                        <li data-key="tttHow1">Place three in a row (horizontal/vertical/diagonal) to win.</li>
+                        <li data-key="tttHow2">Choose Two Players or Vs Computer in Mode.</li>
+                        <li data-key="tttHow3">X goes first. Tap New Game to restart anytime.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2025 GameVerse. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="translations.js" charset="UTF-8"></script>
+    <script src="script.js" charset="UTF-8"></script>
+    <script src="tic-tac-toe.js" charset="UTF-8"></script>
+</body>
+</html>

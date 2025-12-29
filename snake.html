@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameVerse - Snake</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="game-page.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        (function() {
+            var currentLang = localStorage.getItem('language') ||
+                             (navigator.language || navigator.userLanguage).split('-')[0];
+            if (!['zh', 'en'].includes(currentLang)) currentLang = 'en';
+            document.documentElement.lang = currentLang;
+        })();
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1><a href="index.html" aria-label="GameVerse Home">Game<span>Verse</span></a></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" data-key="home">Home</a></li>
+                <li><a href="index.html#games" data-key="games">Games</a></li>
+            </ul>
+            <div class="nav-controls">
+                <div class="language-switch">
+                    <label for="language-selector" class="sr-only" data-key="languageSelector">Select language</label>
+                    <select id="language-selector" aria-label="Select language">
+                        <option value="zh" data-key="chineseOption">中文</option>
+                        <option value="en" data-key="englishOption">English</option>
+                    </select>
+                </div>
+                <button type="button" class="theme-toggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="game-page-main">
+        <div class="game-shell">
+            <h1 data-key="snakeTitle">Snake</h1>
+            <p class="game-subtitle" data-key="snakeSubtitle">Eat, grow, and try not to crash.</p>
+
+            <div class="game-toolbar">
+                <div class="game-controls">
+                    <button type="button" class="btn" id="snake-start" data-key="start">Start</button>
+                    <button type="button" class="btn" id="snake-new" data-key="newGame">New Game</button>
+                </div>
+                <div id="snake-status" class="game-status" aria-live="polite"></div>
+            </div>
+
+            <div class="game-options" style="margin-bottom: 1rem;">
+                <div class="option-group">
+                    <label for="obstacle-mode" style="margin-right: 0.5rem;">
+                        <input type="checkbox" id="obstacle-mode">
+                        <span data-key="obstacleMode">障碍物模式</span>
+                    </label>
+                    <label for="wall-mode" style="margin-right: 0.5rem;">
+                        <input type="checkbox" id="wall-mode">
+                        <span data-key="wallMode">墙壁碰撞（不可穿墙）</span>
+                    </label>
+                    <label for="portal-mode" style="margin-right: 0.5rem;">
+                        <input type="checkbox" id="portal-mode">
+                        <span data-key="portalMode">传送门模式</span>
+                    </label>
+                </div>
+                <div class="option-group" style="margin-top: 0.5rem;">
+                    <label for="difficulty" style="margin-right: 0.5rem;">
+                        <span data-key="difficulty">难度：</span>
+                    </label>
+                    <select id="difficulty" style="padding: 0.3rem 0.5rem; border-radius: 4px;">
+                        <option value="easy" data-key="difficultyEasy">简单</option>
+                        <option value="normal" data-key="difficultyNormal" selected>普通</option>
+                        <option value="hard" data-key="difficultyHard">困难</option>
+                        <option value="extreme" data-key="difficultyExtreme">极限</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="game-grid two-col">
+                <div class="game-panel">
+                    <div class="snake-wrap">
+                        <canvas id="snake-canvas" class="snake-canvas" width="480" height="480" aria-label="Snake game canvas"></canvas>
+                        <div class="snake-hud">
+                            <div id="snake-score"></div>
+                            <div id="snake-high-score"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="game-panel">
+                    <div class="snake-wrap">
+                        <div class="howto-title" data-key="howToPlay">How to Play:</div>
+                        <ul class="howto">
+                            <li data-key="snakeHow1">Use Arrow Keys (or the on-screen pad) to move.</li>
+                            <li data-key="snakeHow2">Eat food to grow. Don’t run into yourself.</li>
+                            <li data-key="snakeHow3">Space pauses/resumes. New Game resets the run.</li>
+                            <li data-key="snakeHow4">High score is saved on this device.</li>
+                        </ul>
+                        <div class="snake-dpad" aria-label="Snake controls">
+                            <button type="button" class="up" aria-label="Up"><i class="fas fa-chevron-up"></i></button>
+                            <button type="button" class="left" aria-label="Left"><i class="fas fa-chevron-left"></i></button>
+                            <button type="button" class="right" aria-label="Right"><i class="fas fa-chevron-right"></i></button>
+                            <button type="button" class="down" aria-label="Down"><i class="fas fa-chevron-down"></i></button>
+                        </div>
+                        <p class="game-subtitle" data-key="snakeHint">Use arrow keys (or the pad) to move. Space to pause.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2025 GameVerse. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="translations.js" charset="UTF-8"></script>
+    <script src="script.js" charset="UTF-8"></script>
+    <script src="snake.js" charset="UTF-8"></script>
+</body>
+</html>

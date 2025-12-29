@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameVerse - Flappy Bird</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="game-page.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        (function() {
+            var currentLang = localStorage.getItem('language') ||
+                             (navigator.language || navigator.userLanguage).split('-')[0];
+            if (!['zh', 'en'].includes(currentLang)) currentLang = 'en';
+            document.documentElement.lang = currentLang;
+        })();
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1><a href="index.html" aria-label="GameVerse Home">Game<span>Verse</span></a></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" data-key="home">Home</a></li>
+                <li><a href="index.html#games" data-key="games">Games</a></li>
+            </ul>
+            <div class="nav-controls">
+                <div class="language-switch">
+                    <label for="language-selector" class="sr-only" data-key="languageSelector">Select language</label>
+                    <select id="language-selector" aria-label="Select language">
+                        <option value="zh" data-key="chineseOption">中文</option>
+                        <option value="en" data-key="englishOption">English</option>
+                    </select>
+                </div>
+                <button type="button" class="theme-toggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="game-page-main">
+        <div class="game-shell">
+            <h1 data-key="flappyBirdTitle">Flappy Bird</h1>
+            <p class="game-subtitle" data-key="flappyBirdSubtitle">Tap or press Space to flap.</p>
+
+            <div class="game-toolbar">
+                <div class="game-controls">
+                    <button type="button" class="btn" id="flappy-start" data-key="start">Start</button>
+                    <button type="button" class="btn" id="flappy-new" data-key="newGame">New Game</button>
+                </div>
+                <div id="flappy-status" class="game-status" aria-live="polite"></div>
+            </div>
+
+            <div class="game-grid two-col">
+                <div class="game-panel">
+                    <div class="snake-wrap">
+                        <canvas id="flappy-canvas" class="snake-canvas" width="480" height="640" aria-label="Flappy Bird canvas"></canvas>
+                        <div class="snake-hud">
+                            <div id="flappy-score"></div>
+                            <div id="flappy-best"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="game-panel">
+                    <div class="howto-title" data-key="howToPlay">How to Play:</div>
+                    <ul class="howto">
+                        <li data-key="flappyHow1">Tap / Click / Space to flap upward.</li>
+                        <li data-key="flappyHow2">Pass pipes to score points. One point per pipe.</li>
+                        <li data-key="flappyHow3">Press P to pause. New Game restarts.</li>
+                    </ul>
+                    <p class="game-subtitle" data-key="flappyBirdHint">Controls: Space/Click/Tap to flap. P to pause.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2025 GameVerse. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="translations.js" charset="UTF-8"></script>
+    <script src="script.js" charset="UTF-8"></script>
+    <script src="flappy-bird.js" charset="UTF-8"></script>
+</body>
+</html>

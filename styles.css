@@ -1,0 +1,1473 @@
+/* Global Styles & Variables */
+:root {
+    --primary-color: #6c5ce7;       /* 主色调 - 紫色 */
+    --primary-light: #a29bfe;     /* 浅紫色 */
+    --primary-dark: #544ab0;      /* 深紫色 (新) */
+    --secondary-color: #00cec9;     /* 次色调 - 青色 */
+    --accent-color: #fd79a8;       /* 强调色 - 粉色 */
+    --light-bg: #f8f9fa;          /* 亮色背景 */
+    --light-card-bg: #ffffff;     /* 亮色卡片背景 */
+    --light-text: #2d3436;        /* 亮色文本 */
+    --dark-bg: #1e272e;           /* 暗色背景 */
+    --dark-card-bg: #2d3436;      /* 暗色卡片背景 */
+    --dark-text: #dfe6e9;         /* 暗色文本 */
+    --grey-color: #b2bec3;        /* 灰色 */
+    --light-grey: #dfe6e9;       /* 浅灰 (新) */
+    --success-color: #00b894;     /* 成功色 */
+    --warning-color: #fdcb6e;     /* 警告色 */
+    --danger-color: #d63031;      /* 危险色 */
+    --shadow-light: 0 6px 18px rgba(108, 92, 231, 0.15); /* 浅阴影 (新) */
+    --shadow-strong: 0 10px 25px rgba(0, 0, 0, 0.1);   /* 强阴影 */
+    --border-radius-sm: 6px;       /* 小圆角 (新) */
+    --border-radius-md: 12px;      /* 中圆角 (调整) */
+    --border-radius-lg: 20px;      /* 大圆角 (新) */
+    --transition-fast: all 0.2s ease-out; /* 快速过渡 (新) */
+    --transition-std: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1); /* 标准过渡 (调整) */
+
+    /* Difficulty Colors */
+    --difficulty-easy: #2ecc71;
+    --difficulty-medium: #f39c12;
+    --difficulty-hard: #e74c3c;
+    --difficulty-text: #ffffff;
+
+    /* Subtle Background Gradient */
+    --light-body-gradient: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    --dark-body-gradient: linear-gradient(135deg, #1e272e 0%, #2d3436 100%);
+
+    /* Section Separator */
+    --section-border: 1px solid rgba(0, 0, 0, 0.05);
+    --dark-section-border: 1px solid rgba(255, 255, 255, 0.08);
+
+    /* Typewriter caret color variable */
+    --typewriter-caret-color: var(--primary-color);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px; /* Base font size */
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.7;
+    color: var(--light-text);
+    background: var(--light-body-gradient); /* Use subtle gradient */
+    transition: background-color var(--transition-std), color var(--transition-std);
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color var(--transition-fast);
+}
+a:hover {
+    color: var(--primary-color);
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    display: block;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.6rem 1.5rem; /* 减小按钮padding */
+    border: none;
+    border-radius: var(--border-radius-md); /* 减小圆角 */
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-std);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.85rem; /* 减小字体大小 */
+    box-shadow: var(--shadow-light);
+    text-align: center;
+}
+
+.primary-btn {
+    background: linear-gradient(45deg, var(--primary-color), var(--primary-light));
+    color: white;
+}
+
+.primary-btn:hover {
+    background: linear-gradient(45deg, var(--primary-light), var(--primary-color));
+    transform: translateY(-3px) scale(1.02); /* 减小悬停效果 */
+    box-shadow: 0 5px 15px rgba(108, 92, 231, 0.25); /* 减小阴影 */
+}
+
+.reset-btn {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+    border-radius: var(--border-radius-md);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.reset-btn:hover {
+    background-color: #00b894; /* Darker secondary color */
+    transform: translateY(-2px);
+}
+
+/* Section Styling */
+section {
+    padding: 4rem 5%; /* Reduced top/bottom padding slightly */
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative; /* For potential pseudo-elements */
+}
+
+/* Add subtle separators between sections */
+section:not(:first-child)::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: var(--section-border);
+    opacity: 0.7;
+}
+
+
+.section-header {
+    text-align: center;
+    margin-bottom: 3.5rem; /* Increased spacing */
+}
+
+.section-header h2 {
+    font-size: 2.8rem; /* Slightly larger */
+    margin-bottom: 0.8rem;
+    color: var(--primary-dark); /* Use darker primary */
+    font-weight: 700;
+}
+
+.section-header p {
+    font-size: 1.1rem;
+    color: var(--grey-color);
+    max-width: 600px; /* Limit width */
+    margin: 0 auto; /* Center */
+}
+
+/* Header and Navigation */
+header {
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent */
+    backdrop-filter: blur(10px); /* Glass effect */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Softer shadow */
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Ensure it's above everything */
+    transition: background-color var(--transition-std);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 5%; /* Slightly reduced padding */
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo h1 {
+    font-size: 2rem; /* Larger logo */
+    font-weight: 700;
+    color: var(--light-text);
+}
+
+.logo span {
+    color: var(--primary-color);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2.5rem; /* Increased gap */
+}
+
+.nav-links a {
+    font-weight: 500;
+    position: relative;
+    padding: 0.5rem 0;
+    color: var(--light-text);
+    font-size: 1rem;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; /* Position slightly below */
+    left: 0;
+    width: 0%;
+    height: 3px; /* Thicker underline */
+    background-color: var(--primary-color);
+    transition: width var(--transition-std);
+    border-radius: 2px;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+    width: 100%;
+}
+.nav-links a:hover {
+    color: var(--primary-color); /* Hover color */
+}
+.nav-links a.active {
+    color: var(--primary-color); /* Active color */
+    font-weight: 600;
+}
+
+
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* Reduced gap */
+    padding: 5px 8px; /* Adjusted padding */
+    background-color: transparent; /* Make transparent */
+    border-radius: var(--border-radius-lg);
+    /* Removed shadow */
+}
+
+/* Language Switch and Theme Toggle Styles */
+.language-switch select {
+    background-color: var(--light-bg);
+    border: 1px solid var(--light-grey);
+    border-radius: var(--border-radius-md); /* Match other elements */
+    padding: 6px 28px 6px 12px; /* Adjusted padding */
+    font-size: 0.9rem;
+    color: var(--light-text);
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    transition: var(--transition-std);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.language-switch {
+    position: relative;
+}
+
+.language-switch::after { /* Custom arrow */
+    content: '\f0d7';
+    font-family: 'Font Awesome 6 Free'; /* Updated Font Awesome family */
+    font-weight: 900;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--grey-color); /* Use grey for arrow */
+    transition: color var(--transition-fast);
+}
+
+.language-switch select:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(108, 92, 231, 0.2);
+}
+.language-switch select:focus {
+     border-color: var(--primary-color);
+     box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+}
+
+.theme-toggle {
+    cursor: pointer;
+    font-size: 1.3rem; /* Slightly larger icon */
+    color: var(--grey-color); /* Start with grey */
+    width: 40px; /* Larger touch target */
+    height: 40px;
+    padding: 0;
+    appearance: none;
+    font: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--light-bg);
+    border: 1px solid var(--light-grey);
+    transition: var(--transition-std);
+}
+
+.theme-toggle:hover {
+    background-color: var(--primary-light);
+    color: white;
+    border-color: var(--primary-light);
+    transform: rotate(15deg); /* Slight rotation on hover */
+}
+.theme-toggle:focus-visible {
+    outline: 3px solid rgba(108, 92, 231, 0.25);
+    outline-offset: 3px;
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    align-items: center;
+    min-height: calc(100vh - 70px); /* Adjusted height slightly */
+    padding: 3rem 5% 4rem; /* Adjusted padding */
+    gap: 3rem; /* Add gap between content and image */
+}
+
+.hero-content {
+    flex: 1.1; /* Give slightly more space to content */
+    padding-right: 1rem;
+    animation: slideInFromLeft 0.8s ease-out forwards; /* Entrance animation */
+}
+
+.hero-content h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem); /* Responsive font size */
+    margin-bottom: 1.2rem;
+    color: var(--primary-dark);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.hero-content p { /* This is the .typewriter-text element */
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    margin-bottom: 2.5rem;
+    color: var(--grey-color);
+    max-width: 550px;
+    /* Typewriter specific styles are handled by .typewriter-text class below */
+}
+
+.hero-image {
+    flex: 0.9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* Needed for absolute positioned shapes */
+    animation: fadeIn 1s ease-out 0.3s forwards; /* Fade in animation */
+    opacity: 0; /* Start hidden for animation */
+}
+
+/* Enhanced Hero Animation Container */
+.hero-animation {
+    width: clamp(300px, 80%, 500px); /* Responsive width */
+    aspect-ratio: 1 / 1; /* Make it square */
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    border-radius: var(--border-radius-lg); /* Smoother radius */
+    position: relative;
+    overflow: visible; /* Allow icons/shapes to peek out slightly */
+    box-shadow: 0 15px 35px rgba(108, 92, 231, 0.25); /* Enhanced shadow */
+    transform: rotate(-5deg); /* Slight tilt */
+    transition: transform 0.5s ease-out;
+}
+.hero:hover .hero-animation {
+    transform: rotate(0deg) scale(1.02); /* Straighten and scale slightly on hover */
+}
+
+
+/* Floating Icons Enhancement */
+.floating-icon {
+    position: absolute;
+    width: clamp(50px, 12vw, 70px); /* Responsive size */
+    height: clamp(50px, 12vw, 70px);
+    background: white;
+    border-radius: var(--border-radius-md);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    color: var(--primary-color);
+    animation: floatEnhanced 6s infinite ease-in-out; /* Slower, smoother float */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease-out;
+}
+.floating-icon:hover {
+    transform: scale(1.1) rotate(10deg); /* Scale and rotate on hover */
+}
+
+/* Adjusted icon positions */
+.icon1 { top: -10%; left: 15%; animation-delay: 0s; }
+.icon2 { top: 25%; right: -12%; animation-delay: 1.5s; }
+.icon3 { bottom: -8%; left: 40%; animation-delay: 3s; }
+.icon4 { bottom: 30%; left: -15%; animation-delay: 4.5s; }
+
+@keyframes floatEnhanced {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-15px) rotate(-5deg); }
+    50% { transform: translateY(0) rotate(0deg); }
+    75% { transform: translateY(15px) rotate(5deg); }
+}
+
+/* Subtle Background Shapes in Hero Animation */
+.hero-bg-shape {
+    position: absolute;
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; /* Organic shape */
+    opacity: 0.1;
+    background: white;
+    animation: morph 15s infinite ease-in-out alternate;
+}
+.shape1 { width: 150px; height: 150px; top: 10%; left: 10%; animation-delay: 0s; }
+.shape2 { width: 100px; height: 100px; bottom: 15%; right: 5%; animation-delay: -5s; }
+.shape3 { width: 80px; height: 80px; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -10s;}
+
+@keyframes morph {
+    0%, 100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; transform: rotate(0deg) scale(1); }
+    50% { border-radius: 50% 50% 30% 70% / 60% 40% 60% 40%; transform: rotate(180deg) scale(1.1); }
+}
+
+
+/* Featured Section */
+.featured-section {
+    background-color: var(--light-bg); /* Ensure background color */
+    padding-top: 5rem; /* More space above */
+    border-top: var(--section-border);
+}
+
+.featured-game-container {
+     display: flex;
+     justify-content: center; /* Center the card */
+}
+
+.featured-game-card { /* Renamed from .featured-game */
+    background-color: var(--light-card-bg);
+    border-radius: var(--border-radius-lg); /* Larger radius */
+    box-shadow: var(--shadow-strong); /* Stronger shadow */
+    overflow: hidden;
+    max-width: 900px; /* Limit max width */
+    width: 100%;
+    transition: transform var(--transition-std), box-shadow var(--transition-std);
+}
+.featured-game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+
+.featured-game-card h3 {
+    padding: 1.5rem 2rem;
+    font-size: 1.8rem;
+    background: linear-gradient(45deg, var(--primary-color), var(--primary-light)); /* Match button gradient */
+    color: white;
+    text-align: center;
+}
+
+.game-preview {
+    padding: 2rem;
+    min-height: 350px; /* 确保预览区域有足够高度 */
+}
+
+.memory-game {
+    width: 100%;
+    height: 100%; /* 确保填满容器 */
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem; /* More space */
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--light-grey);
+}
+
+.stats {
+    display: flex;
+    gap: 2rem;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 固定4列 */
+    gap: 1rem;
+    margin-top: 1rem;
+    max-width: 500px; /* Limit board width */
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 300px; /* 确保游戏板有足够的高度 */
+    width: 100%; /* 确保宽度充满容器 */
+    background-color: rgba(108, 92, 231, 0.05); /* 更明显的背景色 */
+    border-radius: var(--border-radius-md);
+    padding: 1rem;
+    border: 2px solid var(--primary-light); /* 添加边框 */
+    box-shadow: var(--shadow-light); /* 添加阴影 */
+    position: relative; /* 为加载指示器做准备 */
+}
+
+/* 添加加载指示器 */
+.game-board::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 4px solid rgba(108, 92, 231, 0.2);
+    border-top-color: var(--primary-color);
+    animation: spin 1s infinite linear;
+    z-index: 0;
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* 卡片在加载指示器之上 */
+.memory-card {
+    aspect-ratio: 1 / 1; /* Make cards square */
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother flip */
+    cursor: pointer;
+    border-radius: var(--border-radius-sm); /* Match the faces */
+    min-height: 60px; /* 确保有最小高度 */
+    min-width: 60px; /* 确保有最小宽度 */
+    height: 100%; /* 填充可用空间 */
+    z-index: 1; /* 确保卡片在加载指示器之上 */
+    background-color: var(--light-card-bg); /* 确保有背景色 */
+    box-shadow: var(--shadow-light); /* 添加阴影 */
+}
+
+.memory-card .front-face,
+.memory-card .back-face {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--border-radius-sm); /* Smaller radius for cards */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.memory-card .front-face {
+    background-color: var(--light-card-bg);
+    transform: rotateY(180deg);
+    border: 2px solid var(--primary-light);
+}
+
+.memory-card .front-face i {
+    font-size: clamp(1.5rem, 5vw, 2.5rem); /* Responsive icon size */
+    color: var(--primary-color);
+}
+
+.memory-card .back-face {
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-color)); /* Gradient back */
+    color: white;
+    border: 2px solid transparent;
+}
+
+.memory-card .back-face i {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+}
+
+.memory-card.flip {
+    transform: rotateY(180deg);
+}
+
+.memory-card:not(.flip):hover .back-face {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light)); /* Invert gradient on hover */
+    transform: scale(1.03); /* Slight grow effect */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+/* Matched card effect */
+.memory-card.matched .front-face {
+    background-color: rgba(46, 204, 113, 0.1); /* Light green background */
+    border-color: var(--difficulty-easy); /* Green border */
+}
+
+.memory-card.matched .front-face i {
+    color: var(--difficulty-easy); /* Green icon */
+}
+
+/* Dark theme support for memory cards */
+body.dark-theme .memory-card .front-face {
+    background-color: var(--dark-card-bg);
+    border-color: var(--primary-color);
+}
+
+body.dark-theme .memory-card .front-face i {
+    color: var(--primary-light);
+}
+
+body.dark-theme .memory-card .back-face {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+}
+
+body.dark-theme .memory-card:not(.flip):hover .back-face {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+}
+
+body.dark-theme .memory-card.matched .front-face {
+    background-color: rgba(46, 204, 113, 0.2);
+    border-color: var(--difficulty-easy);
+}
+
+.game-instructions {
+    padding: 1.5rem 2rem;
+    background-color: var(--light-bg);
+    border-top: 1px solid var(--light-grey);
+}
+
+.game-instructions h4 {
+    margin-bottom: 0.5rem;
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+.game-instructions p {
+    color: var(--grey-color);
+    font-size: 0.95rem;
+}
+
+/* Developer Section - NEW Grid Layout */
+.developer-section {
+    padding: 4rem 5% 5rem; /* Adjust padding */
+    background-color: var(--light-bg); /* Match featured section */
+    border-top: var(--section-border);
+}
+
+.developer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Responsive grid */
+    gap: 2.5rem; /* Increased gap */
+    max-width: 1000px; /* Limit width */
+    margin: 2rem auto 0; /* Center grid and add top margin */
+}
+
+.developer-card {
+    background-color: var(--light-card-bg);
+    border-radius: var(--border-radius-md);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    box-shadow: var(--shadow-light);
+    transition: var(--transition-std);
+    border: 1px solid transparent; /* Placeholder for hover border */
+}
+
+.developer-card:hover {
+    transform: translateY(-8px) scale(1.03); /* More pronounced hover effect */
+    box-shadow: 0 12px 28px rgba(108, 92, 231, 0.2);
+    border-color: var(--primary-light);
+}
+
+.developer-icon {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    display: inline-block; /* Allows transform */
+    transition: transform var(--transition-fast);
+}
+.developer-card:hover .developer-icon {
+    transform: rotateY(360deg) scale(1.1); /* Rotate icon on hover */
+}
+
+
+.developer-name {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--light-text);
+    margin-bottom: 0.5rem;
+}
+
+.developer-role { /* Optional role text */
+    font-size: 0.9rem;
+    color: var(--grey-color);
+}
+
+/* About Section */
+.about-section {
+    padding: 4.5rem 5%;
+    background-color: var(--light-card-bg);
+    border-top: var(--section-border);
+}
+
+.about-content {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.about-content p {
+    color: var(--grey-color);
+    font-size: 1.05rem;
+    line-height: 1.9;
+}
+
+
+/* Games Section */
+.games-section {
+    padding: 5rem 5%;
+    background-color: var(--light-bg); /* Ensure background */
+    border-top: var(--section-border);
+}
+
+.category-filter {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 3rem; /* More space below filters */
+}
+
+.filter-btn {
+    padding: 0.6rem 1.6rem; /* Adjusted padding */
+    background-color: var(--light-card-bg);
+    border: 1px solid var(--light-grey);
+    border-radius: var(--border-radius-lg); /* Match primary button */
+    cursor: pointer;
+    transition: var(--transition-std);
+    font-weight: 500;
+    color: var(--grey-color); /* Start greyed out */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.filter-btn:hover {
+    background-color: var(--primary-light);
+    color: white;
+    border-color: var(--primary-light);
+    transform: translateY(-2px);
+}
+.filter-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 10px rgba(108, 92, 231, 0.2);
+    transform: translateY(-2px);
+}
+
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Slightly smaller min size */
+    gap: 2.5rem; /* Increased gap */
+}
+
+.game-card {
+    background-color: var(--light-card-bg);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-light);
+    transition: var(--transition-std);
+    display: flex; /* Use flexbox for better control */
+    flex-direction: column; /* Stack thumb and info vertically */
+}
+
+.game-card:hover {
+    transform: translateY(-10px) scale(1.02); /* Lift and scale */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1); /* Stronger hover shadow */
+}
+
+.game-thumb {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--light-grey); /* Separator */
+    isolation: isolate; /* Ensure overlay stacks above preview artwork */
+}
+
+
+.game-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(45, 52, 54, 0.2), rgba(45, 52, 54, 0.8)); /* Darker gradient */
+    display: flex;
+    flex-direction: column; /* Stack elements */
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    z-index: 10;
+    transition: opacity var(--transition-std); /* Only transition opacity */
+}
+
+.game-card:not(.coming-soon) .game-overlay {
+    opacity: 1;
+    background: linear-gradient(rgba(45, 52, 54, 0.0), rgba(45, 52, 54, 0.65));
+    justify-content: flex-end;
+    padding-bottom: 1rem;
+}
+
+.game-card:hover .game-overlay {
+    opacity: 1;
+}
+
+.play-btn {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.8rem 1.8rem;
+    border-radius: var(--border-radius-lg);
+    transform: translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) 0.1s, opacity 0.3s ease-out 0.1s; /* Delayed transform */
+    opacity: 0;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.game-card:not(.coming-soon) .play-btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.game-card:hover .play-btn {
+    transform: translateY(0);
+    opacity: 1;
+}
+.play-btn:hover {
+    background: var(--primary-light);
+}
+
+.coming-soon-label {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: var(--border-radius-md);
+    font-weight: 500;
+    font-size: 0.9rem;
+    transform: translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) 0.1s, opacity 0.3s ease-out 0.1s;
+    opacity: 0;
+}
+.game-card:hover .coming-soon-label {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.game-info {
+    padding: 1.2rem 1.5rem; /* Adjusted padding */
+    flex-grow: 1; /* Allow info to take remaining space */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Push meta to bottom */
+}
+
+.game-info h3 {
+    margin-bottom: 0.8rem;
+    color: var(--light-text);
+    font-size: 1.25rem; /* Slightly smaller title */
+    font-weight: 600;
+}
+
+.game-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Align items vertically */
+    margin-top: 1rem; /* Add space above meta */
+}
+
+.category {
+    background-color: var(--primary-light);
+    color: white;
+    padding: 0.3rem 0.9rem; /* Adjusted padding */
+    border-radius: var(--border-radius-lg);
+    font-size: 0.75rem; /* Smaller font */
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.difficulty {
+    padding: 0.3rem 0.9rem;
+    border-radius: var(--border-radius-lg);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--difficulty-text);
+}
+/* Difficulty specific colors */
+.difficulty.easy { background-color: var(--difficulty-easy); }
+.difficulty.medium { background-color: var(--difficulty-medium); }
+.difficulty.hard { background-color: var(--difficulty-hard); }
+
+
+/* Footer */
+footer {
+    background-color: var(--dark-bg);
+    color: var(--light-grey); /* Use lighter grey */
+    padding: 5rem 5% 2rem; /* More top padding */
+    margin-top: 4rem; /* Space above footer */
+    border-top: 4px solid var(--primary-color); /* Accent border */
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+    max-width: 1400px;
+    margin: 0 auto 3rem;
+}
+
+.footer-logo h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: white; /* White logo text */
+}
+
+.footer-logo span {
+    color: var(--primary-light);
+}
+
+.footer-logo p {
+    color: var(--grey-color);
+}
+
+.footer-links h3,
+.footer-newsletter h3 {
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+    color: white; /* White headings */
+    font-size: 1.2rem;
+}
+
+.footer-links h3::after,
+.footer-newsletter h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px; /* Lower underline */
+    width: 50px;
+    height: 3px; /* Thicker underline */
+    background-color: var(--primary-light);
+    border-radius: 2px;
+}
+
+.footer-links ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.footer-links a {
+    color: var(--grey-color);
+    transition: var(--transition-fast);
+}
+
+.footer-links a:hover {
+    color: var(--primary-light);
+    padding-left: 5px; /* Indent on hover */
+}
+
+.footer-newsletter p {
+    color: var(--grey-color);
+    margin-bottom: 1rem;
+}
+
+.newsletter-form {
+    display: flex;
+    margin-top: 1.5rem; /* Space above form */
+}
+
+.newsletter-form input {
+    flex: 1;
+    padding: 0.9rem; /* More padding */
+    border: 1px solid var(--grey-color);
+    border-right: none;
+    border-top-left-radius: var(--border-radius-md);
+    border-bottom-left-radius: var(--border-radius-md);
+    font-family: inherit;
+    background-color: var(--dark-card-bg); /* Dark input */
+    color: var(--light-grey);
+    outline: none;
+}
+.newsletter-form input::placeholder {
+    color: var(--grey-color);
+}
+
+.newsletter-form button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0 1.5rem;
+    border-top-right-radius: var(--border-radius-md);
+    border-bottom-right-radius: var(--border-radius-md);
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color var(--transition-fast);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.newsletter-form button:hover {
+    background-color: var(--primary-light);
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-top: 2.5rem; /* More padding */
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-bottom p {
+    color: var(--grey-color);
+    font-size: 0.9rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-links a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transition: var(--transition-std);
+    color: var(--light-grey);
+}
+
+.social-links a:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-4px) scale(1.1); /* Enhanced hover */
+    color: white;
+}
+
+/* Dark Theme */
+body.dark-theme {
+    background: var(--dark-body-gradient); /* Use dark gradient */
+    color: var(--dark-text);
+    --typewriter-caret-color: var(--primary-light); /* Typewriter caret color for dark theme */
+}
+
+body.dark-theme a:hover {
+    color: var(--primary-light); /* Lighter hover color in dark theme */
+}
+
+body.dark-theme header {
+    background-color: rgba(30, 39, 46, 0.85); /* Darker transparent header */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Darker shadow */
+}
+
+body.dark-theme .logo h1 {
+    color: var(--dark-text);
+}
+body.dark-theme .nav-links a {
+    color: var(--dark-text);
+}
+body.dark-theme .nav-links a:hover {
+    color: var(--primary-light);
+}
+body.dark-theme .nav-links a.active {
+    color: var(--primary-light);
+}
+body.dark-theme .nav-links a::after {
+    background-color: var(--primary-light);
+}
+
+body.dark-theme .language-switch select {
+    background-color: var(--dark-card-bg);
+    color: var(--dark-text);
+    border-color: var(--grey-color);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+}
+body.dark-theme .language-switch::after {
+    color: var(--grey-color);
+}
+body.dark-theme .language-switch select:hover {
+    border-color: var(--primary-light);
+    box-shadow: 0 0 5px rgba(162, 155, 254, 0.2);
+}
+body.dark-theme .language-switch select:focus {
+     border-color: var(--primary-light);
+     box-shadow: 0 0 0 3px rgba(162, 155, 254, 0.15);
+}
+
+
+body.dark-theme .theme-toggle {
+    color: var(--grey-color);
+    background-color: var(--dark-card-bg);
+    border-color: var(--grey-color);
+}
+body.dark-theme .theme-toggle:hover {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+body.dark-theme .section-header h2 {
+    color: var(--primary-light); /* Lighter primary for headers */
+}
+body.dark-theme .section-header p {
+    color: var(--grey-color);
+}
+
+/* Dark theme section separators */
+body.dark-theme section:not(:first-child)::before {
+    background: var(--dark-section-border);
+}
+
+body.dark-theme .featured-section,
+body.dark-theme .games-section,
+body.dark-theme .developer-section,
+body.dark-theme .about-section {
+    background-color: var(--dark-bg); /* Match body background */
+    border-top: var(--dark-section-border);
+}
+
+body.dark-theme .featured-game-card,
+body.dark-theme .game-card,
+body.dark-theme .developer-card {
+    background-color: var(--dark-card-bg);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2); /* Dark theme shadow */
+}
+body.dark-theme .featured-game-card:hover,
+body.dark-theme .game-card:hover,
+body.dark-theme .developer-card:hover {
+     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+     border-color: var(--primary-color); /* Use darker primary for hover border */
+}
+
+
+body.dark-theme .game-info h3 {
+    color: var(--dark-text);
+}
+body.dark-theme .developer-name {
+    color: var(--dark-text);
+}
+body.dark-theme .developer-role {
+    color: var(--grey-color);
+}
+body.dark-theme .developer-icon {
+    color: var(--primary-light); /* Lighter icon color */
+}
+
+
+body.dark-theme .filter-btn {
+    background-color: var(--dark-card-bg);
+    color: var(--grey-color);
+    border-color: var(--grey-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+body.dark-theme .filter-btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+body.dark-theme .filter-btn.active {
+    background-color: var(--primary-light);
+    color: white;
+    border-color: var(--primary-light);
+    box-shadow: 0 4px 10px rgba(162, 155, 254, 0.2);
+}
+
+body.dark-theme .game-instructions {
+    background-color: var(--dark-bg); /* Match section bg */
+    border-top: 1px solid var(--dark-section-border);
+}
+body.dark-theme .game-instructions h4 {
+     color: var(--primary-light);
+}
+body.dark-theme .game-instructions p {
+     color: var(--grey-color);
+}
+
+body.dark-theme .memory-card .front-face {
+    background-color: var(--dark-card-bg);
+}
+body.dark-theme .memory-card .front-face i {
+    color: var(--primary-light);
+}
+body.dark-theme .memory-card .back-face {
+     background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+}
+body.dark-theme .memory-card:not(.flip):hover .back-face {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+}
+
+body.dark-theme .controls {
+    border-bottom: 1px solid var(--dark-section-border);
+}
+
+body.dark-theme .game-thumb {
+     border-bottom: 1px solid var(--dark-section-border);
+}
+
+
+/* Animation Keyframes */
+@keyframes slideInFromLeft {
+    from { opacity: 0; transform: translateX(-50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Animate on Scroll Logic */
+.section-header, .game-card, .featured-game-card, .developer-card {
+    opacity: 0;
+    transform: translateY(30px); /* Start slightly lower */
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.section-header.animate, .game-card.animate, .featured-game-card.animate, .developer-card.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* Stagger animation for grid items */
+.games-grid .game-card, .developer-grid .developer-card {
+    transition-delay: calc(var(--card-index) * 0.1s); /* Slower stagger */
+}
+
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    html { font-size: 15px; } /* Slightly smaller base font */
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+        min-height: auto; /* Remove min-height */
+        padding: 4rem 5%;
+    }
+    .hero-content {
+        padding-right: 0;
+        order: 2; /* Content below image */
+    }
+     .hero-image {
+        order: 1;
+        margin-bottom: 2rem;
+    }
+    .hero-content p { /* This includes .typewriter-text */
+        margin: 0 auto 2rem;
+    }
+    .hero-animation {
+        transform: rotate(0deg); /* No tilt on smaller screens */
+    }
+    .floating-icon { display: none; } /* Hide floating icons on smaller screens */
+
+
+    .developer-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    html { font-size: 14px; }
+    .nav-links {
+        display: none; /* Consider implementing a mobile menu toggle */
+    }
+    nav { padding: 0.8rem 4%; } /* Adjust padding */
+
+    .hero-content h1 { line-height: 1.3; }
+    .section-header h2 { font-size: 2.2rem; }
+
+    .game-board {
+        max-width: 90%; /* Wider board on mobile */
+    }
+
+    .controls {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center; /* Center controls */
+    }
+    .stats { justify-content: center; }
+
+
+    .footer-content { grid-template-columns: 1fr; text-align: center; }
+    .footer-links ul { align-items: center; }
+    .footer-newsletter form { justify-content: center; }
+    .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    .social-links { justify-content: center; }
+
+    .developer-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.5rem;
+    }
+     .developer-card { padding: 1.5rem 1rem; }
+     .developer-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+     .developer-name { font-size: 1.1rem; }
+
+    .nav-controls { gap: 0.5rem; }
+
+    .typewriter-text {
+        letter-spacing: 0.1em; /* Reduce letter spacing on smaller screens */
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .hero-content .primary-btn {
+        margin-top: 1.5rem;
+        padding: 0.5rem 1.2rem;
+        font-size: 0.8rem;
+        max-width: 120px;
+    }
+}
+
+@media (max-width: 576px) {
+    .section-header h2 { font-size: 2rem; }
+    .games-grid {
+        grid-template-columns: 1fr; /* Single column */
+        gap: 2rem;
+    }
+
+    .category-filter {
+        gap: 0.8rem;
+    }
+    .filter-btn {
+        padding: 0.5rem 1.2rem;
+        font-size: 0.85rem;
+    }
+
+    .developer-grid {
+        grid-template-columns: 1fr; /* Single column */
+        gap: 1.5rem;
+    }
+
+    .game-board {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.5rem;
+        max-width: 100%;
+    }
+    
+    .memory-card .front-face i,
+    .memory-card .back-face i {
+        font-size: 1.2rem;
+    }
+}
+
+/* Accessibility: Screen Reader Only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Typewriter effect styles - UPDATED */
+.typewriter-text {
+    /* Inherits font-size, color from .hero-content p */
+    overflow: hidden;
+    border-right: 2px solid var(--typewriter-caret-color);
+    white-space: nowrap;
+    margin-left: auto;
+    margin-right: auto;
+    letter-spacing: 0.15em;
+    width: 0;
+    
+    /* Default values for CSS variables */
+    --typewriter-chars: 40;
+    --typewriter-duration: 3.5s;
+    --typewriter-width: auto;
+    
+    /* Ensure text container has proper width */
+    display: inline-block;
+    max-width: var(--typewriter-width, 100%);
+    
+    animation:
+        typing var(--typewriter-duration) steps(var(--typewriter-chars), end) forwards,
+        blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from { 
+        width: 0;
+    }
+    to { 
+        width: var(--typewriter-width, 100%);
+    }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: var(--typewriter-caret-color); }
+}
+
+/* Hero section button initially hidden - UPDATED SIZE */
+.hero-content .primary-btn {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    display: block;
+    margin: 0 auto;
+    margin-top: 2rem;
+    /* 调整大小 */
+    padding: 0.6rem 1.5rem;
+    font-size: 0.85rem;
+    min-width: auto;
+    width: auto;
+    max-width: 150px;
+    /* 确保文本居中 */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-content .primary-btn.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* styles.css */
+/* Add this new rule or modify your existing .game-board::before styles if you have them */
+
+/* Styling for the loading spinner on the game board */
+/* This spinner is shown by default if the .game-board element exists before JS loads cards */
+.game-board::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px; /* Size of the spinner */
+    height: 50px;
+    border-radius: 50%;
+    border: 5px solid rgba(162, 155, 254, 0.3); /* Light purple, semi-transparent border */
+    border-top-color: var(--primary-color); /* Solid primary color for the spinning part */
+    animation: spin 1s infinite linear;
+    z-index: 0; /* Behind cards */
+}
+
+/* Hide the CSS spinner once JavaScript has initialized the game and added the 'js-active' class */
+.game-board.js-active::before {
+    display: none;
+}
+
+/* Ensure memory cards are displayed above the spinner if it's briefly visible */
+.memory-card {
+    /* ... other memory-card styles ... */
+    position: relative; /* Needed if not already set, for z-index to work effectively against absolute positioned pseudo-elements */
+    z-index: 1; 
+}
+
+/* Keyframes for the spinning animation */
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Ensure the game board has a position context if not already set, for the absolute spinner */
+.game-board {
+    position: relative; /* This is important for the ::before pseudo-element's positioning */
+    /* ... other .game-board styles ... */
+}

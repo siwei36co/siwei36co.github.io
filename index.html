@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameVerse - Mini Game Collection</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="game-cards.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        // 在页面加载前设置初始语言 (Set initial language before page load)
+        (function() {
+            var currentLang = localStorage.getItem('language') ||
+                             (navigator.language || navigator.userLanguage).split('-')[0];
+
+            // 确保语言代码在支持的范围内 (Ensure language code is supported)
+            if (!['zh', 'en'].includes(currentLang)) {
+                currentLang = 'en';  // 默认使用英语 (Default to English)
+            }
+
+            document.documentElement.lang = currentLang;
+        })();
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>Game<span>Verse</span></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" class="active" data-key="home">Home</a></li>
+                <li><a href="#games" data-key="games">Games</a></li>
+                <li><a href="#featured" data-key="featured">Featured</a></li>
+                <li><a href="#developers" data-key="developersLink">Developers</a></li>
+            </ul>
+            <div class="nav-controls">
+                <div class="language-switch">
+                    <label for="language-selector" class="sr-only" data-key="languageSelector">Select language</label>
+                    <select id="language-selector" aria-label="Select language">
+                        <option value="zh" data-key="chineseOption">中文</option>
+                        <option value="en" data-key="englishOption">English</option>
+                    </select>
+                </div>
+                <button type="button" class="theme-toggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1 data-key="welcome">Welcome to GameVerse</h1>
+                <p class="typewriter-text" data-key="discover"></p>
+                <a href="#games" class="btn primary-btn" data-key="playNow">Play Now</a>
+            </div>
+            <div class="hero-image">
+                <div class="hero-animation">
+                    <div class="floating-icon icon1"><i class="fas fa-gamepad"></i></div>
+                    <div class="floating-icon icon2"><i class="fas fa-dice"></i></div>
+                    <div class="floating-icon icon3"><i class="fas fa-puzzle-piece"></i></div>
+                    <div class="floating-icon icon4"><i class="fas fa-trophy"></i></div>
+                    <div class="hero-bg-shape shape1"></div>
+                    <div class="hero-bg-shape shape2"></div>
+                    <div class="hero-bg-shape shape3"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="featured" class="featured-section">
+            <div class="section-header">
+                <h2 data-key="featuredGame">Featured Game</h2>
+                <p data-key="tryPopular">Try our most popular game right now!</p>
+            </div>
+            <div class="featured-game-container">
+                <div class="featured-game-card">
+                    <h3 data-key="memoryMatch">Memory Match</h3>
+                    <div class="game-preview">
+                        <div id="memory-game" class="memory-game">
+                            <div class="controls">
+                                <div class="stats">
+                                    <div class="moves" data-key="moves">0 moves</div>
+                                    <div class="timer" data-key="time">Time: 0s</div>
+                                </div>
+                                <button id="reset-game" class="btn reset-btn" data-key="resetGame">Reset Game</button>
+                            </div>
+                            <div class="game-board" style="min-height: 300px; width: 100%; border: 2px solid #a29bfe; border-radius: 12px; padding: 1rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; background-color: rgba(108, 92, 231, 0.05);">
+                                <!-- 后备内容：如果脚本未加载，至少显示一些静态卡片 -->
+                                <div class="memory-card" style="aspect-ratio: 1/1; background-color: #a29bfe; border-radius: 6px; display: flex; justify-content: center; align-items: center; color: white;">
+                                    <span>?</span>
+                                </div>
+                                <div class="memory-card" style="aspect-ratio: 1/1; background-color: #a29bfe; border-radius: 6px; display: flex; justify-content: center; align-items: center; color: white;">
+                                    <span>?</span>
+                                </div>
+                                <div class="memory-card" style="aspect-ratio: 1/1; background-color: #a29bfe; border-radius: 6px; display: flex; justify-content: center; align-items: center; color: white;">
+                                    <span>?</span>
+                                </div>
+                                <div class="memory-card" style="aspect-ratio: 1/1; background-color: #a29bfe; border-radius: 6px; display: flex; justify-content: center; align-items: center; color: white;">
+                                    <span>?</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-instructions">
+                        <h4 data-key="howToPlay">How to Play:</h4>
+                        <p data-key="memoryInstructions">Click on cards to flip them and find matching pairs. Match all pairs to win the game!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="games" class="games-section">
+            <div class="section-header">
+                <h2 data-key="allGames">All Games</h2>
+                <p data-key="browseGames">Browse our collection of mini-games</p>
+            </div>
+            <div class="category-filter">
+                <button class="filter-btn active" data-filter="all" data-key="allGames">All</button>
+                <button class="filter-btn" data-filter="puzzle" data-key="puzzle">Puzzle</button>
+                <button class="filter-btn" data-filter="arcade" data-key="arcade">Arcade</button>
+                <button class="filter-btn" data-filter="card" data-key="card">Card</button>
+                <button class="filter-btn" data-filter="strategy" data-key="strategy">Strategy</button>
+            </div>
+            <div class="games-grid">
+                <div class="game-card active" data-category="puzzle">
+                    <div class="game-thumb">
+                        <div class="memory-preview">
+                            <div class="preview-card">
+                                <div class="card-face card-back">?</div>
+                                <div class="card-face card-front">A</div>
+                            </div>
+                            <div class="preview-card">
+                                <div class="card-face card-back">?</div>
+                                <div class="card-face card-front">B</div>
+                            </div>
+                            <div class="preview-card">
+                                <div class="card-face card-back">?</div>
+                                <div class="card-face card-front">A</div>
+                            </div>
+                        </div>
+                        <div class="game-overlay">
+                            <a href="#featured" class="play-btn" data-key="playNow">Play Now</a>
+                        </div>
+                    </div>
+                    <div class="game-info">
+                        <h3 data-key-title="memoryMatch">Memory Match</h3>
+                        <div class="game-meta">
+                            <span class="category" data-key-category="puzzle">Puzzle</span>
+                            <span class="difficulty easy" data-key-difficulty="easy">Easy</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="game-card" data-category="arcade">
+                    <div class="game-thumb">
+                        <div class="snake-preview">
+                            <div class="snake-grid"></div>
+                            <div class="snake-container">
+                                <div class="snake-segment snake-head"></div>
+                                <div class="snake-segment"></div>
+                                <div class="snake-segment"></div>
+                                <div class="snake-segment"></div>
+                                <div class="snake-segment"></div>
+                                <div class="snake-segment"></div>
+                            </div>
+                            <div class="snake-food"></div>
+                        </div>
+                        <div class="game-overlay">
+                             <a href="snake.html" class="play-btn" data-key="playNow">Play Now</a>
+                        </div>
+                    </div>
+                    <div class="game-info">
+                         <h3 data-key-title="snake">Snake</h3>
+                        <div class="game-meta">
+                            <span class="category" data-key-category="arcade">Arcade</span>
+                            <span class="difficulty medium" data-key-difficulty="medium">Medium</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="game-card" data-category="strategy">
+                    <div class="game-thumb">
+                        <div class="tictactoe-preview">
+                            <div class="tictactoe-grid">
+                                <div class="tictactoe-cell">X</div>
+                                <div class="tictactoe-cell">O</div>
+                                <div class="tictactoe-cell">X</div>
+                                <div class="tictactoe-cell">O</div>
+                                <div class="tictactoe-cell">X</div>
+                                <div class="tictactoe-cell">O</div>
+                                <div class="tictactoe-cell">X</div>
+                                <div class="tictactoe-cell">O</div>
+                                <div class="tictactoe-cell"></div>
+                            </div>
+                        </div>
+                        <div class="game-overlay">
+                              <a href="tic-tac-toe.html" class="play-btn" data-key="playNow">Play Now</a>
+                        </div>
+                    </div>
+                    <div class="game-info">
+                         <h3 data-key-title="tic tac toe">Tic Tac Toe</h3>
+                        <div class="game-meta">
+                            <span class="category" data-key-category="strategy">Strategy</span>
+                             <span class="difficulty easy" data-key-difficulty="easy">Easy</span>
+                        </div>
+                    </div>
+                </div>
+                 <div class="game-card" data-category="arcade">
+                    <div class="game-thumb">
+                        <div class="flappy-preview">
+                            <div class="bird">
+                                <div class="bird-wing"></div>
+                                <div class="bird-beak"></div>
+                                <div class="bird-tail"></div>
+                            </div>
+                            <div class="pipe pipe-top" style="left: 20%"></div>
+                            <div class="pipe pipe-bottom" style="left: 20%"></div>
+                            <div class="pipe pipe-top" style="left: 60%"></div>
+                            <div class="pipe pipe-bottom" style="left: 60%"></div>
+                            <div class="cloud cloud-1"></div>
+                            <div class="cloud cloud-2"></div>
+                        </div>
+                        <div class="game-overlay">
+                              <a href="flappy-bird.html" class="play-btn" data-key="playNow">Play Now</a>
+                        </div>
+                    </div>
+                    <div class="game-info">
+                         <h3 data-key-title="flappy bird">Flappy Bird</h3>
+                        <div class="game-meta">
+                             <span class="category" data-key-category="arcade">Arcade</span>
+                             <span class="difficulty hard" data-key-difficulty="hard">Hard</span>
+                        </div>
+                    </div>
+                </div>
+                 <div class="game-card" data-category="puzzle">
+                    <div class="game-thumb">
+                        <div class="game-2048-preview">
+                            <div class="preview-grid-2048">
+                                <div class="grid-cell-2048"></div>
+                                <div class="grid-cell-2048 cell-2">2</div>
+                                <div class="grid-cell-2048"></div>
+                                <div class="grid-cell-2048"></div>
+                                <div class="grid-cell-2048"></div>
+                                <div class="grid-cell-2048 cell-4">4</div>
+                                <div class="grid-cell-2048"></div>
+                                <div class="grid-cell-2048"></div>
+                                <div class="grid-cell-2048 cell-8">8</div>
+                                <div class="grid-cell-2048"></div>
+                                <div class="grid-cell-2048"></div>
+                                <div class="grid-cell-2048"></div>
+                                <div class="grid-cell-2048"></div>
+                                <div class="grid-cell-2048 cell-16">16</div>
+                                <div class="grid-cell-2048"></div>
+                                <div class="grid-cell-2048"></div>
+                            </div>
+                        </div>
+                        <div class="game-overlay">
+                              <a href="2048.html" class="play-btn" data-key="playNow">Play Now</a>
+                        </div>
+                    </div>
+                    <div class="game-info">
+                         <h3 data-key-title="2048">2048</h3>
+                        <div class="game-meta">
+                             <span class="category" data-key-category="puzzle">Puzzle</span>
+                             <span class="difficulty medium" data-key-difficulty="medium">Medium</span>
+                        </div>
+                    </div>
+                </div>
+                 <div class="game-card" data-category="card">
+                    <div class="game-thumb">
+                        <div class="solitaire-preview">
+                            <div class="card-stack stack-1"></div>
+                            <div class="card-stack stack-2"></div>
+                            <div class="card-stack stack-3"></div>
+                            <div class="card-stack stack-4"></div>
+                            <div class="card-stack stack-5"></div>
+                        </div>
+                        <div class="game-overlay">
+                              <a href="solitaire.html" class="play-btn" data-key="playNow">Play Now</a>
+                        </div>
+                    </div>
+                    <div class="game-info">
+                         <h3 data-key-title="solitaire">Solitaire</h3>
+                        <div class="game-meta">
+                             <span class="category" data-key-category="card">Card</span>
+                             <span class="difficulty medium" data-key-difficulty="medium">Medium</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="developers" class="developer-section">
+            <div class="section-header">
+                <h2 data-key="ourDevelopers">Our Developers</h2>
+                </div>
+            <div class="developer-grid">
+                <div class="developer-card">
+                    <div class="developer-icon"><i class="fas fa-user-astronaut"></i></div>
+                    <h4 class="developer-name">郑凯</h4>
+                    </div>
+                <div class="developer-card">
+                    <div class="developer-icon"><i class="fas fa-user-ninja"></i></div>
+                    <h4 class="developer-name">黄梦桥</h4>
+                    </div>
+                <div class="developer-card">
+                     <div class="developer-icon"><i class="fas fa-user-secret"></i></div>
+                    <h4 class="developer-name">黄景涛</h4>
+                    </div>
+                </div>
+        </section>
+
+        <section id="about" class="about-section">
+            <div class="section-header">
+                <h2 data-key="aboutTitle">About GameVerse</h2>
+                <p data-key="aboutSubtitle">A small, fast, no-build mini-game hub.</p>
+            </div>
+            <div class="about-content">
+                <p data-key="aboutBody">Built with vanilla HTML/CSS/JS. Toggle theme, switch languages, and enjoy quick games right in your browser.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2>Game<span>Verse</span></h2>
+                 <p data-key="yourDestination">Your destination for browser-based mini-games</p>
+            </div>
+            <div class="footer-links">
+                 <h3 data-key="quickLinks">Quick Links</h3>
+                <ul>
+                    <li><a href="#" data-key="home">Home</a></li>
+                    <li><a href="#games" data-key="games">Games</a></li>
+                    <li><a href="#featured" data-key="featured">Featured</a></li>
+                    <li><a href="#developers" data-key="developersLink">Developers</a></li>
+                    <li><a href="#about" data-key="about">About</a></li>
+                </ul>
+            </div>
+            <div class="footer-newsletter">
+                 <h3 data-key="stayUpdated">Stay Updated</h3>
+                <p data-key="subscribeNewsletter">Subscribe to our newsletter for the latest games and updates</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" data-key="yourEmail" autocomplete="email" required>
+                     <button type="submit" class="btn" data-key="subscribe">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 GameVerse. All Rights Reserved.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="translations.js" charset="UTF-8"></script>
+    <script src="script.js" charset="UTF-8"></script>
+    <script src="memory-game.js" charset="UTF-8"></script>
+</body>
+</html>

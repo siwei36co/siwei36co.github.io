@@ -1,0 +1,666 @@
+/* game-cards.css - Enhanced Game Preview Styles */
+
+/* --- General Preview Styles --- */
+.game-thumb {
+    /* Ensure aspect ratio is maintained and overflow is hidden */
+    width: 100%;
+    aspect-ratio: 16 / 10; /* Slightly wider aspect ratio */
+    border-radius: var(--border-radius-md); /* Match card radius */
+    overflow: hidden;
+    position: relative; /* For absolute positioning inside */
+    background-color: var(--light-grey); /* Fallback background */
+}
+
+.memory-preview,
+.snake-preview,
+.tictactoe-preview,
+.flappy-preview,
+.game-2048-preview,
+.solitaire-preview {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* For internal absolute elements */
+    overflow: hidden; /* Clip contents */
+    border-radius: inherit; /* Inherit border radius */
+    transition: transform var(--transition-std); /* Add transition for potential hover effects */
+}
+
+/* Add a subtle inner shadow for depth */
+.game-thumb::after {
+    content: '';
+    position: absolute;
+    inset: 0; /* Cover the entire area */
+    border-radius: inherit;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.08); /* Subtle inner shadow */
+    pointer-events: none; /* Allow clicks through */
+    z-index: 1; /* Above background, below overlay */
+}
+
+/* --- Memory Game Preview Enhancement --- */
+.memory-preview {
+    /* Use a more vibrant gradient */
+    background: linear-gradient(135deg, var(--primary-light), var(--secondary-color));
+    padding: 15px; /* Slightly less padding */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px; /* Reduced gap */
+    transform-style: preserve-3d; /* Enable 3D transforms for children */
+    perspective: 800px; /* Add perspective */
+}
+
+.preview-card {
+    aspect-ratio: 1;
+    width: 100%;
+    background: transparent; /* Remove background, faces provide color */
+    border-radius: var(--border-radius-sm);
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother flip */
+    animation: memoryCardAppear 0.5s ease-out backwards; /* Entrance animation */
+    animation-delay: calc(var(--card-index) * 0.1s); /* Stagger appearance */
+    transform: rotateY(180deg); /* Start flipped to back */
+}
+/* Add index for animation delay */
+.memory-preview .preview-card:nth-child(1) { --card-index: 0; }
+.memory-preview .preview-card:nth-child(2) { --card-index: 1; }
+.memory-preview .preview-card:nth-child(3) { --card-index: 2; }
+
+/* Hover effect on the container */
+.game-card:hover .memory-preview .preview-card {
+    transform: rotateY(0deg) rotateZ(calc(var(--card-index) * 5deg - 5deg)) scale(1.05); /* Flip to front on hover with slight rotation/scale */
+}
+
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(1.2rem, 4vw, 1.8rem); /* Responsive font size */
+    border-radius: inherit;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.card-back {
+    /* Use a slightly darker gradient for the back */
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    /* transform: rotateY(0deg); Already default */
+}
+.card-back::before { /* Subtle pattern */
+    content: '?';
+    font-weight: bold;
+    opacity: 0.8;
+}
+
+
+.card-front {
+    background: white;
+    color: var(--primary-color);
+    transform: rotateY(180deg);
+    font-weight: 600;
+}
+
+@keyframes memoryCardAppear {
+    from { opacity: 0; transform: rotateY(180deg) scale(0.5); }
+    to { opacity: 1; transform: rotateY(180deg) scale(1); }
+}
+
+
+/* --- Snake Game Preview Enhancement --- */
+.snake-preview {
+    background-color: var(--dark-bg); /* Use dark theme bg */
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    /* Add a subtle noise texture */
+    background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px),
+                      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23ffffff' fill-opacity='0.03' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+    background-size: 20px 20px, 20px 20px, auto; /* Keep grid size */
+}
+
+.snake-grid {
+    /* Grid lines are now part of the background */
+   display: none;
+}
+
+.snake-container {
+    position: absolute;
+    inset: 0; /* Fill container */
+}
+
+/* Snake Segment Style Enhancement */
+.snake-segment {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    /* Use a gradient for a slight 3D effect */
+    background: linear-gradient(135deg, #34d399, #10b981); /* Brighter green */
+    border-radius: 4px; /* Slightly more rounded */
+    margin: 1px;
+    box-shadow: inset 0 0 3px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.3); /* Inner and outer shadow */
+    transition: background-color 0.3s ease; /* Smooth transition if needed */
+}
+
+/* Snake Head Style Enhancement */
+.snake-head {
+    background: linear-gradient(135deg, #10b981, #059669); /* Darker head gradient */
+    z-index: 5;
+    /* Add eyes */
+}
+.snake-head::before, .snake-head::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    top: 4px;
+}
+.snake-head::before { left: 4px; }
+.snake-head::after { right: 4px; }
+
+
+/* Food Style Enhancement */
+.snake-food {
+    position: absolute;
+    width: 16px; /* Slightly larger */
+    height: 16px;
+    /* Glossy red effect */
+    background: radial-gradient(circle at 60% 30%, white, #ff4757 60%);
+    border-radius: 50%;
+    margin: 2px; /* Adjust margin for new size */
+    z-index: 4;
+    box-shadow: 0 2px 5px rgba(231, 76, 60, 0.5); /* Red glow */
+    /* Position remains controlled by animation */
+    top: 140px;
+    left: 140px;
+}
+
+/* --- Snake Animation Refinement --- */
+/* Keep the precise keyframes, but adjust duration/timing if needed */
+@keyframes snakeHeadMovePrecise { /* Same keyframes as before */
+    0% { top: 20px; left: 20px; } 3.33% { top: 20px; left: 40px; } 6.66% { top: 20px; left: 60px; } 10% { top: 20px; left: 80px; } 13.33% { top: 40px; left: 80px; } 16.66% { top: 60px; left: 80px; } 20% { top: 60px; left: 100px; } 23.33% { top: 60px; left: 120px; } 26.66% { top: 80px; left: 120px; } 30% { top: 100px; left: 120px; } 33.33% { top: 120px; left: 120px; } 36.66% { top: 120px; left: 140px; } 40% { top: 140px; left: 140px; } 43.33% { top: 160px; left: 140px; } 46.66% { top: 20px; left: 20px; } 100% { top: 20px; left: 20px; }
+}
+
+@keyframes foodVisibilityPrecise { /* Same keyframes as before */
+    0% { opacity: 1; transform: scale(1); } 39.9% { opacity: 1; transform: scale(1); } 40% { opacity: 0; transform: scale(0.5); } 40.1%, 46.5% { opacity: 0; transform: scale(0.5); } 46.7% { opacity: 1; transform: scale(1); } 100% { opacity: 1; transform: scale(1); }
+}
+
+/* Apply Animations - Maybe slightly faster */
+.snake-head {
+    animation: snakeHeadMovePrecise 5s infinite steps(30) both; /* Faster: 5s */
+}
+.snake-segment:nth-child(2) { animation: snakeHeadMovePrecise 5s infinite steps(30) both; animation-delay: -0.167s; } /* 5s/30 steps */
+.snake-segment:nth-child(3) { animation: snakeHeadMovePrecise 5s infinite steps(30) both; animation-delay: -0.333s; }
+.snake-segment:nth-child(4) { animation: snakeHeadMovePrecise 5s infinite steps(30) both; animation-delay: -0.5s; }
+.snake-segment:nth-child(5) { animation: snakeHeadMovePrecise 5s infinite steps(30) both; animation-delay: -0.667s; }
+.snake-segment:nth-child(6) { animation: snakeHeadMovePrecise 5s infinite steps(30) both; animation-delay: -0.833s; }
+
+.snake-food {
+    animation: foodVisibilityPrecise 5s infinite steps(30) both; /* Match snake speed */
+}
+
+
+/* --- Tic Tac Toe Preview Enhancement --- */
+.tictactoe-preview {
+    /* Use a subtle pattern or texture */
+    background-color: #e0e0e0; /* Light grey background */
+    background-image: linear-gradient(45deg, #f0f0f0 25%, transparent 25%, transparent 75%, #f0f0f0 75%, #f0f0f0),
+                      linear-gradient(-45deg, #f0f0f0 25%, transparent 25%, transparent 75%, #f0f0f0 75%, #f0f0f0);
+    background-size: 20px 20px;
+    padding: 20px;
+    display: flex; /* Center the grid */
+    justify-content: center;
+    align-items: center;
+}
+
+.tictactoe-grid {
+    width: 80%; /* Relative width */
+    max-width: 180px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px; /* Reduced gap */
+    aspect-ratio: 1;
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background for grid */
+    padding: 8px;
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.tictactoe-cell {
+    background: white; /* Solid white cells */
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(1.8rem, 8vw, 2.5rem); /* Responsive font size */
+    color: var(--primary-dark); /* Darker symbol color */
+    font-weight: bold;
+    aspect-ratio: 1;
+    transition: transform var(--transition-fast), background-color var(--transition-fast);
+    cursor: default; /* Indicate non-interactive */
+}
+.tictactoe-cell:hover { /* Subtle hover effect */
+    transform: scale(1.05);
+    background-color: #f8f9fa;
+}
+
+/* Add animation for placing X and O */
+.tictactoe-cell:nth-child(1) { animation: placeSymbol 0.3s ease-out 0.2s backwards; }
+.tictactoe-cell:nth-child(2) { animation: placeSymbol 0.3s ease-out 0.5s backwards; }
+.tictactoe-cell:nth-child(3) { animation: placeSymbol 0.3s ease-out 0.8s backwards; }
+.tictactoe-cell:nth-child(4) { animation: placeSymbol 0.3s ease-out 1.1s backwards; }
+/* ... and so on for other cells if needed */
+
+@keyframes placeSymbol {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+
+/* --- Flappy Bird Preview Enhancement --- */
+.flappy-preview {
+    /* More vibrant sky gradient */
+    background: linear-gradient(to bottom, #87CEFA 0%, #B0E0E6 60%, #98FB98 60%, #90EE90 100%);
+    padding: 0; /* Remove padding, use absolute positioning */
+    position: relative; /* Ensure positioning context */
+    overflow: hidden; /* Hide overflowing elements */
+}
+
+/* Bird Enhancement */
+.bird {
+    width: 45px; /* Slightly larger bird */
+    height: 35px;
+    position: absolute;
+    left: 25%; /* Start further left */
+    top: 45%;
+    transform-origin: center;
+    z-index: 10; /* Ensure bird is above pipes */
+    animation: flyUpDown 1.5s infinite ease-in-out; /* Smoother up/down motion */
+}
+
+.bird::before { /* Body */
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #FFEC8B, #FFD700); /* Brighter yellow */
+    border-radius: 50% 60% 50% 40%;
+    box-shadow: inset -3px -3px 5px rgba(218, 165, 32, 0.5); /* More defined shadow */
+}
+.bird::after { /* Eye */
+    content: '';
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: #333;
+    border-radius: 50%;
+    top: 10px;
+    left: 28px;
+    border: 2px solid white; /* White border */
+    box-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+.bird-beak {
+    position: absolute;
+    width: 14px; /* Slightly larger beak */
+    height: 9px;
+    background: #FFA07A; /* Lighter beak color */
+    right: -3px;
+    top: 14px;
+    border-radius: 3px 5px 5px 3px; /* Sharper beak */
+    transform: rotate(-5deg);
+}
+.bird-wing {
+    position: absolute;
+    width: 22px;
+    height: 18px;
+    background: #FFDA63; /* Match body gradient */
+    border-radius: 50% 50% 30% 30%; /* Wing shape */
+    top: 8px;
+    left: 8px;
+    transform-origin: top left; /* Rotate from attachment point */
+    animation: flapWings 0.3s infinite alternate ease-in-out; /* Faster flap */
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+.bird-tail { /* Remove tail for simplicity */
+   display: none;
+}
+
+@keyframes flyUpDown {
+    0%, 100% { transform: translateY(-8px) rotate(-8deg); }
+    50% { transform: translateY(8px) rotate(8deg); }
+}
+@keyframes flapWings {
+    from { transform: rotate(-30deg); }
+    to { transform: rotate(10deg); }
+}
+
+/* Pipe Enhancement */
+.pipe {
+    position: absolute;
+    width: 60px; /* Wider pipes */
+    background: linear-gradient(to right, #78be20, #5a9a1f); /* Greener gradient */
+    border-radius: 6px;
+    border: 3px solid #4b8319; /* Darker border */
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    z-index: 5; /* Below bird */
+    animation: movePipes 4s linear infinite; /* Pipe movement animation */
+}
+.pipe-top {
+    top: 0;
+    height: 35%; /* Adjust height */
+    border-bottom: none; /* Remove bottom border */
+    border-radius: 0 0 6px 6px; /* Round bottom edge */
+}
+.pipe-top::after { /* Pipe Cap */
+    content: '';
+    position: absolute;
+    bottom: -10px; /* Position cap below */
+    left: -8px; /* Extend cap slightly */
+    width: calc(100% + 16px);
+    height: 25px;
+    background: linear-gradient(to right, #8ac630, #6aa729); /* Cap gradient */
+    border-radius: 4px;
+    border: 3px solid #4b8319;
+}
+
+.pipe-bottom {
+    bottom: 0;
+    height: 35%; /* Adjust height */
+    border-top: none; /* Remove top border */
+    border-radius: 6px 6px 0 0; /* Round top edge */
+}
+.pipe-bottom::before { /* Pipe Cap */
+    content: '';
+    position: absolute;
+    top: -10px; /* Position cap above */
+    left: -8px; /* Extend cap slightly */
+    width: calc(100% + 16px);
+    height: 25px;
+    background: linear-gradient(to right, #8ac630, #6aa729); /* Cap gradient */
+    border-radius: 4px;
+    border: 3px solid #4b8319;
+}
+
+/* Position pipes */
+.pipe:nth-of-type(1), .pipe:nth-of-type(2) { left: 100%; animation-delay: 0s; } /* First pair */
+.pipe:nth-of-type(3), .pipe:nth-of-type(4) { left: 100%; animation-delay: 2s; } /* Second pair, delayed */
+
+
+@keyframes movePipes {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-100% - 60px - 20px)); } /* Move left off screen (100% width + pipe width + padding) */
+}
+
+
+/* Cloud Enhancement */
+.cloud {
+    position: absolute;
+    background: rgba(255,255,255,0.9); /* More opaque clouds */
+    border-radius: 50%; /* Use multiple pseudo-elements for cloud shape */
+    z-index: 1; /* Behind pipes */
+    filter: blur(1px); /* Slight blur */
+    animation: floatCloud 20s linear infinite;
+}
+.cloud::before, .cloud::after {
+    content: '';
+    position: absolute;
+    background: inherit;
+    border-radius: inherit;
+}
+.cloud-1 { width: 80px; height: 25px; top: 15%; left: 110%; animation-duration: 25s; }
+.cloud-1::before { width: 40px; height: 40px; top: -15px; left: 15px; }
+.cloud-1::after { width: 50px; height: 30px; top: -10px; right: 10px; }
+
+.cloud-2 { width: 50px; height: 18px; top: 35%; left: 110%; animation-delay: -10s; animation-duration: 30s;}
+.cloud-2::before { width: 25px; height: 25px; top: -10px; left: 10px; }
+.cloud-2::after { width: 30px; height: 20px; top: -8px; right: 5px; }
+
+
+@keyframes floatCloud {
+    from { transform: translateX(0); }
+    to { transform: translateX(-250%); } /* Ensure clouds move fully across */
+}
+
+
+/* --- 2048 Preview Enhancement --- */
+.game-2048-preview {
+    background: #cdc1b4; /* Slightly darker background */
+    padding: 12px; /* Increased padding */
+    border-radius: var(--border-radius-md); /* Match grid radius */
+}
+
+.preview-grid-2048 {
+    width: 100%;
+    max-width: 220px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px; /* Increased gap */
+    aspect-ratio: 1;
+    background-color: #bbada0; /* Grid background */
+    padding: 12px;
+    border-radius: var(--border-radius-sm);
+}
+
+.grid-cell-2048 {
+    background: rgba(238, 228, 218, 0.35); /* Base cell color */
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: clamp(1rem, 5vw, 1.5rem); /* Responsive font size */
+    color: #776e65;
+    aspect-ratio: 1;
+    transition: transform 0.15s ease-out, background-color 0.15s ease-out; /* Add transition */
+    position: relative; /* For animation */
+}
+
+/* Tile Colors (Subtle adjustments) */
+.cell-2 { background: #eee4da; color: #776e65; }
+.cell-4 { background: #ede0c8; color: #776e65; }
+.cell-8 { background: #f2b179; color: #f9f6f2; }
+.cell-16 { background: #f59563; color: #f9f6f2; }
+/* Add more tile styles if needed */
+
+/* Add subtle animation for tiles appearing */
+.cell-2, .cell-4, .cell-8, .cell-16 {
+    animation: tileAppear 0.2s ease-out backwards;
+}
+.preview-grid-2048 .grid-cell-2048:nth-child(2) { animation-delay: 0.1s; }
+.preview-grid-2048 .grid-cell-2048:nth-child(6) { animation-delay: 0.2s; }
+.preview-grid-2048 .grid-cell-2048:nth-child(9) { animation-delay: 0.3s; }
+.preview-grid-2048 .grid-cell-2048:nth-child(14) { animation-delay: 0.4s; }
+
+@keyframes tileAppear {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+
+/* --- Solitaire Preview Enhancement --- */
+.solitaire-preview {
+    background: #358a55; /* Darker green felt color */
+    padding: 20px;
+    position: relative; /* Ensure positioning context */
+}
+
+.card-stack {
+    position: absolute;
+    width: 55px; /* Slightly smaller cards */
+    height: 80px;
+    background: white;
+    border-radius: var(--border-radius-sm); /* Smaller radius */
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.2), 3px 3px 7px rgba(0,0,0,0.1); /* More defined shadow */
+    border: 1px solid #ccc; /* Subtle border */
+    overflow: hidden; /* Hide card content overflow */
+    transition: transform var(--transition-std);
+}
+.card-stack:hover {
+    transform: translateY(-5px) rotate(2deg); /* Slight lift and tilt on hover */
+}
+
+
+/* Add some face-down cards effect */
+.card-stack::before, .card-stack::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #a29bfe, #6c5ce7); /* Card back pattern */
+    border-radius: inherit;
+    border: 1px solid #ccc;
+    z-index: -1; /* Behind the main card */
+}
+.card-stack::before {
+    top: 2px;
+    left: 2px;
+    z-index: -2; /* Further back */
+    background: linear-gradient(135deg, #8e86e1, #5a4db0); /* Darker back */
+}
+.card-stack::after {
+    top: 1px;
+    left: 1px;
+    z-index: -1;
+}
+
+/* Add a simple card face design */
+.card-stack > span {
+    position: absolute;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.card-stack > .rank {
+    top: 5px;
+    left: 5px;
+}
+.card-stack > .suit {
+    bottom: 5px;
+    right: 5px;
+    font-size: 1.5rem; /* Larger suit */
+}
+.card-stack.red { color: #d63031; }
+.card-stack.black { color: #2d3436; }
+
+
+/* Position stacks with slight overlap/rotation */
+.stack-1 { top: 15%; left: 10%; transform: rotate(-5deg); }
+.stack-2 { top: 18%; left: 35%; transform: rotate(3deg); z-index: 1; } /* Bring forward */
+.stack-3 { top: 12%; right: 15%; transform: rotate(-8deg); }
+.stack-4 { bottom: 15%; left: 20%; transform: rotate(6deg); }
+.stack-5 { bottom: 18%; left: 50%; transform: rotate(-4deg); z-index: 1;} /* Bring forward */
+
+/* Add content to some cards */
+.stack-1 { background: white; } /* Make top card face up */
+.stack-1::before, .stack-1::after { display: none; } /* Hide backs */
+.stack-1.red::before { content: 'A'; position: absolute; top: 5px; left: 5px; font-size: 1rem; }
+.stack-1.red::after { content: '\2665'; position: absolute; bottom: 5px; right: 5px; font-size: 1.2rem; }
+
+
+/* --- Dark Theme Adjustments for Previews --- */
+
+body.dark-theme .game-thumb {
+    background-color: var(--dark-card-bg); /* Dark fallback */
+}
+body.dark-theme .game-thumb::after {
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3); /* Darker inner shadow */
+}
+
+/* Memory Dark */
+body.dark-theme .memory-preview {
+     background: linear-gradient(135deg, var(--primary-dark), var(--secondary-color)); /* Darker gradient */
+}
+body.dark-theme .preview-card .card-front {
+    background: var(--dark-text); /* Light grey front */
+    color: var(--primary-dark);
+}
+body.dark-theme .preview-card .card-back {
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-color)); /* Keep back vibrant */
+}
+
+/* Snake Dark */
+body.dark-theme .snake-preview {
+    background-color: #1a202c; /* Even darker bg */
+     background-image: linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px),
+                      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23ffffff' fill-opacity='0.02' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+    background-size: 20px 20px, 20px 20px, auto;
+}
+/* Snake segments and food colors usually work well on dark themes */
+
+/* Tic Tac Toe Dark */
+body.dark-theme .tictactoe-preview {
+    background-color: #2d3436; /* Dark bg */
+    background-image: linear-gradient(45deg, #3a4144 25%, transparent 25%, transparent 75%, #3a4144 75%, #3a4144),
+                      linear-gradient(-45deg, #3a4144 25%, transparent 25%, transparent 75%, #3a4144 75%, #3a4144);
+    background-size: 20px 20px;
+}
+body.dark-theme .tictactoe-grid {
+    background-color: rgba(0, 0, 0, 0.2); /* Darker grid bg */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+body.dark-theme .tictactoe-cell {
+    background: var(--dark-bg); /* Match section bg */
+    color: var(--primary-light); /* Lighter symbols */
+}
+body.dark-theme .tictactoe-cell:hover {
+    background-color: #3a4144;
+}
+
+
+/* Flappy Bird Dark */
+body.dark-theme .flappy-preview {
+     /* Darker sky gradient */
+    background: linear-gradient(to bottom, #2c3e50 0%, #34495e 60%, #5a9a1f 60%, #4b8319 100%);
+}
+body.dark-theme .cloud {
+    background: rgba(200, 200, 200, 0.7); /* Darker clouds */
+    filter: blur(2px);
+}
+/* Bird and pipes colors generally work fine */
+
+/* 2048 Dark */
+body.dark-theme .game-2048-preview {
+    background: #5a524c; /* Darker outer bg */
+}
+body.dark-theme .preview-grid-2048 {
+    background-color: #776e65; /* Darker grid bg */
+}
+body.dark-theme .grid-cell-2048 {
+    background: rgba(238, 228, 218, 0.15); /* Much dimmer base cell */
+    color: #b2bec3; /* Lighter base text */
+}
+/* Adjust tile colors for dark theme contrast if needed */
+body.dark-theme .cell-2 { background: #3a4144; color: #dfe6e9; }
+body.dark-theme .cell-4 { background: #4a5568; color: #dfe6e9; }
+/* Keep vibrant colors for higher tiles, they contrast well */
+body.dark-theme .cell-8 { background: #e67e22; color: #f9f6f2; } /* Adjust if needed */
+body.dark-theme .cell-16 { background: #d35400; color: #f9f6f2; } /* Adjust if needed */
+
+
+/* Solitaire Dark */
+body.dark-theme .solitaire-preview {
+    background: #2c6b4a; /* Darker felt */
+}
+body.dark-theme .card-stack {
+    background: #dfe6e9; /* Off-white cards */
+    border-color: #555;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.4), 3px 3px 7px rgba(0,0,0,0.3);
+}
+body.dark-theme .card-stack::before, body.dark-theme .card-stack::after {
+    background: linear-gradient(135deg, #544ab0, #403880); /* Darker card back */
+    border-color: #555;
+}
+body.dark-theme .card-stack::before {
+     background: linear-gradient(135deg, #403880, #302a60);
+}
+body.dark-theme .card-stack.red { color: #ff7675; } /* Brighter red */
+body.dark-theme .card-stack.black { color: #f5f6fa; } /* Almost white */

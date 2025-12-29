@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameVerse - Solitaire</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="game-page.css">
+    <link rel="stylesheet" href="solitaire.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        (function() {
+            var currentLang = localStorage.getItem('language') ||
+                             (navigator.language || navigator.userLanguage).split('-')[0];
+            if (!['zh', 'en'].includes(currentLang)) currentLang = 'en';
+            document.documentElement.lang = currentLang;
+        })();
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1><a href="index.html" aria-label="GameVerse Home">Game<span>Verse</span></a></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" data-key="home">Home</a></li>
+                <li><a href="index.html#games" data-key="games">Games</a></li>
+            </ul>
+            <div class="nav-controls">
+                <div class="language-switch">
+                    <label for="language-selector" class="sr-only" data-key="languageSelector">Select language</label>
+                    <select id="language-selector" aria-label="Select language">
+                        <option value="zh" data-key="chineseOption">中文</option>
+                        <option value="en" data-key="englishOption">English</option>
+                    </select>
+                </div>
+                <button type="button" class="theme-toggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="game-page-main">
+        <div class="game-shell">
+            <h1 data-key="solitaireTitle">Solitaire</h1>
+            <p class="game-subtitle" data-key="solitaireSubtitle">A click-to-move Klondike-style solitaire.</p>
+
+            <div class="game-toolbar">
+                <div class="game-controls">
+                    <button type="button" class="btn" id="sol-new" data-key="newGame">New Game</button>
+                    <button type="button" class="btn" id="sol-undo" data-key="undo" disabled>Undo</button>
+                    <button type="button" class="btn" id="sol-hint" data-key="hint">Hint</button>
+                    <button type="button" class="btn" id="sol-auto" data-key="autoMove">Auto</button>
+                    <button type="button" class="btn" id="sol-guide" data-key="guide">Guide</button>
+                    <button type="button" class="btn" id="sol-demo" data-key="demo">Demo</button>
+                </div>
+                <div id="sol-status" class="game-status" aria-live="polite"></div>
+            </div>
+
+            <div class="game-grid two-col">
+                <div class="game-panel">
+                    <div class="sol-wrap">
+                        <div class="game-hud" style="margin-top:-0.25rem;">
+                            <div id="sol-score"></div>
+                            <div id="sol-moves"></div>
+                        </div>
+                        <div class="sol-top">
+                            <div class="sol-piles">
+                                <div class="sol-pile-row">
+                                    <div class="sol-pile">
+                                        <div class="sol-pile-label" data-key="solLabelStock">Stock</div>
+                                        <div id="sol-stock" class="sol-slot" aria-label="Stock"></div>
+                                    </div>
+                                    <div class="sol-pile">
+                                        <div class="sol-pile-label" data-key="solLabelWaste">Waste</div>
+                                        <div id="sol-waste" class="sol-slot" aria-label="Waste"></div>
+                                    </div>
+                                </div>
+                                <div class="sol-msg" data-key="solitaireHint">Click stock to draw. Click a card to select, then click a destination.</div>
+                            </div>
+                            <div class="sol-foundations">
+                                <div class="sol-area-label sol-area-label-right" data-key="solLabelFoundations">Foundations</div>
+                                <div class="sol-pile-row" style="justify-content:flex-end;">
+                                    <div id="sol-foundation-0" class="sol-slot" aria-label="Foundation 1"></div>
+                                    <div id="sol-foundation-1" class="sol-slot" aria-label="Foundation 2"></div>
+                                    <div id="sol-foundation-2" class="sol-slot" aria-label="Foundation 3"></div>
+                                    <div id="sol-foundation-3" class="sol-slot" aria-label="Foundation 4"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sol-area-label" data-key="solLabelTableau">Tableau</div>
+                        <div id="sol-tableau" class="sol-tableau" aria-label="Tableau"></div>
+                    </div>
+                </div>
+                <div class="game-panel">
+                    <div class="howto-title" data-key="howToPlay">How to Play:</div>
+                    <ul class="howto">
+                        <li data-key="solHow0">Goal: move all cards to Foundations (A→K by suit).</li>
+                        <li data-key="solHow1">Click Stock to draw. When empty, click to recycle Waste back to Stock.</li>
+                        <li data-key="solHow2">Drag a face-up card/stack to a target (or click to select, then click a destination).</li>
+                        <li data-key="solHow3">Build Tableau in descending order with alternating colors. Empty columns need a King.</li>
+                        <li data-key="solHow4">Move cards to Foundations by suit from A to K.</li>
+                        <li data-key="solHow5">Double-click a card to auto-move to Foundation when possible.</li>
+                        <li data-key="solHow6">Shortcuts: D = Draw, U = Undo, H = Hint, A = Auto.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2025 GameVerse. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <div id="sol-tutorial" class="sol-tutorial" hidden aria-hidden="true">
+        <div class="sol-tutorial-backdrop"></div>
+        <div id="sol-tutorial-popover" class="sol-tutorial-popover" role="dialog" aria-modal="true" aria-label="Solitaire tutorial">
+            <div id="sol-tutorial-step" class="sol-tutorial-step"></div>
+            <label class="sol-tutorial-checkbox">
+                <input id="sol-tutorial-dontshow" type="checkbox">
+                <span data-key="dontShowAgain">Don’t show again</span>
+            </label>
+            <div class="sol-tutorial-actions">
+                <button type="button" class="btn" id="sol-tutorial-skip" data-key="skip">Skip</button>
+                <div class="sol-tutorial-spacer"></div>
+                <button type="button" class="btn" id="sol-tutorial-back" data-key="back" disabled>Back</button>
+                <button type="button" class="btn primary-btn" id="sol-tutorial-next" data-key="next">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="sol-demo-overlay" class="sol-demo" hidden aria-hidden="true">
+        <div class="sol-demo-backdrop"></div>
+        <div class="sol-demo-panel" role="dialog" aria-modal="true" aria-label="Solitaire demo">
+            <div id="sol-demo-caption" class="sol-demo-caption"></div>
+            <div class="sol-demo-actions">
+                <button type="button" class="btn" id="sol-demo-exit" data-key="exit">Exit</button>
+                <div class="sol-demo-spacer"></div>
+                <button type="button" class="btn" id="sol-demo-pause" data-key="pause">Pause</button>
+                <button type="button" class="btn primary-btn" id="sol-demo-play" data-key="play" hidden>Play</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="translations.js" charset="UTF-8"></script>
+    <script src="script.js" charset="UTF-8"></script>
+    <script src="solitaire.js" charset="UTF-8"></script>
+</body>
+</html>

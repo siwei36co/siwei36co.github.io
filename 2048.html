@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameVerse - 2048</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="game-page.css">
+    <link rel="stylesheet" href="2048.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        (function() {
+            var currentLang = localStorage.getItem('language') ||
+                             (navigator.language || navigator.userLanguage).split('-')[0];
+            if (!['zh', 'en'].includes(currentLang)) currentLang = 'en';
+            document.documentElement.lang = currentLang;
+        })();
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1><a href="index.html" aria-label="GameVerse Home">Game<span>Verse</span></a></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" data-key="home">Home</a></li>
+                <li><a href="index.html#games" data-key="games">Games</a></li>
+            </ul>
+            <div class="nav-controls">
+                <div class="language-switch">
+                    <label for="language-selector" class="sr-only" data-key="languageSelector">Select language</label>
+                    <select id="language-selector" aria-label="Select language">
+                        <option value="zh" data-key="chineseOption">中文</option>
+                        <option value="en" data-key="englishOption">English</option>
+                    </select>
+                </div>
+                <button type="button" class="theme-toggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="game-page-main">
+        <div class="game-shell">
+            <h1 data-key="g2048Title">2048</h1>
+            <p class="game-subtitle" data-key="g2048Subtitle">Swipe or use arrow keys to combine tiles.</p>
+
+            <div class="game-toolbar">
+                <div class="game-controls">
+                    <button type="button" class="btn" id="g2048-new" data-key="newGame">New Game</button>
+                    <button type="button" class="btn" id="g2048-undo" data-key="undo" disabled>Undo</button>
+                    <button type="button" class="btn" id="g2048-hint" data-key="hint">Hint</button>
+                </div>
+                <div id="g2048-status" class="game-status" aria-live="polite"></div>
+            </div>
+
+            <div class="game-grid two-col">
+                <div class="game-panel">
+                    <div class="g2048-wrap">
+                        <div class="g2048-hud">
+                            <div id="g2048-score"></div>
+                            <div id="g2048-best"></div>
+                            <div id="g2048-moves"></div>
+                            <div id="g2048-max"></div>
+                        </div>
+                        <div id="g2048-board" class="g2048-board" aria-label="2048 board">
+                            <div class="g2048-bg"></div><div class="g2048-bg"></div><div class="g2048-bg"></div><div class="g2048-bg"></div>
+                            <div class="g2048-bg"></div><div class="g2048-bg"></div><div class="g2048-bg"></div><div class="g2048-bg"></div>
+                            <div class="g2048-bg"></div><div class="g2048-bg"></div><div class="g2048-bg"></div><div class="g2048-bg"></div>
+                            <div class="g2048-bg"></div><div class="g2048-bg"></div><div class="g2048-bg"></div><div class="g2048-bg"></div>
+                            <div id="g2048-tiles" class="g2048-tiles" aria-hidden="true"></div>
+                            <div id="g2048-hint-arrow" class="g2048-hint-arrow" aria-hidden="true"></div>
+                            <div id="g2048-overlay" class="g2048-overlay" role="dialog" aria-modal="true" aria-label="2048 message">
+                                <div class="g2048-overlay-card">
+                                    <h2 id="g2048-overlay-title"></h2>
+                                    <div id="g2048-overlay-body" class="game-subtitle"></div>
+                                    <div class="g2048-overlay-actions">
+                                        <button type="button" class="btn" id="g2048-keep" data-key="keepGoing">Keep Going</button>
+                                        <button type="button" class="btn" id="g2048-restart" data-key="newGame">New Game</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="game-subtitle" data-key="g2048Hint">Tip: Use swipe on mobile. Press R to restart.</p>
+                    </div>
+                </div>
+                <div class="game-panel">
+                    <div class="howto-title" data-key="howToPlay">How to Play:</div>
+                    <ul class="howto">
+                        <li data-key="g2048How1">Use Arrow Keys / WASD (or swipe on mobile) to move.</li>
+                        <li data-key="g2048How2">Tiles with the same number merge into one.</li>
+                        <li data-key="g2048How3">Every move spawns a new tile. Plan ahead.</li>
+                        <li data-key="g2048How4">Reach 2048 to win — then keep going for a higher score.</li>
+                        <li data-key="g2048How5">Shortcuts: Z = Undo, H = Hint, R = Restart.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2025 GameVerse. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="translations.js" charset="UTF-8"></script>
+    <script src="script.js" charset="UTF-8"></script>
+    <script src="2048-anim.js" charset="UTF-8"></script>
+</body>
+</html>

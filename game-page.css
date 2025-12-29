@@ -1,0 +1,249 @@
+/* Shared layout for standalone game pages */
+
+.game-page-main {
+    padding: 4.5rem 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.game-shell {
+    background: var(--light-card-bg);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-strong);
+    padding: 2rem;
+}
+
+body.dark-theme .game-shell {
+    background: var(--dark-card-bg);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.game-shell h1 {
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+}
+
+.game-subtitle {
+    color: var(--grey-color);
+    margin-bottom: 1.5rem;
+}
+
+.game-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+}
+
+.game-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.game-controls label {
+    font-weight: 600;
+    color: var(--light-text);
+}
+
+body.dark-theme .game-controls label {
+    color: var(--dark-text);
+}
+
+.game-controls select {
+    border: 1px solid var(--light-grey);
+    border-radius: 10px;
+    padding: 0.45rem 0.75rem;
+    background: var(--light-card-bg);
+    color: var(--light-text);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+body.dark-theme .game-controls select {
+    border-color: rgba(255, 255, 255, 0.15);
+    background: var(--dark-bg);
+    color: var(--dark-text);
+}
+
+.game-status {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+body.dark-theme .game-status {
+    color: var(--primary-light);
+}
+
+.game-hud {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    color: var(--grey-color);
+    font-weight: 700;
+}
+
+.game-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 900px) {
+    .game-grid.two-col {
+        grid-template-columns: 1fr 360px;
+        align-items: start;
+    }
+}
+
+.game-panel {
+    background: rgba(108, 92, 231, 0.04);
+    border: 1px solid rgba(108, 92, 231, 0.12);
+    border-radius: var(--border-radius-md);
+    padding: 1rem;
+}
+
+.howto-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+}
+
+.howto {
+    list-style: disc;
+    padding-left: 1.2rem;
+    color: var(--grey-color);
+    line-height: 1.8;
+}
+
+.howto li {
+    margin: 0.35rem 0;
+}
+
+body.dark-theme .game-panel {
+    background: rgba(162, 155, 254, 0.07);
+    border-color: rgba(162, 155, 254, 0.18);
+}
+
+/* Tic Tac Toe */
+.ttt-board {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(72px, 1fr));
+    gap: 0.75rem;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.ttt-cell {
+    appearance: none;
+    border: 2px solid rgba(108, 92, 231, 0.25);
+    background: var(--light-card-bg);
+    border-radius: 14px;
+    min-height: 92px;
+    font-size: 2.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    color: var(--light-text);
+}
+
+body.dark-theme .ttt-cell {
+    background: var(--dark-bg);
+    color: var(--dark-text);
+    border-color: rgba(162, 155, 254, 0.25);
+}
+
+.ttt-cell:hover {
+    transform: translateY(-2px);
+    border-color: rgba(108, 92, 231, 0.55);
+}
+
+.ttt-cell:disabled {
+    cursor: not-allowed;
+    opacity: 0.85;
+}
+
+.ttt-cell:focus-visible {
+    outline: 3px solid rgba(108, 92, 231, 0.25);
+    outline-offset: 3px;
+}
+
+.ttt-cell.win {
+    background: rgba(0, 184, 148, 0.12);
+    border-color: rgba(0, 184, 148, 0.55);
+}
+
+/* Snake */
+.snake-wrap {
+    display: grid;
+    place-items: center;
+    gap: 1rem;
+}
+
+.snake-canvas {
+    width: min(520px, 100%);
+    height: auto;
+    border-radius: 16px;
+    border: 2px solid rgba(108, 92, 231, 0.25);
+    background: rgba(0, 0, 0, 0.03);
+}
+
+body.dark-theme .snake-canvas {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(162, 155, 254, 0.25);
+}
+
+.snake-hud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    align-items: center;
+    justify-content: center;
+    color: var(--grey-color);
+    font-weight: 600;
+}
+
+.snake-dpad {
+    display: grid;
+    grid-template-columns: 56px 56px 56px;
+    grid-template-rows: 56px 56px 56px;
+    gap: 0.5rem;
+}
+
+.snake-dpad button {
+    appearance: none;
+    border: 1px solid rgba(108, 92, 231, 0.25);
+    background: var(--light-card-bg);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+body.dark-theme .snake-dpad button {
+    background: var(--dark-bg);
+    border-color: rgba(162, 155, 254, 0.25);
+}
+
+.snake-dpad button:hover {
+    transform: translateY(-1px);
+    border-color: rgba(108, 92, 231, 0.55);
+}
+
+.snake-dpad button:focus-visible {
+    outline: 3px solid rgba(108, 92, 231, 0.25);
+    outline-offset: 3px;
+}
+
+.snake-dpad .up { grid-column: 2; grid-row: 1; }
+.snake-dpad .left { grid-column: 1; grid-row: 2; }
+.snake-dpad .down { grid-column: 2; grid-row: 3; }
+.snake-dpad .right { grid-column: 3; grid-row: 2; }

@@ -1,0 +1,415 @@
+/* Solitaire (Klondike-lite) styles */
+
+.sol-wrap {
+    display: grid;
+    gap: 1rem;
+    --sol-card-w: clamp(64px, 10vw, 86px);
+    --sol-card-max: 96px;
+}
+
+.sol-top {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    align-items: start;
+}
+
+@media (min-width: 920px) {
+    .sol-top {
+        grid-template-columns: 420px 1fr;
+    }
+}
+
+.sol-piles {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.sol-pile-row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.sol-pile {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    align-items: center;
+}
+
+.sol-pile-label,
+.sol-area-label {
+    color: var(--grey-color);
+    font-weight: 700;
+    font-size: 0.92rem;
+    line-height: 1.2;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.sol-pile-label {
+    font-size: 0.82rem;
+}
+
+.sol-area-label {
+    margin-top: 0.15rem;
+}
+
+.sol-area-label-right {
+    width: 100%;
+    text-align: right;
+}
+
+.sol-foundations {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.35rem;
+}
+
+.sol-slot {
+    width: var(--sol-card-w);
+    height: auto;
+    aspect-ratio: 86 / 120;
+    border-radius: 14px;
+    border: 2px dashed rgba(108, 92, 231, 0.22);
+    background: rgba(108, 92, 231, 0.04);
+    position: relative;
+}
+
+body.dark-theme .sol-slot {
+    border-color: rgba(162, 155, 254, 0.20);
+    background: rgba(162, 155, 254, 0.06);
+}
+
+.sol-card {
+    width: var(--sol-card-w);
+    height: auto;
+    aspect-ratio: 86 / 120;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    background: var(--light-card-bg);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: clamp(0.34rem, 0.9vw, 0.45rem) clamp(0.40rem, 1.0vw, 0.55rem);
+    user-select: none;
+    cursor: pointer;
+    touch-action: none;
+    -webkit-user-drag: none;
+}
+
+.sol-drag-layer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.sol-card.dragging {
+    cursor: grabbing;
+    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.18);
+}
+
+.sol-slot.drop-valid {
+    border-color: rgba(0, 206, 201, 0.45);
+    background: rgba(0, 206, 201, 0.06);
+}
+
+.sol-slot.drop-target {
+    border-color: rgba(0, 206, 201, 0.70);
+    background: rgba(0, 206, 201, 0.10);
+}
+
+.sol-card.drop-target {
+    outline: 3px solid rgba(0, 206, 201, 0.22);
+    outline-offset: 3px;
+}
+
+body.dark-theme .sol-card {
+    background: var(--dark-card-bg);
+    border-color: rgba(255, 255, 255, 0.10);
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.25);
+}
+
+.sol-card.face-down {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.sol-card.face-down .sol-rank,
+.sol-card.face-down .sol-suit,
+.sol-card.face-down .sol-corner {
+    visibility: hidden;
+}
+
+.sol-card.selected {
+    outline: 3px solid rgba(108, 92, 231, 0.28);
+    outline-offset: 3px;
+    transform: translateY(-2px);
+}
+
+.sol-col .sol-card.selected {
+    transform: translateX(-50%) translateY(-2px);
+}
+
+.sol-card.hint {
+    outline: 3px solid rgba(0, 206, 201, 0.28);
+    outline-offset: 3px;
+}
+
+.sol-slot.hint-target {
+    border-color: rgba(0, 206, 201, 0.55);
+    background: rgba(0, 206, 201, 0.08);
+}
+
+.sol-card.moved {
+    animation: solGlow 260ms ease-out;
+}
+
+@keyframes solGlow {
+    0% { box-shadow: 0 12px 22px rgba(0, 206, 201, 0.22); }
+    100% { box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08); }
+}
+
+.sol-card .sol-corner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 800;
+    font-size: clamp(0.72rem, 1.6vw, 0.95rem);
+}
+
+.sol-card .sol-center {
+    display: grid;
+    place-items: center;
+    font-size: clamp(1.35rem, 4.2vw, 2rem);
+    font-weight: 900;
+}
+
+.sol-red {
+    color: #d63031;
+}
+
+.sol-black {
+    color: #2d3436;
+}
+
+body.dark-theme .sol-black {
+    color: var(--dark-text);
+}
+
+.sol-tableau {
+    display: grid;
+    /* Always show all 7 columns (no horizontal scrolling) */
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: clamp(0.35rem, 1vw, 0.75rem);
+    align-items: start;
+    overflow-x: visible;
+    padding-bottom: 0.5rem;
+}
+
+.sol-col {
+    position: relative;
+    min-height: 420px;
+}
+
+.sol-col .sol-slot {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 86 / 120;
+    margin: 0 auto;
+    max-width: var(--sol-card-max);
+}
+
+.sol-col .sol-card {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: var(--sol-card-max);
+    height: auto;
+    aspect-ratio: 86 / 120;
+}
+
+.sol-msg {
+    color: var(--grey-color);
+    font-weight: 600;
+    margin-top: 0.25rem;
+}
+
+/* Tutorial overlay */
+.sol-tutorial {
+    position: fixed;
+    inset: 0;
+    z-index: 12000;
+}
+
+.sol-demo {
+    position: fixed;
+    inset: 0;
+    z-index: 12500;
+}
+
+.sol-demo-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25);
+    pointer-events: auto;
+}
+
+.sol-demo-panel {
+    position: absolute;
+    left: 50%;
+    bottom: 18px;
+    transform: translateX(-50%);
+    width: min(520px, calc(100vw - 2rem));
+    background: rgba(0, 0, 0, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    padding: 0.9rem 1rem 0.85rem;
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.25);
+}
+
+.sol-demo-caption {
+    color: rgba(255, 255, 255, 0.92);
+    font-weight: 650;
+    line-height: 1.6;
+}
+
+.sol-demo-actions {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    margin-top: 0.75rem;
+}
+
+.sol-demo-spacer {
+    flex: 1;
+}
+
+.sol-tutorial-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+}
+
+.sol-tutorial-popover {
+    position: absolute;
+    width: min(360px, calc(100vw - 2rem));
+    background: var(--light-card-bg);
+    border-radius: 16px;
+    padding: 1rem 1rem 0.9rem;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
+}
+
+body.dark-theme .sol-tutorial-popover {
+    background: var(--dark-card-bg);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.sol-tutorial-popover[data-pos="bottom"]::before,
+.sol-tutorial-popover[data-pos="top"]::before {
+    content: '';
+    position: absolute;
+    left: var(--arrow-left, 50%);
+    width: 14px;
+    height: 14px;
+    background: inherit;
+    border-left: 1px solid rgba(0, 0, 0, 0.12);
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    transform: translateX(-50%) rotate(45deg);
+}
+
+body.dark-theme .sol-tutorial-popover[data-pos="bottom"]::before,
+body.dark-theme .sol-tutorial-popover[data-pos="top"]::before {
+    border-left-color: rgba(255, 255, 255, 0.12);
+    border-top-color: rgba(255, 255, 255, 0.12);
+}
+
+.sol-tutorial-popover[data-pos="bottom"]::before {
+    top: -7px;
+}
+
+.sol-tutorial-popover[data-pos="top"]::before {
+    bottom: -7px;
+    transform: translateX(-50%) rotate(225deg);
+}
+
+.sol-tutorial-step {
+    font-weight: 650;
+    color: var(--light-text);
+    line-height: 1.6;
+}
+
+body.dark-theme .sol-tutorial-step {
+    color: var(--dark-text);
+}
+
+.sol-tutorial-mode {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-top: 0.85rem;
+    flex-wrap: wrap;
+}
+
+.sol-tutorial-mode .btn {
+    flex: 1;
+    min-width: 160px;
+}
+
+.sol-tutorial-sub {
+    margin-top: 0.7rem;
+    color: var(--grey-color);
+    font-weight: 600;
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+.sol-tutorial-checkbox {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 0.85rem;
+    color: var(--grey-color);
+    font-weight: 600;
+    user-select: none;
+}
+
+.sol-tutorial-actions {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    margin-top: 0.85rem;
+}
+
+.sol-tutorial-spacer {
+    flex: 1;
+}
+
+.sol-tut-highlight {
+    position: relative;
+    z-index: 12001;
+    outline: 3px solid rgba(0, 206, 201, 0.55);
+    outline-offset: 4px;
+    border-radius: 16px;
+}
+
+.sol-demo-highlight {
+    position: relative;
+    z-index: 12501;
+    outline: 3px solid rgba(0, 206, 201, 0.55);
+    outline-offset: 4px;
+    border-radius: 16px;
+    pointer-events: none;
+}
